@@ -3,6 +3,5 @@
     { "source": "/", "destination": "/twist.html" },
     { "source": "/api/counter", "destination": "/api/counter.js" },
     { "source": "/api/api", "destination": "/api/api.js" }
-  ],
-  ...
+  ]
 }
