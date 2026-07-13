@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Alturky Twist Premium | Full Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+    :root {
+        --gold: #c9a84c;
+        --gold-light: #f0d080;
+        --gold-dim: #8a6e2f;
+        --bg: #06080f;
+        --bg2: #0b0f1a;
+        --panel: rgba(12, 16, 26, 0.85);
+        --border: rgba(201, 168, 76, 0.18);
+        --border-bright: rgba(201, 168, 76, 0.45);
+        --text: #eef0f5;
+        --text-dim: #7a8099;
+        --success: #2dd4a4;
+        --error: #f05c5c;
+        --info: #5c9ef0;
+        --warning: #f0a050;
+        --shadow-gold: 0 0 40px rgba(201, 168, 76, 0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Cairo', Tahoma, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        margin: 0;
+        padding: 30px 16px;
+        overflow-x: hidden;
+        background-image:
+            radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.07) 0%, transparent 55%),
+            radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.05) 0%, transparent 50%),
+            url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    #toast-container {
+        position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+        z-index: 9999; display: flex; flex-direction: column; gap: 10px;
+        pointer-events: none; width: 92%; max-width: 400px;
+    }
+    .toast {
+        background: rgba(10, 13, 22, 0.97);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 13px 18px;
+        border-radius: 10px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        display: flex; align-items: center; gap: 12px;
+        font-weight: 700; font-size: 14px;
+        animation: toastIn 0.4s cubic-bezier(0.2,1,0.3,1) forwards, toastOut 0.4s ease 4s forwards;
+        opacity: 0;
+    }
+    .toast.success { border-right: 3px solid var(--success); }
+    .toast.error   { border-right: 3px solid var(--error); }
+    .toast.info    { border-right: 3px solid var(--gold); }
+    .toast.warning { border-right: 3px solid var(--warning); }
+    @keyframes toastIn  { from { transform:translateY(-30px) scale(.96); opacity:0; } to { transform:translateY(0) scale(1); opacity:1; } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; transform:translateY(-20px); } }
+
+    .card {
+        background: var(--panel);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        padding: 0;
+        border-radius: 20px;
+        width: 100%; max-width: 460px;
+        border: 1px solid var(--border);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-gold), 0 30px 80px rgba(0,0,0,0.5);
+        display: flex; flex-direction: column; align-items: center;
+        margin: 0 auto;
+    }
+
+    .card-header-bar {
+        width: 100%; padding: 22px 28px 18px;
+        background: linear-gradient(180deg, rgba(201,168,76,0.08) 0%, transparent 100%);
+        border-bottom: 1px solid var(--border);
+        display: flex; flex-direction: column; align-items: center;
+    }
+
+    .card::before, .card::after {
+        content: ''; position: absolute;
+        width: 60px; height: 60px;
+        border-color: var(--gold-dim);
+        border-style: solid;
+        opacity: 0.35;
+    }
+    .card::before { top: 0; right: 0; border-width: 2px 2px 0 0; border-radius: 0 18px 0 0; }
+    .card::after  { bottom: 0; left: 0; border-width: 0 0 2px 2px; border-radius: 0 0 0 18px; }
+
+    .card-body { width: 100%; padding: 24px 26px 28px; }
+
+    .logo-wrapper {
+        position: relative; width: 96px; height: 96px;
+        display: flex; justify-content: center; align-items: center;
+        margin: 0 auto 18px;
+        user-select: none; -webkit-user-select: none;
+    }
+    .logo-ring {
+        position: absolute; inset: -6px;
+        border-radius: 50%;
+        border: 1.5px solid transparent;
+        background: linear-gradient(var(--bg), var(--bg)) padding-box,
+                    linear-gradient(135deg, var(--gold), var(--gold-dim), var(--gold)) border-box;
+        animation: ringRotate 8s linear infinite;
+    }
+    .logo-ring::after {
+        content: '';
+        position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--gold);
+        box-shadow: 0 0 10px var(--gold);
+    }
+    @keyframes ringRotate { to { transform: rotate(360deg); } }
+
+    .logo-glow {
+        position: absolute; inset: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(201,168,76,0.35) 0%, transparent 70%);
+        animation: glowPulse 3s ease-in-out infinite;
+    }
+    @keyframes glowPulse { 0%,100% { opacity:.5; transform:scale(.9); } 50% { opacity:1; transform:scale(1.1); } }
+
+    .logo-img {
+        position: relative; width: 88px; height: 88px;
+        border-radius: 50%;
+        border: 2px solid rgba(201,168,76,0.3);
+        background: var(--bg2);
+        object-fit: cover; z-index: 1;
+        pointer-events: none; -webkit-user-drag: none;
+    }
+
+    .brand-name {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 11px; font-weight: 700;
+        letter-spacing: 4px; text-transform: uppercase;
+        color: var(--gold-dim);
+        margin: 0 0 6px;
+    }
+    h1 {
+        font-size: 22px; font-weight: 900; color: var(--text);
+        margin: 0 0 6px; line-height: 1.3;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .subtitle {
+        color: var(--text-dim); font-size: 13px;
+        font-weight: 600; margin: 0 0 6px;
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .subtitle::before, .subtitle::after {
+        content: ''; display: block;
+        width: 30px; height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gold-dim));
+    }
+    .subtitle::after { transform: scaleX(-1); }
+
+    .input-group { position: relative; margin: 14px 0; }
+    .input-group label {
+        display: block; text-align: right;
+        font-size: 12px; font-weight: 700; color: var(--text-dim);
+        margin-bottom: 7px; letter-spacing: .5px;
+    }
+    input {
+        width: 100%; padding: 15px 18px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(0,0,0,0.3);
+        color: var(--text); font-size: 15px;
+        text-align: center;
+        transition: all 0.25s ease;
+        font-family: inherit; font-weight: 700;
+        letter-spacing: 2px;
+        -webkit-appearance: none; appearance: none;
+    }
+    input:focus {
+        border-color: var(--gold);
+        outline: none;
+        background: rgba(0,0,0,0.5);
+        box-shadow: 0 0 0 3px rgba(201,168,76,0.12), 0 0 20px rgba(201,168,76,0.08);
+    }
+    input::placeholder { color: #3a3f52; font-weight: 600; letter-spacing: 0; }
+
+    button {
+        width: 100%; padding: 15px;
+        border: none; border-radius: 10px;
+        cursor: pointer; font-weight: 800; font-size: 15px;
+        margin-top: 14px;
+        transition: all 0.3s cubic-bezier(.4,0,.2,1);
+        font-family: inherit; position: relative; overflow: hidden;
+        -webkit-appearance: none;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #b8922a 0%, #e8c55a 50%, #b8922a 100%);
+        background-size: 200% 100%;
+        color: #0a0c14;
+        box-shadow: 0 8px 25px rgba(201,168,76,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    .btn-primary::after {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+        transform: translateX(-100%); transition: transform .5s ease;
+    }
+    .btn-primary:hover:not(:disabled)::after { transform: translateX(100%); }
+    .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 35px rgba(201,168,76,0.4);
+        background-position: right center;
+    }
+    .btn-primary:active:not(:disabled) { transform: translateY(0); }
+    .btn-primary:disabled {
+        background: #1a1f2e; color: #3a3f52;
+        cursor: not-allowed; box-shadow: none;
+        border: 1px solid var(--border);
+    }
+
+    .btn-secondary {
+        background: transparent; color: var(--text-dim);
+        border: 1px solid var(--border); box-shadow: none; margin-top: 10px;
+    }
+    .btn-secondary:hover:not(:disabled) { background: rgba(255,255,255,0.04); color: var(--text); border-color: var(--border-bright); }
+
+    .btn-danger {
+        background: transparent; color: var(--error);
+        border: 1px solid rgba(240,92,92,0.25); box-shadow: none; margin-top: 30px;
+    }
+    .btn-danger:hover:not(:disabled) { background: rgba(240,92,92,0.08); border-color: var(--error); }
+
+    .dashboard-section { display: none; text-align: right; width: 100%; }
+
+    .balance-card {
+        display: none;
+        background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, rgba(10,13,22,0.9) 100%);
+        border: 1px solid var(--border-bright);
+        border-radius: 14px;
+        padding: 24px 20px;
+        margin-bottom: 24px;
+        text-align: center;
+        position: relative; overflow: hidden;
+        animation: fadeUp .6s ease forwards;
+    }
+    .balance-card::before {
+        content: ''; position: absolute;
+        top: 0; left: 0; right: 0; height: 2px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .balance-card h3 {
+        margin: 0 0 10px; color: var(--gold-dim);
+        font-size: 12px; font-weight: 700;
+        letter-spacing: 2px; text-transform: uppercase;
+    }
+    .balance-card p {
+        margin: 0; font-size: 42px; font-weight: 900; color: var(--gold-light);
+        text-shadow: 0 0 30px rgba(201,168,76,0.4);
+        font-family: 'Orbitron', sans-serif;
+        letter-spacing: 2px;
+    }
+
+    .progress-tracker {
+        background: rgba(0,0,0,0.25);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px 20px;
+        margin-bottom: 22px;
+        animation: fadeUp .4s ease;
+    }
+    .progress-title {
+        text-align: center; color: var(--gold);
+        font-size: 15px; margin: 0 0 22px; font-weight: 800;
+        letter-spacing: .5px;
+    }
+    .step-item {
+        display: flex; align-items: center; gap: 15px;
+        margin-bottom: 14px; position: relative; z-index: 1;
+    }
+    .step-item:last-child { margin-bottom: 0; }
+    .step-item:not(:last-child)::after {
+        content: ''; position: absolute;
+        right: 11px; top: 26px; bottom: -14px; width: 1px;
+        background: rgba(255,255,255,0.06); z-index: -1;
+        transition: background .3s;
+    }
+    .step-item.success:not(:last-child)::after { background: rgba(45,212,164,0.3); }
+    .step-icon {
+        width: 24px; height: 24px; flex-shrink: 0;
+        display: flex; justify-content: center; align-items: center;
+        background: rgba(0,0,0,0.4); border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+    .step-text { color: #3a3f52; font-size: 13px; font-weight: 700; flex: 1; transition: color .3s; line-height: 1.4; }
+    .step-item.running .step-text { color: var(--text); }
+    .step-item.success .step-text { color: var(--success); }
+
+    .real-spinner {
+        width: 16px; height: 16px;
+        border: 2px solid rgba(201,168,76,0.15);
+        border-top-color: var(--gold);
+        border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    .success-icon { color: var(--success); width: 20px; height: 20px; animation: popIn .4s cubic-bezier(.175,.885,.32,1.275); }
+
+    .stats-row {
+        display: flex; gap: 10px; margin-bottom: 16px;
+    }
+    .stat-box {
+        flex: 1; background: rgba(0,0,0,0.3);
+        border: 1px solid var(--border);
+        border-radius: 10px; padding: 12px 8px;
+        text-align: center;
+    }
+    .stat-box .stat-value {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 18px; font-weight: 900; color: var(--gold-light);
+    }
+    .stat-box .stat-label {
+        font-size: 10px; color: var(--text-dim);
+        letter-spacing: 1px; margin-top: 4px;
+    }
+
+    .section-title {
+        color: var(--text); text-align: center;
+        margin: 0 0 16px; font-size: 16px; font-weight: 800;
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .section-title::before, .section-title::after {
+        content: ''; flex: 1; height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border-bright));
+    }
+    .section-title::after { transform: scaleX(-1); }
+
+    .units-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 0; }
+    .unit-btn {
+        background: rgba(8,11,20,0.7);
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 16px 18px;
+        font-size: 14px;
+        display: flex; justify-content: space-between; align-items: center;
+        border-radius: 10px; font-family: inherit; font-weight: 700;
+        transition: all 0.25s ease; position: relative; overflow: hidden;
+        cursor: pointer;
+    }
+    .unit-btn::before {
+        content: ''; position: absolute;
+        top: 0; right: 0; width: 3px; height: 100%;
+        background: linear-gradient(180deg, var(--gold-light), var(--gold-dim));
+        opacity: 0; transition: opacity .25s;
+    }
+    .unit-btn:hover:not(:disabled) {
+        background: rgba(201,168,76,0.05);
+        border-color: var(--border-bright);
+        transform: translateX(-4px);
+        box-shadow: 4px 0 20px rgba(201,168,76,0.08);
+    }
+    .unit-btn:hover:not(:disabled)::before { opacity: 1; }
+    .unit-cost {
+        background: rgba(201,168,76,0.1);
+        border: 1px solid rgba(201,168,76,0.25);
+        padding: 5px 12px; border-radius: 6px;
+        font-size: 13px; color: var(--gold-light);
+        font-weight: 800; font-family: 'Orbitron', monospace;
+        letter-spacing: 1px;
+    }
+
+    .loader {
+        border: 2px solid rgba(255,255,255,0.15);
+        border-top: 2px solid #0a0c14;
+        border-radius: 50%; width: 16px; height: 16px;
+        animation: spin .8s linear infinite;
+        display: inline-block; vertical-align: middle; margin-right: 8px;
+    }
+
+    .action-buttons {
+        display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;
+    }
+    .action-buttons button {
+        flex: 1; min-width: 120px; margin-top: 0;
+        padding: 12px; font-size: 13px;
+    }
+    .btn-outline-danger {
+        background: transparent; color: var(--error);
+        border: 1px solid rgba(240,92,92,0.3);
+    }
+    .btn-outline-danger:hover:not(:disabled) {
+        background: rgba(240,92,92,0.1);
+        border-color: var(--error);
+    }
+    .btn-outline-warning {
+        background: transparent; color: var(--warning);
+        border: 1px solid rgba(240,160,80,0.3);
+    }
+    .btn-outline-warning:hover:not(:disabled) {
+        background: rgba(240,160,80,0.1);
+        border-color: var(--warning);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       أنماط مربعات الحوار
+       ═══════════════════════════════════════════════════════════ */
+    .dialog-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85); z-index: 99999;
+        display: flex; justify-content: center; align-items: center;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        animation: fadeIn .3s ease;
+    }
+    .dialog-box {
+        background: linear-gradient(145deg, #0f0c29, #1a1a3e, #0f0c29);
+        border: 1px solid rgba(201,168,76,0.5);
+        border-radius: 24px;
+        padding: 32px 24px 24px;
+        text-align: center;
+        max-width: 360px;
+        width: 90%;
+        color: #fff;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 50px rgba(201,168,76,0.2);
+        animation: popIn .4s cubic-bezier(.175,.885,.32,1.275);
+    }
+    .dialog-icon {
+        font-size: 52px;
+        margin-bottom: 10px;
+    }
+    .dialog-title {
+        font-size: 19px;
+        font-weight: 900;
+        margin-bottom: 4px;
+        background: linear-gradient(90deg, #f0d080, #c9a84c, #f0d080);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .dialog-subtitle {
+        font-size: 13px;
+        color: #7a8099;
+        margin-bottom: 18px;
+    }
+    .dialog-info-box {
+        background: rgba(201,168,76,0.06);
+        border: 1px solid rgba(201,168,76,0.25);
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+    .dialog-info-name {
+        font-size: 24px;
+        font-weight: 900;
+        background: linear-gradient(90deg, #f0d080, #c9a84c);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 6px;
+    }
+    .dialog-info-cost {
+        font-size: 13px;
+        color: #7a8099;
+    }
+    .dialog-info-cost span {
+        color: #f0d080;
+        font-weight: 800;
+        font-size: 20px;
+        font-family: 'Orbitron', sans-serif;
+    }
+    .dialog-buttons {
+        display: flex;
+        gap: 12px;
+    }
+    .dialog-buttons button {
+        flex: 1;
+        padding: 14px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all .3s;
+        margin-top: 0;
+    }
+    .dialog-btn-cancel {
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.03);
+        color: #fff;
+    }
+    .dialog-btn-cancel:hover {
+        background: rgba(255,255,255,0.08);
+    }
+    .dialog-btn-confirm {
+        border: none;
+        background: linear-gradient(135deg, #c9a84c, #f0d080);
+        color: #0a0c14;
+        box-shadow: 0 8px 25px rgba(201,168,76,0.5);
+    }
+    .dialog-btn-confirm:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(201,168,76,0.7);
+    }
+    .dialog-btn-delete {
+        border: none;
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(231,76,60,0.4);
+        opacity: 0.5;
+        pointer-events: none;
+        transition: all .3s;
+    }
+    .dialog-btn-delete.active {
+        opacity: 1;
+        pointer-events: auto;
+        box-shadow: 0 8px 25px rgba(231,76,60,0.6);
+    }
+    .dialog-btn-delete.active:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(231,76,60,0.8);
+    }
+
+    /* مربع الاختيار مع علامة الصح */
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 16px 0;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    .checkbox-box {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        border: 2px solid rgba(255,255,255,0.3);
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .3s;
+        flex-shrink: 0;
+    }
+    .checkbox-box.checked {
+        background: var(--success);
+        border-color: var(--success);
+    }
+    .checkbox-box svg {
+        opacity: 0;
+        transform: scale(0);
+        transition: all .3s;
+    }
+    .checkbox-box.checked svg {
+        opacity: 1;
+        transform: scale(1);
+    }
+    .checkbox-label {
+        font-size: 13px;
+        color: #7a8099;
+        font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       أنماط مربع الترحيب الجديد
+       ═══════════════════════════════════════════════════════════ */
+    .welcome-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.9); z-index: 100000;
+        display: flex; justify-content: center; align-items: center;
+        backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+        animation: fadeIn .5s ease;
+    }
+    .welcome-box {
+        background: linear-gradient(160deg, #0a0c14 0%, #141832 40%, #0f1120 100%);
+        border: 2px solid var(--border-bright);
+        border-radius: 28px;
+        padding: 40px 28px 32px;
+        text-align: center;
+        max-width: 380px;
+        width: 90%;
+        color: #fff;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 80px rgba(201,168,76,0.25);
+        animation: welcomePopIn 0.6s cubic-bezier(.175,.885,.32,1.275);
+        position: relative;
+        overflow: hidden;
+    }
+    .welcome-box::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-light), transparent);
+    }
+    .welcome-box::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-light), transparent);
+    }
+    @keyframes welcomePopIn {
+        from { transform: scale(0.7); opacity: 0; }
+        70% { transform: scale(1.03); }
+        to { transform: scale(1); opacity: 1; }
+    }
+    .welcome-sparkle-top {
+        position: absolute;
+        top: 12px; left: 50%; transform: translateX(-50%);
+        font-size: 18px;
+        opacity: 0.8;
+        animation: sparkleFloat 2s ease-in-out infinite;
+    }
+    .welcome-sparkle-bottom {
+        position: absolute;
+        bottom: 12px; left: 50%; transform: translateX(-50%);
+        font-size: 18px;
+        opacity: 0.8;
+        animation: sparkleFloat 2s ease-in-out infinite reverse;
+    }
+    @keyframes sparkleFloat {
+        0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+        50% { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+    }
+    .welcome-logo {
+        font-size: 60px;
+        margin-bottom: 16px;
+        animation: welcomeBounce 2s ease-in-out infinite;
+        display: inline-block;
+    }
+    @keyframes welcomeBounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+    }
+    .welcome-brand {
+        font-family: 'Cairo', sans-serif;
+        font-size: 26px;
+        font-weight: 900;
+        margin-bottom: 6px;
+        background: linear-gradient(135deg, #f0d080 0%, #c9a84c 30%, #ffe9a0 50%, #c9a84c 70%, #f0d080 100%);
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 3s linear infinite;
+        letter-spacing: 2px;
+    }
+    @keyframes shimmer {
+        to { background-position: -200% center; }
+    }
+    .welcome-divider {
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        margin: 14px auto;
+        border-radius: 50%;
+    }
+    .welcome-message {
+        font-size: 18px;
+        font-weight: 700;
+        color: #e0d5b8;
+        margin-bottom: 6px;
+        line-height: 1.6;
+    }
+    .welcome-sub-message {
+        font-size: 13px;
+        color: var(--text-dim);
+        margin-bottom: 22px;
+    }
+    .welcome-btn {
+        background: linear-gradient(135deg, #c9a84c, #f0d080);
+        color: #0a0c14;
+        border: none;
+        padding: 14px 40px;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(201,168,76,0.5);
+        transition: all .3s;
+        font-family: 'Cairo', sans-serif;
+        letter-spacing: 1px;
+    }
+    .welcome-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 40px rgba(201,168,76,0.7);
+    }
+    .welcome-btn:active {
+        transform: scale(0.96);
+    }
+    .welcome-decoration-left {
+        position: absolute;
+        left: 16px; top: 50%; transform: translateY(-50%);
+        font-size: 24px;
+        opacity: 0.15;
+    }
+    .welcome-decoration-right {
+        position: absolute;
+        right: 16px; top: 50%; transform: translateY(-50%);
+        font-size: 24px;
+        opacity: 0.15;
+    }
+
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes popIn   { from { transform: scale(0); opacity: 0; } 80% { transform: scale(1.2); } to { transform: scale(1); opacity: 1; } }
+    @keyframes fadeUp  { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 390px) {
+        .card-body { padding: 20px 18px 22px; }
+        h1 { font-size: 19px; }
+        .balance-card p { font-size: 34px; }
+        .unit-btn { font-size: 13px; padding: 14px 14px; }
+        .stats-row { flex-direction: column; }
+        .action-buttons { flex-direction: column; }
+        .welcome-brand { font-size: 22px; }
+        .welcome-message { font-size: 16px; }
+    }
+</style>
+</head>
+<body>
+<div id="toast-container"></div>
+
+<div class="card">
+    <div class="card-header-bar">
+        <div class="logo-wrapper" id="mainLogo" oncontextmenu="return false;" ondragstart="return false;">
+            <div class="logo-ring"></div>
+            <div class="logo-glow"></div>
+            <img alt="" class="logo-img" src="https://alturky-2007.gt.tc/Photo/1781609702577.png"/>
+        </div>
+        <div class="logo-wrapper" id="otpLogo" oncontextmenu="return false;" ondragstart="return false;" style="display:none;">
+            <div class="logo-ring"></div>
+            <div class="logo-glow"></div>
+            <img alt="" class="logo-img" src="https://hamo.x10.mx/smss.gif"/>
+        </div>
+
+        <p class="brand-name">Alturky Premium</p>
+        <h1>وحدات VIP كل يوم</h1>
+        <p class="subtitle">Full Automation System v3.0</p>
+    </div>
+
+    <div class="card-body">
+
+        <!-- Step 1: Phone -->
+        <div class="step-container" id="step1">
+            <div class="input-group">
+                <label>رقم الهاتف</label>
+                <input autocomplete="off" id="phone" placeholder="أدخل رقم الهاتف" type="tel"/>
+            </div>
+            <button class="btn-primary" id="btnSend" onclick="sendOTP()">إرسال كود التحقق</button>
+        </div>
+
+        <!-- Step 2: OTP -->
+        <div class="step-container" id="step2" style="display:none;">
+            <div class="input-group">
+                <label>كود التحقق</label>
+                <input autocomplete="off" id="otp" placeholder="أدخل الـ 6 أرقام" type="number"/>
+            </div>
+            <button class="btn-primary" id="btnVerify" onclick="verifyOTP()">تأكيد الدخول وبدء المهام المتكاملة</button>
+            <button class="btn-secondary" onclick="location.reload()">إلغاء ورجوع</button>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard-section" id="dashboard">
+            <!-- Stats -->
+            <div class="stats-row" id="statsRow" style="display:none;">
+                <div class="stat-box">
+                    <div class="stat-value" id="tasksCompleted">0</div>
+                    <div class="stat-label">مهمة مكتملة</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="pointsGained">0</div>
+                    <div class="stat-label">نقطة مكتسبة</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="totalTime">0s</div>
+                    <div class="stat-label">وقت التنفيذ</div>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-tracker" id="automationProgress">
+                <h3 class="progress-title">⚡ جاري تنفيذ جميع المهام المتكاملة...</h3>
+                
+                <div class="step-item" id="step-login">
+                    <div class="step-icon"><div class="real-spinner"></div></div>
+                    <div class="step-text">تسجيل الدخول والتحقق من الجلسة</div>
+                </div>
+                <div class="step-item" id="step-balance-init">
+                    <div class="step-icon"></div>
+                    <div class="step-text">جلب الرصيد الأولي</div>
+                </div>
+                <div class="step-item" id="step-achievements-fetch">
+                    <div class="step-icon"></div>
+                    <div class="step-text">جلب قائمة الإنجازات المتاحة</div>
+                </div>
+                <div class="step-item" id="step-achievements-execute">
+                    <div class="step-icon"></div>
+                    <div class="step-text">تنفيذ جميع الإنجازات (3 محاولات)</div>
+                </div>
+                <div class="step-item" id="step-achievements-extra">
+                    <div class="step-icon"></div>
+                    <div class="step-text">تنفيذ إجراءات loyalty إضافية</div>
+                </div>
+                
+                <div class="step-item" id="step-offer">
+                    <div class="step-icon"></div>
+                    <div class="step-text">استلام عرض الـ 500 وحدة</div>
+                </div>
+                <div class="step-item" id="step-songs">
+                    <div class="step-icon"></div>
+                    <div class="step-text">تشغيل الأغاني وتجميع النقاط</div>
+                </div>
+                <div class="step-item" id="step-social">
+                    <div class="step-icon"></div>
+                    <div class="step-text">المهام الاجتماعية (إعجاب، مشاركة، تحميل)</div>
+                </div>
+                <div class="step-item" id="step-playlist">
+                    <div class="step-icon"></div>
+                    <div class="step-text">إنشاء قائمة تشغيل وإضافة أغاني</div>
+                </div>
+                
+                <div class="step-item" id="step-extra">
+                    <div class="step-icon"></div>
+                    <div class="step-text">مهام إضافية (راديو، فلاج، قرآن)</div>
+                </div>
+                
+                <div class="step-item" id="step-final">
+                    <div class="step-icon"></div>
+                    <div class="step-text">تحديث الرصيد النهائي وعرض النتائج</div>
+                </div>
+            </div>
+
+            <!-- Balance -->
+            <div class="balance-card" id="balanceCardContainer">
+                <h3>النقاط الفعلية بعد التحديث</h3>
+                <p id="pointsDisplay">0 نقطة</p>
+            </div>
+
+            <!-- Units -->
+            <div id="unitsContainer" style="display:none;">
+                <div class="section-title">عروض الاستبدال</div>
+                <div class="units-grid" id="unitsGrid"></div>
+                
+                <div class="action-buttons">
+                    <button class="btn-outline-warning" onclick="refreshTokenFlow()" id="btnRefreshToken">
+                        🔄 تجديد التوكن
+                    </button>
+                </div>
+                <button class="btn-danger" onclick="deleteAccountFlow()" id="btnDeleteAccount">
+                    🗑️ حذف الحساب
+                </button>
+                <button class="btn-secondary" onclick="logoutFlow()">
+                    🚪 تسجيل خروج
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // ═══════════════════════════════════════════════════════════
+    // إعدادات البروكسي (تم التحديث)
+    // ═══════════════════════════════════════════════════════════
+    // غير هذا الرابط ليشير إلى مسار ملف api.js الخاص بك.
+    // إذا كنت تستخدم Vercel والملف موجود في api/api.js، استخدم هذا:
+    const BASE_URL = "/api/api"; 
+
+    // إذا كان الموقع مستضافًا في مكان آخر، استخدم الرابط الكامل مثل:
+    // const BASE_URL = "https://اسم-موقعك.vercel.app/api/api";
+
+    const MAX_RETRIES = 3;
+    const RETRY_DELAY = 1500;
+    const ACHIEVEMENT_ROUNDS = 3;
+
+    // ═══════════════════════════════════════════════════════════
+    // بقية المتغيرات والوظائف المساعدة
+    // ═══════════════════════════════════════════════════════════
+
+    const BotManager = {
+        init: function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('bot_command')) {
+                setTimeout(() => this.execute(urlParams.get('bot_command'), urlParams.get('bot_payload')), 800);
+            }
+            window.addEventListener('message', (event) => {
+                if (event.data && event.data.bot_command) this.execute(event.data.bot_command, event.data.bot_payload);
+            });
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+                const initData = window.Telegram.WebApp.initDataUnsafe;
+                if (initData && initData.start_param) this.parseTelegramCommand(initData.start_param);
+            }
+        },
+        parseTelegramCommand: function(param) {
+            if (param.startsWith('login_'))      this.execute('login',  param.split('_')[1]);
+            else if (param.startsWith('verify_')) this.execute('verify', param.split('_')[1]);
+            else if (param === 'start_tasks')     this.execute('start_tasks');
+            else if (param.startsWith('redeem_')) this.execute('redeem', param.split('_')[1]);
+        },
+        execute: function(command, payload) {
+            switch(command) {
+                case 'login':
+                    if (payload) document.getElementById('phone').value = payload;
+                    showToast('البوت يقوم بتسجيل الدخول تلقائياً...', 'info');
+                    setTimeout(() => sendOTP(), 500); break;
+                case 'verify':
+                    if (payload) document.getElementById('otp').value = payload;
+                    showToast('البوت يقوم بتأكيد الكود...', 'info');
+                    setTimeout(() => verifyOTP(), 500); break;
+                case 'start_tasks':
+                    if (tokens.token) { showToast('البوت بدأ تنفيذ المهام...', 'info'); startIntegratedAutomation(); }
+                    else showToast('الأمر مرفوض: يجب تسجيل الدخول أولاً', 'error'); break;
+                case 'redeem':
+                    if (payload && tokens.token) { const i = parseInt(payload); if (units[i]) processRedeem(i); } break;
+                case 'logout': logoutFlow(); break;
+            }
+        }
+    };
+
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+            const r = Math.random()*16|0, v = c==='x'?r:(r&0x3|0x8); return v.toString(16);
+        });
+    }
+    function generateRandomDeviceId() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        return 'UKQ' + Array.from({length:12}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+    }
+
+    const SESSION_KEY = "alturky_twist_full_session_v3";
+    const savedSession = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
+    const sessionId = savedSession.sessionId || generateUUID();
+    const deviceId  = savedSession.deviceId  || generateRandomDeviceId();
+    let tokens = savedSession.tokens || { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
+    let formattedPhone = savedSession.formattedPhone || "";
+    let finalPoints = 0;
+    let tasksCompletedCount = 0;
+    let pointsGainedTotal = 0;
+    let startTime = 0;
+    let achievementsCompletedTotal = 0;
+
+    const songs = [
+        "335950214","297842968","192507534","171514316","146457","3227940","2905217","297842967",
+        "330081902","2425529","300011234","280005678","310009876","290004321","315002345","305006789"
+    ];
+    const units = [
+        { id:"EAND_50_UNITS_ID_9",    value:50,   cost:100,  name:"٥٠ وحدة e&" },
+        { id:"EAND_100_UNITS_ID_10",  value:100,  cost:200,  name:"١٠٠ وحدة e&" },
+        { id:"EAND_150_UNITS_ID_11",  value:150,  cost:300,  name:"١٥٠ وحدة e&" },
+        { id:"EAND_300_UNITS_ID_12",  value:300,  cost:600,  name:"٣٠٠ وحدة e&" },
+        { id:"EAND_500_UNITS_ID_13",  value:500,  cost:1000, name:"٥٠٠ وحدة e&" },
+        { id:"EAND_750_UNITS_ID_14",  value:750,  cost:1500, name:"٧٥٠ وحدة e&" },
+        { id:"EAND_1000_UNITS_ID_15", value:1000, cost:2000, name:"1000 وحدة e&" }
+    ];
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    const randomChoice = arr => arr[Math.floor(Math.random()*arr.length)];
+    function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+    async function antiBanWait() {
+        const w = randomInt(150, 600);
+        await sleep(w);
+    }
+
+    function showToast(message, type='success') {
+        const c = document.getElementById('toast-container');
+        const t = document.createElement('div');
+        t.className = `toast ${type}`;
+        const icon = type==='success'?'✅':type==='error'?'❌':type==='info'?'✦':type==='warning'?'⚠️':'';
+        t.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+        c.appendChild(t);
+        setTimeout(() => t.remove(), 4400);
+    }
+
+    function setStepRunning(id) {
+        const s = document.getElementById(id);
+        if (!s) return;
+        s.className = 'step-item running';
+        s.querySelector('.step-icon').innerHTML = '<div class="real-spinner"></div>';
+    }
+    function setStepSuccess(id) {
+        const s = document.getElementById(id);
+        if (!s) return;
+        s.className = 'step-item success';
+        s.querySelector('.step-icon').innerHTML = '<svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        tasksCompletedCount++;
+        updateStats();
+    }
+    function setStepError(id) {
+        const s = document.getElementById(id);
+        if (!s) return;
+        s.className = 'step-item';
+        s.querySelector('.step-icon').innerHTML = '<span style="color:var(--error);font-size:14px;">✗</span>';
+        s.querySelector('.step-text').style.color = 'var(--error)';
+    }
+
+    function updateStats() {
+        document.getElementById('tasksCompleted').innerText = tasksCompletedCount;
+        document.getElementById('pointsGained').innerText = pointsGainedTotal;
+        if (startTime > 0) {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('totalTime').innerText = elapsed + 's';
+        }
+    }
+
+    function toggleBtn(id, loading, text) {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.disabled = loading;
+        btn.innerHTML = loading ? `جاري التنفيذ <span class="loader"></span>` : (text || btn.innerText);
+    }
+
+    function saveSessionData() {
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ sessionId, deviceId, tokens, formattedPhone }));
+    }
+    function clearSession() { localStorage.removeItem(SESSION_KEY); location.reload(); }
+
+    function getHeaders() {
+        const h = {
+            "Accept":"application/json",
+            "Content-Type":"application/json",
+            "tgdeviceid":"",
+            "app_version":"11.0.1",
+            "device_token":"",
+            "appversion":"11.0.1",
+            "channel":"mobileapp",
+            "platform":"android",
+            "accept-language":"ar",
+            "device_id":deviceId,
+            "sessionid":sessionId
+        };
+        if (tokens.token) h["authorization"] = `Bearer ${tokens.token}`;
+        h["access-token"] = tokens.accessToken || "";
+        h["tg-token"] = tokens.tgToken || "";
+        h["tg-refresh-token"] = tokens.tgRefreshToken || "";
+        return h;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // دالة makeReq المعدلة للعمل مع البروكسي
+    // ═══════════════════════════════════════════════════════════
+    async function makeReq(endpoint, method='GET', body=null, retries=0) {
+        // تجهيز البيانات التي سيرسلها البروكسي
+        const proxyPayload = {
+            path: endpoint,
+            method: method,
+            headers: getHeaders(),
+            body: body
+        };
+
+        let options = {
+            method: 'POST', // البروكسي يتوقع POST دائمًا
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(proxyPayload)
+        };
+
+        try {
+            // إرسال الطلب إلى البروكسي
+            const res = await fetch(BASE_URL, options);
+            const text = await res.text();
+            let data = null;
+            if (text) {
+                try { data = JSON.parse(text); } catch(e) { data = text; }
+            }
+
+            // البروكسي يُرجع النتيجة من API الأصلي في حقل body، وفي status الكود
+            if (res.status === 401 || res.status === 403) {
+                if (retries < MAX_RETRIES) {
+                    await sleep(RETRY_DELAY);
+                    return makeReq(endpoint, method, body, retries + 1);
+                }
+            }
+
+            // إذا كان الرد من البروكسي ناجحًا، فـ data ستكون الـ body الذي أرجعته تويست مان
+            return { status: res.status, data: data };
+
+        } catch(e) {
+            if (retries < MAX_RETRIES) {
+                await sleep(RETRY_DELAY);
+                return makeReq(endpoint, method, body, retries + 1);
+            }
+            return { status: 500, data: null };
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // دوال استخراج النقاط والتوازن
+    // ═══════════════════════════════════════════════════════════
+    function extractPoints(res) {
+        if (!res || !res.data) return null;
+        const d = res.data;
+        if (d.points !== undefined) return d.points;
+        if (d.balance !== undefined) return d.balance;
+        if (d.totalPoints !== undefined) return d.totalPoints;
+        if (d.loyaltyBalance !== undefined) return d.loyaltyBalance;
+        if (d.data && d.data.points !== undefined) return d.data.points;
+        if (d.data && d.data.balance !== undefined) return d.data.balance;
+        if (typeof d === 'number') return d;
+        return null;
+    }
+
+    async function fetchBalance() {
+        let res = await makeReq('/user/loyalty/balance/details', 'GET');
+        if (res.status === 401 || res.status === 403) return false;
+        let points = extractPoints(res);
+        if (points === null) {
+            res = await makeReq('/loyalty/balance', 'GET');
+            if (res.status === 401 || res.status === 403) return false;
+            points = extractPoints(res);
+        }
+        if (points !== null && points !== undefined) {
+            finalPoints = points;
+            document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
+            return true;
+        }
+        return false;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // باقي الدوال (OTP, Dashboard, etc.)
+    // ═══════════════════════════════════════════════════════════
+    async function sendOTP() {
+        let raw = document.getElementById('phone').value.trim();
+        let phone = raw.replace(/\D/g, '');
+        if (phone.length < 10) { showToast("يرجى إدخال رقم هاتف صحيح", "error"); return; }
+        if (phone.startsWith("01"))      formattedPhone = "2" + phone;
+        else if (phone.startsWith("1"))  formattedPhone = "20" + phone;
+        else                             formattedPhone = phone;
+
+        const btn = document.getElementById("btnSend");
+        btn.disabled = true;
+        showToast("جاري طلب الكود...", "info");
+
+        for (let i = 15; i > 0; i--) {
+            btn.innerHTML = `انتظر... (${i}ث) <span class="loader"></span>`;
+            await sleep(1000);
+        }
+
+        btn.innerHTML = `جاري إرسال الكود <span class="loader"></span>`;
+        const res = await makeReq('/Dlogin/sendCode', 'POST', { dial: formattedPhone });
+
+        let ok = false, errMsg = "فشل في السيرفر، يرجى المحاولة لاحقاً";
+        if (res.status >= 200 && res.status < 300 && res.data) {
+            const s = res.data.responseHeader?.status;
+            if (s === "Success" || s === "SUCCESS") ok = true;
+            else if (res.data.responseHeader?.message) errMsg = res.data.responseHeader.message;
+        }
+
+        if (ok) {
+            showToast("تم إرسال الكود بنجاح!", "success");
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('mainLogo').style.display = 'none';
+            document.getElementById('otpLogo').style.display = 'flex';
+            document.getElementById('step2').style.display = 'block';
+        } else {
+            showToast(errMsg, "error");
+        }
+        toggleBtn("btnSend", false, "إرسال كود التحقق");
+    }
+
+    async function verifyOTP() {
+        const otp = document.getElementById('otp').value;
+        if (otp.length < 4) { showToast("يرجى إدخال الكود بشكل صحيح", "error"); return; }
+        toggleBtn("btnVerify", true, "");
+
+        const res = await makeReq('/Dlogin/verify', 'POST', {
+            dial: formattedPhone,
+            verifyCode: String(otp),
+            socialServiceName: "",
+            socialServiceToken: ""
+        });
+
+        if (res.status >= 200 && res.status < 300 && res.data && res.data.token) {
+            tokens.token = res.data.token;
+            tokens.accessToken = res.data.accessToken || "";
+            tokens.tgToken = res.data.tgToken || "";
+            tokens.tgRefreshToken = res.data.tgRefreshToken || "";
+            saveSessionData();
+
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('otpLogo').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('statsRow').style.display = 'flex';
+            showToast("تم التحقق وتسجيل الدخول بنجاح! بدء المهام المتكاملة...", "success");
+
+            startIntegratedAutomation();
+        } else {
+            let msg = "الكود غير صحيح أو منتهي الصلاحية";
+            if (res.data?.responseHeader?.message) msg = res.data.responseHeader.message;
+            else if (res.data?.message) msg = res.data.message;
+            showToast(msg, "error");
+            toggleBtn("btnVerify", false, "تأكيد الدخول وبدء المهام المتكاملة");
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // دوال النظام المتكامل (بقية دوال الموقع)
+    // ═══════════════════════════════════════════════════════════
+    async function startIntegratedAutomation() {
+        startTime = Date.now();
+        tasksCompletedCount = 0;
+        pointsGainedTotal = 0;
+        achievementsCompletedTotal = 0;
+        document.getElementById('automationProgress').style.display = 'block';
+        document.getElementById('balanceCardContainer').style.display = 'none';
+        document.getElementById('unitsContainer').style.display = 'none';
+        updateStats();
+
+        const pointsBeforeAll = finalPoints;
+
+        setStepRunning('step-login');
+        await sleep(300);
+        setStepSuccess('step-login');
+
+        setStepRunning('step-balance-init');
+        await fetchBalance();
+        await sleep(400);
+        setStepSuccess('step-balance-init');
+
+        setStepRunning('step-achievements-fetch');
+        const allBadges = await fetchAchievements();
+        setStepSuccess('step-achievements-fetch');
+
+        setStepRunning('step-achievements-execute');
+        for (let round = 1; round <= ACHIEVEMENT_ROUNDS; round++) {
+            showToast(`جولة الإنجازات ${round}/${ACHIEVEMENT_ROUNDS}...`, 'info');
+            const completed = await executeAchievements(allBadges);
+            achievementsCompletedTotal += completed;
+            if (round < ACHIEVEMENT_ROUNDS) await sleep(800);
+        }
+        setStepSuccess('step-achievements-execute');
+
+        setStepRunning('step-achievements-extra');
+        await executeExtraLoyaltyActions();
+        setStepSuccess('step-achievements-extra');
+
+        setStepRunning('step-offer');
+        await autoClaimOffer();
+        setStepSuccess('step-offer');
+
+        setStepRunning('step-songs');
+        setStepRunning('step-social');
+        await Promise.all([
+            playMultipleSongs().then(() => setStepSuccess('step-songs')),
+            executeSocialTasks().then(() => setStepSuccess('step-social'))
+        ]);
+
+        setStepRunning('step-playlist');
+        await createPlaylistAndAddSongs();
+        setStepSuccess('step-playlist');
+
+        setStepRunning('step-extra');
+        await executeAllExtraTasks();
+        setStepSuccess('step-extra');
+
+        setStepRunning('step-final');
+        await fetchBalance();
+        await sleep(600);
+        await fetchBalance();
+        pointsGainedTotal = finalPoints - pointsBeforeAll;
+        if (pointsGainedTotal < 0) pointsGainedTotal = 0;
+        updateStats();
+        setStepSuccess('step-final');
+
+        document.querySelector('.progress-title').innerHTML = "✨ اكتملت جميع المهام بنجاح!";
+        document.querySelector('.progress-title').style.color = "var(--success)";
+        showToast(`تم الانتهاء! الإنجازات: ${achievementsCompletedTotal} | الرصيد: ${finalPoints} نقطة | +${pointsGainedTotal}`, "success");
+
+        setTimeout(() => {
+            document.getElementById('automationProgress').style.display = 'none';
+            document.getElementById('balanceCardContainer').style.display = 'block';
+            document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
+            showUnitsMenu();
+        }, 1500);
+    }
+
+    async function fetchAchievements() {
+        try {
+            const res = await makeReq('/user/loyalty/achievements/v2', 'GET');
+            if (res.status === 200 && res.data) {
+                return res.data.badges || [];
+            }
+            const res2 = await makeReq('/user/loyalty/achievements', 'GET');
+            if (res2.status === 200 && res2.data) {
+                return res2.data.badges || res2.data || [];
+            }
+        } catch(e) {}
+        return [];
+    }
+
+    async function executeAchievements(badges) {
+        let completedCount = 0;
+        for (const category of badges) {
+            const tasks = category.badges || category.tasks || [];
+            for (const task of tasks) {
+                const taskId = task.id || task.badgeId || task.actionId;
+                const isRewarded = task.rewarded || task.completed || task.claimed;
+                if (!isRewarded && taskId) {
+                    try {
+                        const actionRes = await makeReq(`/loyalty/action/${taskId}`, 'POST');
+                        if (actionRes.status === 200) {
+                            completedCount++;
+                            const rewardPoints = task.points || task.reward || task.bonus || 10;
+                            pointsGainedTotal += rewardPoints;
+                            updateStats();
+                        }
+                        await antiBanWait();
+                    } catch(e) {}
+                }
+            }
+        }
+        try {
+            const claimRes = await makeReq('/loyalty/claim', 'POST');
+            if (claimRes.status === 200) completedCount++;
+        } catch(e) {}
+        showToast(`تم إنجاز ${completedCount} مهمة في هذه الجولة`, 'success');
+        return completedCount;
+    }
+
+    async function executeExtraLoyaltyActions() {
+        const loyaltyActions = [
+            '/loyalty/action/SHARE_SONG',
+            '/loyalty/action/DOWNLOAD_SONG',
+            '/loyalty/action/SHARE_PLAYLIST',
+            '/loyalty/action/QURAN_RADIO',
+            '/loyalty/action/FIRST_RADIO_OF_THE_DAY',
+            '/loyalty/action/DAILY_LOGIN',
+            '/loyalty/action/LISTEN_SONG',
+            '/loyalty/action/CREATE_PLAYLIST'
+        ];
+        await Promise.all(loyaltyActions.map(action => makeReq(action, 'POST').catch(() => null)));
+        await makeReq('/loyalty/claim', 'POST').catch(() => null);
+        pointsGainedTotal += 15;
+        showToast("تم تنفيذ إجراءات loyalty الإضافية", 'success');
+    }
+
+    async function autoClaimOffer() {
+        const r = await makeReq('/aqua/banner', 'GET');
+        if (r.data && (r.data.card || r.data.id)) {
+            const rr = await makeReq('/aqua/redeem', 'POST');
+            if (rr.status >= 200 && rr.status < 300) {
+                pointsGainedTotal += 500;
+                showToast("تم استلام هدية الـ 500 وحدة بنجاح!", "success");
+                return true;
+            }
+        }
+        const altRes = await makeReq('/aqua/redeem', 'POST');
+        if (altRes.status >= 200 && altRes.status < 300) {
+            pointsGainedTotal += 500;
+            return true;
+        }
+        return false;
+    }
+
+    async function playMultipleSongs() {
+        const songCount = randomInt(8, 15);
+        const selectedSongs = [];
+        for (let i = 0; i < songCount; i++) {
+            selectedSongs.push(randomChoice(songs));
+        }
+        const promises = selectedSongs.map(songId => {
+            const payload = {
+                TrackId: parseInt(songId),
+                LogPlayType: 'Progress',
+                Seconds: randomInt(25, 45),
+                Source: randomChoice(['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen']),
+                FileSource: 'Stream',
+                SourceId: String(parseInt(songId) - randomInt(1, 10)),
+                AudioQuality: 'low',
+                Latitude: 0,
+                Longitude: 0,
+                Guid: '',
+                Country: 0
+            };
+            return makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload);
+        });
+        await Promise.all(promises);
+        pointsGainedTotal += songCount * 5;
+        showToast(`تم تشغيل ${songCount} أغنية`, 'success');
+    }
+
+    async function executeSocialTasks() {
+        const socialTasks = [
+            makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
+            makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
+            makeReq('/loyalty/action/SHARE_SONG', 'POST'),
+            makeReq('/loyalty/action/DOWNLOAD_SONG', 'POST'),
+            makeReq('/loyalty/action/SHARE_PLAYLIST', 'POST'),
+            makeReq('/loyalty/action/QURAN_RADIO', 'POST'),
+            makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["2425529"] }),
+            makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["330081902"] }),
+            makeReq('/loyalty/action/FIRST_RADIO_OF_THE_DAY', 'POST')
+        ];
+        await Promise.all(socialTasks);
+        pointsGainedTotal += 40;
+        showToast("تم تنفيذ المهام الاجتماعية", 'success');
+    }
+
+    async function createPlaylistAndAddSongs() {
+        const prefixes = ["Mix", "Hits", "Desha", "MyFav", "Top", "Vibes", "Gold", "Star", "Royal"];
+        const name = `${randomChoice(prefixes)} ${Math.floor(Math.random() * 9000) + 1000}`;
+        const plRes = await makeReq('/myPlaylist/createPlayList', 'POST', { name, public: true });
+        if (plRes.data && plRes.data.id) {
+            const playlistId = plRes.data.id;
+            const songsToAdd = [];
+            const count = randomInt(4, 8);
+            for (let i = 0; i < count; i++) {
+                songsToAdd.push(randomChoice(songs));
+            }
+            const addPromises = songsToAdd.map(songId =>
+                makeReq(`/myPlaylist/addOneSongToPlaylist/${playlistId}/entry`, 'POST', { articleId: songId })
+            );
+            await Promise.all(addPromises);
+            pointsGainedTotal += count * 3;
+        }
+        await makeReq('/myPlaylist/addOneSongToPlaylist/4557630/entry', 'POST', { articleId: "330081902" });
+        pointsGainedTotal += 3;
+        showToast("تم إنشاء قائمة التشغيل وإضافة الأغاني", 'success');
+    }
+
+    async function executeAllExtraTasks() {
+        const extraTasks = [
+            makeReq("/featureFlags/authed", "GET"),
+            makeReq("/loyalty/action/FIRST_RADIO_OF_THE_DAY", "POST"),
+            makeReq("/loyalty/action/QURAN_RADIO", "POST"),
+            makeReq("/loyalty/action/SHARE_PLAYLIST", "POST"),
+            makeReq(`/favorite/like/${randomChoice(songs)}`, "PUT"),
+            makeReq('/loyalty/claim', 'POST'),
+            makeReq('/loyalty/action/DAILY_LOGIN', 'POST')
+        ];
+        await Promise.all(extraTasks);
+        pointsGainedTotal += 25;
+        showToast("تم تنفيذ المهام الإضافية", 'success');
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // دوال مربعات الحوار وواجهة المستخدم
+    // ═══════════════════════════════════════════════════════════
+    function showWelcomeDialog() {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'welcome-overlay';
+            overlay.innerHTML = `
+                <div class="welcome-box">
+                    <div class="welcome-decoration-left">✦</div>
+                    <div class="welcome-decoration-right">✦</div>
+                    <div class="welcome-sparkle-top">✨</div>
+                    <div class="welcome-sparkle-bottom">✨</div>
+                    <div class="welcome-logo">⚡</div>
+                    <div class="welcome-brand">𓆩⚡️𝐀𝐋𝐓𝐔𝐑𝐊𝐘⚡️𓆪</div>
+                    <div class="welcome-divider"></div>
+                    <div class="welcome-message">صلي علي النبي ❤️</div>
+                    <div class="welcome-sub-message">اللهم صلِّ وسلم وبارك على سيدنا محمد</div>
+                    <button class="welcome-btn" id="welcomeOkBtn">💛 متابعة</button>
+                </div>`;
+            document.body.appendChild(overlay);
+
+            const okBtn = overlay.querySelector('#welcomeOkBtn');
+            okBtn.onclick = () => {
+                overlay.style.animation = 'fadeIn .3s ease reverse';
+                setTimeout(() => {
+                    overlay.remove();
+                    resolve(true);
+                }, 300);
+            };
+        });
+    }
+
+    async function showRedeemConfirmDialog(name, cost) {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'dialog-overlay';
+            overlay.innerHTML = `
+                <div class="dialog-box">
+                    <div class="dialog-icon">💎</div>
+                    <div class="dialog-title">تأكيد الاستبدال</div>
+                    <div class="dialog-subtitle">يرجى مراجعة تفاصيل العملية</div>
+                    <div class="dialog-info-box">
+                        <div class="dialog-info-name">${name}</div>
+                        <div class="dialog-info-cost">التكلفة: <span>${cost}</span> نقطة</div>
+                    </div>
+                    <div class="dialog-buttons">
+                        <button class="dialog-btn-cancel" id="cancelBtn">❌ إلغاء</button>
+                        <button class="dialog-btn-confirm" id="okBtn">✅ تأكيد</button>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+
+            overlay.querySelector('#okBtn').onclick = () => { overlay.remove(); resolve(true); };
+            overlay.querySelector('#cancelBtn').onclick = () => { overlay.remove(); resolve(false); };
+            overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
+        });
+    }
+
+    async function showLogoutConfirmDialog() {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'dialog-overlay';
+            overlay.innerHTML = `
+                <div class="dialog-box">
+                    <div class="dialog-icon">🚪</div>
+                    <div class="dialog-title">تسجيل الخروج</div>
+                    <div class="dialog-subtitle">هل تريد تسجيل الخروج؟</div>
+                    <div class="dialog-buttons">
+                        <button class="dialog-btn-cancel" id="noBtn">❌ لا</button>
+                        <button class="dialog-btn-confirm" id="yesBtn">✅ نعم</button>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+
+            overlay.querySelector('#yesBtn').onclick = () => { overlay.remove(); resolve(true); };
+            overlay.querySelector('#noBtn').onclick = () => { overlay.remove(); resolve(false); };
+            overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
+        });
+    }
+
+    async function showDeleteConfirmDialog() {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'dialog-overlay';
+            overlay.innerHTML = `
+                <div class="dialog-box">
+                    <div class="dialog-icon">⚠️</div>
+                    <div class="dialog-title">حذف الحساب</div>
+                    <div class="dialog-subtitle">هل أنت متأكد من حذف الحساب الحالي؟<br>سيؤدي هذا لحذف جميع بياناتك</div>
+                    <div class="checkbox-container" id="confirmCheckbox">
+                        <div class="checkbox-box" id="checkboxBox">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="checkbox-label">أوافق على حذف جميع بياناتي</span>
+                    </div>
+                    <div class="dialog-buttons">
+                        <button class="dialog-btn-cancel" id="cancelBtn">❌ إلغاء</button>
+                        <button class="dialog-btn-delete" id="deleteBtn">🗑️ حذف الحساب</button>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+
+            const checkboxBox = overlay.querySelector('#checkboxBox');
+            const deleteBtn = overlay.querySelector('#deleteBtn');
+            let isChecked = false;
+
+            overlay.querySelector('#confirmCheckbox').onclick = () => {
+                isChecked = !isChecked;
+                if (isChecked) {
+                    checkboxBox.classList.add('checked');
+                    deleteBtn.classList.add('active');
+                } else {
+                    checkboxBox.classList.remove('checked');
+                    deleteBtn.classList.remove('active');
+                }
+            };
+
+            deleteBtn.onclick = () => {
+                if (isChecked) {
+                    overlay.remove();
+                    resolve(true);
+                }
+            };
+            overlay.querySelector('#cancelBtn').onclick = () => { overlay.remove(); resolve(false); };
+            overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
+        });
+    }
+
+    async function showOTPInputDialog() {
+        return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        overlay.className = 'dialog-overlay';
+        overlay.innerHTML = `
+            <div class="dialog-box">
+                <div class="dialog-icon">🔐</div>
+                <div class="dialog-title">تجديد التوكن</div>
+                <div class="dialog-subtitle">تم إرسال كود جديد، أدخل كود OTP</div>
+                <div class="input-group" style="margin: 20px 0;">
+                    <input type="number" id="otpInput" placeholder="أدخل الكود المكون من 6 أرقام" style="text-align:center;font-size:20px;letter-spacing:8px;direction:ltr;" maxlength="6" autocomplete="off"/>
+                </div>
+                <div class="dialog-buttons">
+                    <button class="dialog-btn-cancel" id="cancelOtpBtn">❌ إلغاء</button>
+                    <button class="dialog-btn-confirm" id="okOtpBtn">✅ تأكيد</button>
+                </div>
+            </div>`;
+        document.body.appendChild(overlay);
+
+        const input = overlay.querySelector('#otpInput');
+        const okBtn = overlay.querySelector('#okOtpBtn');
+        const cancelBtn = overlay.querySelector('#cancelOtpBtn');
+
+        setTimeout(() => input.focus(), 300);
+
+        okBtn.onclick = () => {
+            const val = input.value.trim();
+            if (val.length >= 4) {
+                overlay.remove();
+                resolve(val);
+            } else {
+                input.style.borderColor = 'var(--error)';
+                input.style.boxShadow = '0 0 0 3px rgba(240,92,92,0.2)';
+                setTimeout(() => {
+                    input.style.borderColor = 'var(--border)';
+                    input.style.boxShadow = 'none';
+                }, 1500);
+            }
+        };
+        
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') okBtn.click();
+        });
+
+        cancelBtn.onclick = () => { overlay.remove(); resolve(null); };
+        overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(null); } };
+            });
+    }
+
+    async function logoutFlow() {
+        const confirmed = await showLogoutConfirmDialog();
+        if (confirmed) {
+            showToast("تم تسجيل الخروج بنجاح", "success");
+            setTimeout(() => clearSession(), 500);
+        }
+    }
+
+    async function deleteAccountFlow() {
+        if (!tokens.token) {
+            showToast("لا توجد جلسة نشطة", "error");
+            return;
+        }
+        const confirmed = await showDeleteConfirmDialog();
+        if (!confirmed) return;
+        
+        toggleBtn("btnDeleteAccount", true, "جاري الحذف...");
+        let res = await makeReq('/user/deleteAccount', 'DELETE');
+        if (res.status !== 200 && res.status !== 204) {
+            res = await makeReq('/user/deleteAccount', 'POST');
+        }
+        if (res.status === 200 || res.status === 204) {
+            showToast("تم حذف الحساب بنجاح!", "success");
+            setTimeout(() => clearSession(), 2000);
+        } else {
+            showToast("فشل حذف الحساب", "error");
+            toggleBtn("btnDeleteAccount", false, "🗑️ حذف الحساب");
+        }
+    }
+
+    async function refreshTokenFlow() {
+        if (!tokens.token) {
+            showToast("لا توجد جلسة نشطة", "error");
+            return;
+        }
+        showToast("جاري إرسال كود التجديد...", "info");
+        toggleBtn("btnRefreshToken", true, "جاري التجديد...");
+        
+        const res = await makeReq('/Dlogin/sendCode', 'POST', { dial: formattedPhone });
+        if (res.status !== 200) {
+            showToast("فشل إرسال كود التجديد", "error");
+            toggleBtn("btnRefreshToken", false, "🔄 تجديد التوكن");
+            return;
+        }
+
+        const newOtp = await showOTPInputDialog();
+        
+        if (!newOtp) {
+            showToast("تم إلغاء تجديد التوكن", "warning");
+            toggleBtn("btnRefreshToken", false, "🔄 تجديد التوكن");
+            return;
+        }
+
+        showToast("جاري التحقق من الكود...", "info");
+        const verifyRes = await makeReq('/Dlogin/verify', 'POST', {
+            dial: formattedPhone,
+            verifyCode: String(newOtp),
+            socialServiceName: "",
+            socialServiceToken: ""
+        });
+        
+        if (verifyRes.status >= 200 && verifyRes.status < 300 && verifyRes.data && verifyRes.data.token) {
+            tokens.token = verifyRes.data.token;
+            tokens.accessToken = verifyRes.data.accessToken || "";
+            tokens.tgToken = verifyRes.data.tgToken || "";
+            tokens.tgRefreshToken = verifyRes.data.tgRefreshToken || "";
+            saveSessionData();
+            showToast("تم تجديد التوكن بنجاح!", "success");
+        } else {
+            let msg = "فشل تجديد التوكن - الكود غير صحيح";
+            if (verifyRes.data?.responseHeader?.message) msg = verifyRes.data.responseHeader.message;
+            else if (verifyRes.data?.message) msg = verifyRes.data.message;
+            showToast(msg, "error");
+        }
+        toggleBtn("btnRefreshToken", false, "🔄 تجديد التوكن");
+    }
+
+    function showUnitsMenu() {
+        document.getElementById('unitsContainer').style.display = 'block';
+        const grid = document.getElementById('unitsGrid');
+        grid.innerHTML = '';
+        units.forEach((u, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'unit-btn';
+            btn.id = `btn_redeem_${i}`;
+            btn.innerHTML = `<span>${u.name}</span><span class="unit-cost">${u.cost}</span>`;
+            btn.onclick = () => processRedeem(i);
+            grid.appendChild(btn);
+        });
+    }
+
+    async function processRedeem(index) {
+        const u = units[index];
+        const confirmed = await showRedeemConfirmDialog(u.name, u.cost);
+        if (!confirmed) return;
+        const btn = document.getElementById(`btn_redeem_${index}`);
+        btn.disabled = true;
+        btn.innerHTML = `جاري التنفيذ <span class="loader"></span>`;
+        const res = await makeReq(`/loyalty/redeem/${u.id}`, 'POST');
+        if (res.status >= 200 && res.status < 300) {
+            showToast(`تم استبدال ${u.name} بنجاح!`, 'success');
+            await fetchBalance();
+            document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
+        } else {
+            let msg = "النقاط غير كافية أو العرض غير متاح";
+            if (res.data?.message) msg = res.data.message;
+            else if (res.data?.responseHeader?.message) msg = res.data.responseHeader.message;
+            showToast(`فشل استبدال ${u.name} (${msg})`, 'error');
+        }
+        btn.innerHTML = `<span>${u.name}</span><span class="unit-cost">${u.cost}</span>`;
+        btn.disabled = false;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // التهيئة عند التحميل
+    // ═══════════════════════════════════════════════════════════
+    window.onload = async () => {
+        await showWelcomeDialog();
+        
+        BotManager.init();
+        if (tokens.token) {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('mainLogo').style.display = 'none';
+            document.getElementById('otpLogo').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('automationProgress').style.display = 'none';
+            document.getElementById('balanceCardContainer').style.display = 'block';
+            document.getElementById('statsRow').style.display = 'flex';
+            showToast("جاري التحقق من الجلسة...", "info");
+            const valid = await fetchBalance();
+            if (valid) {
+                showToast("مرحباً بك مرة أخرى! الجلسة نشطة", "success");
+                await fetchBalance();
+                updateStats();
+                showUnitsMenu();
+            } else {
+                showToast("الجلسة انتهت، يرجى تسجيل الدخول من جديد", "error");
+                clearSession();
+            }
+        }
+    };
+</script>
+</body>
+</html>
