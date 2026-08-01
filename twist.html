@@ -799,12 +799,13 @@
                 </div>
                 <div class="step-item" id="step-achievements-execute">
                     <div class="step-icon"></div>
-                    <div class="step-text">تنفيذ جميع الإنجازات (5 محاولات)</div>
+                    <div class="step-text">تنفيذ جميع الإنجازات (3 محاولات)</div>
                 </div>
                 <div class="step-item" id="step-achievements-extra">
                     <div class="step-icon"></div>
                     <div class="step-text">تنفيذ إجراءات loyalty إضافية</div>
                 </div>
+                
                 <div class="step-item" id="step-offer">
                     <div class="step-icon"></div>
                     <div class="step-text">استلام عرض الـ 500 وحدة</div>
@@ -821,14 +822,12 @@
                     <div class="step-icon"></div>
                     <div class="step-text">إنشاء قائمة تشغيل وإضافة أغاني</div>
                 </div>
+                
                 <div class="step-item" id="step-extra">
                     <div class="step-icon"></div>
                     <div class="step-text">مهام إضافية (راديو، فلاج، قرآن)</div>
                 </div>
-                <div class="step-item" id="step-streaming">
-                    <div class="step-icon"></div>
-                    <div class="step-text">تقارير البث المتقدمة</div>
-                </div>
+                
                 <div class="step-item" id="step-final">
                     <div class="step-icon"></div>
                     <div class="step-text">تحديث الرصيد النهائي وعرض النتائج</div>
@@ -865,12 +864,18 @@
 
 <script>
     // ═══════════════════════════════════════════════════════════
-    // إعدادات البروكسي (كما كانت في الكود الأصلي)
+    // إعدادات البروكسي (تم التحديث)
     // ═══════════════════════════════════════════════════════════
-    const BASE_URL = "/api/api";
+    // غير هذا الرابط ليشير إلى مسار ملف api.js الخاص بك.
+    // إذا كنت تستخدم Vercel والملف موجود في api/api.js، استخدم هذا:
+    const BASE_URL = "/api/api"; 
+
+    // إذا كان الموقع مستضافًا في مكان آخر، استخدم الرابط الكامل مثل:
+    // const BASE_URL = "https://اسم-موقعك.vercel.app/api/api";
+
     const MAX_RETRIES = 3;
     const RETRY_DELAY = 1500;
-    const ACHIEVEMENT_ROUNDS = 5;
+    const ACHIEVEMENT_ROUNDS = 3;
 
     // ═══════════════════════════════════════════════════════════
     // بقية المتغيرات والوظائف المساعدة
@@ -957,6 +962,11 @@
     const randomChoice = arr => arr[Math.floor(Math.random()*arr.length)];
     function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
+    async function antiBanWait() {
+        const w = randomInt(150, 600);
+        await sleep(w);
+    }
+
     function showToast(message, type='success') {
         const c = document.getElementById('toast-container');
         const t = document.createElement('div');
@@ -1032,9 +1042,10 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // دالة makeReq الأصلية مع البروكسي
+    // دالة makeReq المعدلة للعمل مع البروكسي
     // ═══════════════════════════════════════════════════════════
     async function makeReq(endpoint, method='GET', body=null, retries=0) {
+        // تجهيز البيانات التي سيرسلها البروكسي
         const proxyPayload = {
             path: endpoint,
             method: method,
@@ -1043,12 +1054,13 @@
         };
 
         let options = {
-            method: 'POST',
+            method: 'POST', // البروكسي يتوقع POST دائمًا
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(proxyPayload)
         };
 
         try {
+            // إرسال الطلب إلى البروكسي
             const res = await fetch(BASE_URL, options);
             const text = await res.text();
             let data = null;
@@ -1056,6 +1068,7 @@
                 try { data = JSON.parse(text); } catch(e) { data = text; }
             }
 
+            // البروكسي يُرجع النتيجة من API الأصلي في حقل body، وفي status الكود
             if (res.status === 401 || res.status === 403) {
                 if (retries < MAX_RETRIES) {
                     await sleep(RETRY_DELAY);
@@ -1063,6 +1076,7 @@
                 }
             }
 
+            // إذا كان الرد من البروكسي ناجحًا، فـ data ستكون الـ body الذي أرجعته تويست مان
             return { status: res.status, data: data };
 
         } catch(e) {
@@ -1108,7 +1122,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // دوال OTP (مع تقليل وقت الانتظار إلى 5 ثواني)
+    // باقي الدوال (OTP, Dashboard, etc.)
     // ═══════════════════════════════════════════════════════════
     async function sendOTP() {
         let raw = document.getElementById('phone').value.trim();
@@ -1122,8 +1136,7 @@
         btn.disabled = true;
         showToast("جاري طلب الكود...", "info");
 
-        // تم تغيير المدة من 15 إلى 5 ثواني
-        for (let i = 5; i > 0; i--) {
+        for (let i = 15; i > 0; i--) {
             btn.innerHTML = `انتظر... (${i}ث) <span class="loader"></span>`;
             await sleep(1000);
         }
@@ -1186,7 +1199,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // دوال النظام المتكامل (مع إضافات من بايثون)
+    // دوال النظام المتكامل (بقية دوال الموقع)
     // ═══════════════════════════════════════════════════════════
     async function startIntegratedAutomation() {
         startTime = Date.now();
@@ -1245,10 +1258,6 @@
         await executeAllExtraTasks();
         setStepSuccess('step-extra');
 
-        setStepRunning('step-streaming');
-        await executeAdvancedStreamingReports();
-        setStepSuccess('step-streaming');
-
         setStepRunning('step-final');
         await fetchBalance();
         await sleep(600);
@@ -1300,7 +1309,7 @@
                             pointsGainedTotal += rewardPoints;
                             updateStats();
                         }
-                        await sleep(400);
+                        await antiBanWait();
                     } catch(e) {}
                 }
             }
@@ -1349,7 +1358,7 @@
     }
 
     async function playMultipleSongs() {
-        const songCount = randomInt(10, 18);
+        const songCount = randomInt(8, 15);
         const selectedSongs = [];
         for (let i = 0; i < songCount; i++) {
             selectedSongs.push(randomChoice(songs));
@@ -1427,36 +1436,6 @@
         await Promise.all(extraTasks);
         pointsGainedTotal += 25;
         showToast("تم تنفيذ المهام الإضافية", 'success');
-    }
-
-    async function executeAdvancedStreamingReports() {
-        const reportTypes = ['Progress', 'Start', 'Complete'];
-        const sources = ['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen', 'ArtistScreen'];
-        
-        const reportTasks = [];
-        for (let i = 0; i < 8; i++) {
-            const songId = randomChoice(songs);
-            const payload = {
-                TrackId: parseInt(songId),
-                LogPlayType: randomChoice(reportTypes),
-                Seconds: randomInt(30, 60),
-                Source: randomChoice(sources),
-                FileSource: 'Stream',
-                SourceId: String(parseInt(songId) - randomInt(1, 20)),
-                AudioQuality: randomChoice(['low', 'medium', 'high']),
-                Latitude: 0,
-                Longitude: 0,
-                Guid: '',
-                Country: 0
-            };
-            reportTasks.push(
-                makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload)
-            );
-        }
-        
-        await Promise.all(reportTasks);
-        pointsGainedTotal += 40;
-        showToast("تم تنفيذ تقارير البث المتقدمة", 'success');
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -1782,4 +1761,4 @@
     };
 </script>
 </body>
-    </html>
+</html>
