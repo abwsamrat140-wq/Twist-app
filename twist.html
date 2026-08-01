@@ -739,7 +739,7 @@
 
         <p class="brand-name">Alturky Premium</p>
         <h1>وحدات VIP كل يوم</h1>
-        <p class="subtitle">Full Automation System v4.0</p>
+        <p class="subtitle">Full Automation System v3.0</p>
     </div>
 
     <div class="card-body">
@@ -805,14 +805,13 @@
                     <div class="step-icon"></div>
                     <div class="step-text">تنفيذ إجراءات loyalty إضافية</div>
                 </div>
-                
                 <div class="step-item" id="step-offer">
                     <div class="step-icon"></div>
                     <div class="step-text">استلام عرض الـ 500 وحدة</div>
                 </div>
                 <div class="step-item" id="step-songs">
                     <div class="step-icon"></div>
-                    <div class="step-text">تشغيل الأغاني وتجميع النقاط (30 أغنية)</div>
+                    <div class="step-text">تشغيل الأغاني وتجميع النقاط</div>
                 </div>
                 <div class="step-item" id="step-social">
                     <div class="step-icon"></div>
@@ -822,16 +821,14 @@
                     <div class="step-icon"></div>
                     <div class="step-text">إنشاء قائمة تشغيل وإضافة أغاني</div>
                 </div>
-                
                 <div class="step-item" id="step-extra">
                     <div class="step-icon"></div>
-                    <div class="step-text">مهام إضافية (راديو، فلاج، قرآن، تقارير)</div>
+                    <div class="step-text">مهام إضافية (راديو، فلاج، قرآن)</div>
                 </div>
                 <div class="step-item" id="step-streaming">
                     <div class="step-icon"></div>
-                    <div class="step-text">مهام البث المتقدم (Streaming Reports)</div>
+                    <div class="step-text">تقارير البث المتقدمة</div>
                 </div>
-                
                 <div class="step-item" id="step-final">
                     <div class="step-icon"></div>
                     <div class="step-text">تحديث الرصيد النهائي وعرض النتائج</div>
@@ -868,18 +865,15 @@
 
 <script>
     // ═══════════════════════════════════════════════════════════
-    // إعدادات البروكسي
+    // إعدادات البروكسي (كما كانت في الكود الأصلي)
     // ═══════════════════════════════════════════════════════════
     const BASE_URL = "/api/api";
-    const API_HOST = "api.twistmena.com";
-    const APP_VERSION = "10.10.45";
-
     const MAX_RETRIES = 3;
-    const RETRY_DELAY = 1200;
-    const ACHIEVEMENT_ROUNDS = 5; // زيادة عدد محاولات الإنجاز
+    const RETRY_DELAY = 1500;
+    const ACHIEVEMENT_ROUNDS = 5;
 
     // ═══════════════════════════════════════════════════════════
-    // المتغيرات العامة
+    // بقية المتغيرات والوظائف المساعدة
     // ═══════════════════════════════════════════════════════════
 
     const BotManager = {
@@ -932,11 +926,8 @@
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         return 'UKQ' + Array.from({length:12}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
     }
-    function generateRandomIP() {
-        return `102.62.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-    }
 
-    const SESSION_KEY = "alturky_twist_full_session_v4";
+    const SESSION_KEY = "alturky_twist_full_session_v3";
     const savedSession = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
     const sessionId = savedSession.sessionId || generateUUID();
     const deviceId  = savedSession.deviceId  || generateRandomDeviceId();
@@ -948,14 +939,10 @@
     let startTime = 0;
     let achievementsCompletedTotal = 0;
 
-    // قائمة أغاني موسعة
     const songs = [
         "335950214","297842968","192507534","171514316","146457","3227940","2905217","297842967",
-        "330081902","2425529","300011234","280005678","310009876","290004321","315002345","305006789",
-        "320001234","295006789","285003456","275009876","265004321","255006789","245001234","235009876",
-        "225004321","215006789","205001234","195009876","185004321","175006789"
+        "330081902","2425529","300011234","280005678","310009876","290004321","315002345","305006789"
     ];
-    
     const units = [
         { id:"EAND_50_UNITS_ID_9",    value:50,   cost:100,  name:"٥٠ وحدة e&" },
         { id:"EAND_100_UNITS_ID_10",  value:100,  cost:200,  name:"١٠٠ وحدة e&" },
@@ -969,11 +956,6 @@
     const sleep = ms => new Promise(r => setTimeout(r, ms));
     const randomChoice = arr => arr[Math.floor(Math.random()*arr.length)];
     function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-
-    async function antiBanWait() {
-        const w = randomInt(100, 350); // أسرع من السابق
-        await sleep(w);
-    }
 
     function showToast(message, type='success') {
         const c = document.getElementById('toast-container');
@@ -1029,23 +1011,18 @@
     function clearSession() { localStorage.removeItem(SESSION_KEY); location.reload(); }
 
     function getHeaders() {
-        const ip = generateRandomIP();
         const h = {
             "Accept":"application/json",
             "Content-Type":"application/json",
-            "user-agent": "Dart/3.7 (dart:io)",
-            "app_version": APP_VERSION,
-            "appversion": APP_VERSION,
+            "tgdeviceid":"",
+            "app_version":"11.0.1",
             "device_token":"",
+            "appversion":"11.0.1",
             "channel":"mobileapp",
             "platform":"android",
             "accept-language":"ar",
-            "host": API_HOST,
-            "device_id": deviceId,
-            "sessionid": sessionId,
-            "X-Forwarded-For": ip,
-            "X-Real-IP": ip,
-            "customer-ip": ip
+            "device_id":deviceId,
+            "sessionid":sessionId
         };
         if (tokens.token) h["authorization"] = `Bearer ${tokens.token}`;
         h["access-token"] = tokens.accessToken || "";
@@ -1055,7 +1032,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // دالة makeReq المعدلة للعمل مع البروكسي
+    // دالة makeReq الأصلية مع البروكسي
     // ═══════════════════════════════════════════════════════════
     async function makeReq(endpoint, method='GET', body=null, retries=0) {
         const proxyPayload = {
@@ -1131,7 +1108,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // دوال OTP وتسجيل الدخول
+    // دوال OTP (مع تقليل وقت الانتظار إلى 5 ثواني)
     // ═══════════════════════════════════════════════════════════
     async function sendOTP() {
         let raw = document.getElementById('phone').value.trim();
@@ -1145,7 +1122,7 @@
         btn.disabled = true;
         showToast("جاري طلب الكود...", "info");
 
-        // تقليل وقت الانتظار من 15 إلى 5 ثواني
+        // تم تغيير المدة من 15 إلى 5 ثواني
         for (let i = 5; i > 0; i--) {
             btn.innerHTML = `انتظر... (${i}ث) <span class="loader"></span>`;
             await sleep(1000);
@@ -1209,7 +1186,7 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // دوال النظام المتكامل (منقولة من بايثون مع تحسينات)
+    // دوال النظام المتكامل (مع إضافات من بايثون)
     // ═══════════════════════════════════════════════════════════
     async function startIntegratedAutomation() {
         startTime = Date.now();
@@ -1223,43 +1200,36 @@
 
         const pointsBeforeAll = finalPoints;
 
-        // الخطوة 1: تسجيل الدخول
         setStepRunning('step-login');
-        await sleep(200);
+        await sleep(300);
         setStepSuccess('step-login');
 
-        // الخطوة 2: الرصيد الأولي
         setStepRunning('step-balance-init');
         await fetchBalance();
-        await sleep(250);
+        await sleep(400);
         setStepSuccess('step-balance-init');
 
-        // الخطوة 3: جلب الإنجازات
         setStepRunning('step-achievements-fetch');
         const allBadges = await fetchAchievements();
         setStepSuccess('step-achievements-fetch');
 
-        // الخطوة 4: تنفيذ الإنجازات (5 محاولات كما في بايثون)
         setStepRunning('step-achievements-execute');
         for (let round = 1; round <= ACHIEVEMENT_ROUNDS; round++) {
             showToast(`جولة الإنجازات ${round}/${ACHIEVEMENT_ROUNDS}...`, 'info');
             const completed = await executeAchievements(allBadges);
             achievementsCompletedTotal += completed;
-            if (round < ACHIEVEMENT_ROUNDS) await sleep(500);
+            if (round < ACHIEVEMENT_ROUNDS) await sleep(800);
         }
         setStepSuccess('step-achievements-execute');
 
-        // الخطوة 5: إجراءات loyalty إضافية
         setStepRunning('step-achievements-extra');
         await executeExtraLoyaltyActions();
         setStepSuccess('step-achievements-extra');
 
-        // الخطوة 6: عرض الـ 500
         setStepRunning('step-offer');
         await autoClaimOffer();
         setStepSuccess('step-offer');
 
-        // الخطوة 7 و 8: أغاني ومهام اجتماعية (متوازية)
         setStepRunning('step-songs');
         setStepRunning('step-social');
         await Promise.all([
@@ -1267,25 +1237,21 @@
             executeSocialTasks().then(() => setStepSuccess('step-social'))
         ]);
 
-        // الخطوة 9: قائمة التشغيل
         setStepRunning('step-playlist');
         await createPlaylistAndAddSongs();
         setStepSuccess('step-playlist');
 
-        // الخطوة 10: مهام إضافية
         setStepRunning('step-extra');
         await executeAllExtraTasks();
         setStepSuccess('step-extra');
 
-        // الخطوة 11: تقارير البث المتقدم (من بايثون)
         setStepRunning('step-streaming');
         await executeAdvancedStreamingReports();
         setStepSuccess('step-streaming');
 
-        // الخطوة 12: نهائي
         setStepRunning('step-final');
         await fetchBalance();
-        await sleep(400);
+        await sleep(600);
         await fetchBalance();
         pointsGainedTotal = finalPoints - pointsBeforeAll;
         if (pointsGainedTotal < 0) pointsGainedTotal = 0;
@@ -1301,7 +1267,7 @@
             document.getElementById('balanceCardContainer').style.display = 'block';
             document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
             showUnitsMenu();
-        }, 1200);
+        }, 1500);
     }
 
     async function fetchAchievements() {
@@ -1334,17 +1300,16 @@
                             pointsGainedTotal += rewardPoints;
                             updateStats();
                         }
-                        await antiBanWait();
+                        await sleep(400);
                     } catch(e) {}
                 }
             }
         }
-        // المطالبة بالإنجازات
         try {
             const claimRes = await makeReq('/loyalty/claim', 'POST');
             if (claimRes.status === 200) completedCount++;
         } catch(e) {}
-        
+        showToast(`تم إنجاز ${completedCount} مهمة في هذه الجولة`, 'success');
         return completedCount;
     }
 
@@ -1357,73 +1322,55 @@
             '/loyalty/action/FIRST_RADIO_OF_THE_DAY',
             '/loyalty/action/DAILY_LOGIN',
             '/loyalty/action/LISTEN_SONG',
-            '/loyalty/action/CREATE_PLAYLIST',
-            '/loyalty/action/ADD_TO_PLAYLIST',
-            '/loyalty/action/LIKE_SONG'
+            '/loyalty/action/CREATE_PLAYLIST'
         ];
-        await Promise.all(loyaltyActions.map(action => 
-            makeReq(action, 'POST').catch(() => null)
-        ));
+        await Promise.all(loyaltyActions.map(action => makeReq(action, 'POST').catch(() => null)));
         await makeReq('/loyalty/claim', 'POST').catch(() => null);
-        pointsGainedTotal += 30;
+        pointsGainedTotal += 15;
+        showToast("تم تنفيذ إجراءات loyalty الإضافية", 'success');
     }
 
     async function autoClaimOffer() {
-        try {
-            const r = await makeReq('/aqua/banner', 'GET');
-            if (r.data && (r.data.card || r.data.id)) {
-                const rr = await makeReq('/aqua/redeem', 'POST');
-                if (rr.status >= 200 && rr.status < 300) {
-                    pointsGainedTotal += 500;
-                    showToast("تم استلام هدية الـ 500 وحدة بنجاح!", "success");
-                    return true;
-                }
-            }
-        } catch(e) {}
-        
-        // محاولة بديلة
-        try {
-            const altRes = await makeReq('/aqua/redeem', 'POST');
-            if (altRes.status >= 200 && altRes.status < 300) {
+        const r = await makeReq('/aqua/banner', 'GET');
+        if (r.data && (r.data.card || r.data.id)) {
+            const rr = await makeReq('/aqua/redeem', 'POST');
+            if (rr.status >= 200 && rr.status < 300) {
                 pointsGainedTotal += 500;
+                showToast("تم استلام هدية الـ 500 وحدة بنجاح!", "success");
                 return true;
             }
-        } catch(e) {}
-        
+        }
+        const altRes = await makeReq('/aqua/redeem', 'POST');
+        if (altRes.status >= 200 && altRes.status < 300) {
+            pointsGainedTotal += 500;
+            return true;
+        }
         return false;
     }
 
     async function playMultipleSongs() {
-        const songCount = randomInt(20, 30); // زيادة عدد الأغاني
+        const songCount = randomInt(10, 18);
         const selectedSongs = [];
         for (let i = 0; i < songCount; i++) {
             selectedSongs.push(randomChoice(songs));
         }
-        
-        // تنفيذ على دفعات لتسريع العملية
-        const batchSize = 5;
-        for (let i = 0; i < selectedSongs.length; i += batchSize) {
-            const batch = selectedSongs.slice(i, i + batchSize);
-            const promises = batch.map(songId => {
-                const payload = {
-                    TrackId: parseInt(songId),
-                    LogPlayType: 'Progress',
-                    Seconds: randomInt(20, 40),
-                    Source: randomChoice(['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen']),
-                    FileSource: 'Stream',
-                    SourceId: String(parseInt(songId) - randomInt(1, 10)),
-                    AudioQuality: 'low',
-                    Latitude: 0,
-                    Longitude: 0,
-                    Guid: '',
-                    Country: 0
-                };
-                return makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload);
-            });
-            await Promise.all(promises);
-            await sleep(100);
-        }
-        
+        const promises = selectedSongs.map(songId => {
+            const payload = {
+                TrackId: parseInt(songId),
+                LogPlayType: 'Progress',
+                Seconds: randomInt(25, 45),
+                Source: randomChoice(['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen']),
+                FileSource: 'Stream',
+                SourceId: String(parseInt(songId) - randomInt(1, 10)),
+                AudioQuality: 'low',
+                Latitude: 0,
+                Longitude: 0,
+                Guid: '',
+                Country: 0
+            };
+            return makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload);
+        });
+        await Promise.all(promises);
         pointsGainedTotal += songCount * 5;
         showToast(`تم تشغيل ${songCount} أغنية`, 'success');
     }
@@ -1432,58 +1379,39 @@
         const socialTasks = [
             makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
             makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
-            makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
             makeReq('/loyalty/action/SHARE_SONG', 'POST'),
             makeReq('/loyalty/action/DOWNLOAD_SONG', 'POST'),
             makeReq('/loyalty/action/SHARE_PLAYLIST', 'POST'),
             makeReq('/loyalty/action/QURAN_RADIO', 'POST'),
             makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["2425529"] }),
             makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["330081902"] }),
-            makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["297842968"] }),
-            makeReq('/loyalty/action/FIRST_RADIO_OF_THE_DAY', 'POST'),
-            makeReq('/loyalty/action/LIKE_SONG', 'POST'),
-            makeReq('/loyalty/action/ADD_TO_PLAYLIST', 'POST')
+            makeReq('/loyalty/action/FIRST_RADIO_OF_THE_DAY', 'POST')
         ];
         await Promise.all(socialTasks);
-        pointsGainedTotal += 60;
+        pointsGainedTotal += 40;
         showToast("تم تنفيذ المهام الاجتماعية", 'success');
     }
 
     async function createPlaylistAndAddSongs() {
-        const prefixes = ["Mix", "Hits", "Desha", "MyFav", "Top", "Vibes", "Gold", "Star", "Royal", "Mega"];
+        const prefixes = ["Mix", "Hits", "Desha", "MyFav", "Top", "Vibes", "Gold", "Star", "Royal"];
         const name = `${randomChoice(prefixes)} ${Math.floor(Math.random() * 9000) + 1000}`;
-        
-        try {
-            const plRes = await makeReq('/myPlaylist/createPlayList', 'POST', { name, public: true });
-            if (plRes.data && plRes.data.id) {
-                const playlistId = plRes.data.id;
-                const songsToAdd = [];
-                const count = randomInt(6, 12);
-                for (let i = 0; i < count; i++) {
-                    songsToAdd.push(randomChoice(songs));
-                }
-                
-                // إضافة الأغاني على دفعات
-                const batchSize = 3;
-                for (let i = 0; i < songsToAdd.length; i += batchSize) {
-                    const batch = songsToAdd.slice(i, i + batchSize);
-                    const addPromises = batch.map(songId =>
-                        makeReq(`/myPlaylist/addOneSongToPlaylist/${playlistId}/entry`, 'POST', { articleId: songId })
-                    );
-                    await Promise.all(addPromises);
-                    await sleep(100);
-                }
-                
-                pointsGainedTotal += count * 3;
+        const plRes = await makeReq('/myPlaylist/createPlayList', 'POST', { name, public: true });
+        if (plRes.data && plRes.data.id) {
+            const playlistId = plRes.data.id;
+            const songsToAdd = [];
+            const count = randomInt(4, 8);
+            for (let i = 0; i < count; i++) {
+                songsToAdd.push(randomChoice(songs));
             }
-        } catch(e) {}
-        
-        // إضافة أغاني إضافية
-        try {
-            await makeReq('/myPlaylist/addOneSongToPlaylist/4557630/entry', 'POST', { articleId: "330081902" });
-            await makeReq('/myPlaylist/addOneSongToPlaylist/4557630/entry', 'POST', { articleId: "2425529" });
-            pointsGainedTotal += 6;
-        } catch(e) {}
+            const addPromises = songsToAdd.map(songId =>
+                makeReq(`/myPlaylist/addOneSongToPlaylist/${playlistId}/entry`, 'POST', { articleId: songId })
+            );
+            await Promise.all(addPromises);
+            pointsGainedTotal += count * 3;
+        }
+        await makeReq('/myPlaylist/addOneSongToPlaylist/4557630/entry', 'POST', { articleId: "330081902" });
+        pointsGainedTotal += 3;
+        showToast("تم إنشاء قائمة التشغيل وإضافة الأغاني", 'success');
     }
 
     async function executeAllExtraTasks() {
@@ -1493,26 +1421,20 @@
             makeReq("/loyalty/action/QURAN_RADIO", "POST"),
             makeReq("/loyalty/action/SHARE_PLAYLIST", "POST"),
             makeReq(`/favorite/like/${randomChoice(songs)}`, "PUT"),
-            makeReq(`/favorite/like/${randomChoice(songs)}`, "PUT"),
             makeReq('/loyalty/claim', 'POST'),
-            makeReq('/loyalty/action/DAILY_LOGIN', 'POST'),
-            makeReq('/loyalty/action/LISTEN_SONG', 'POST'),
-            makeReq('/loyalty/action/CREATE_PLAYLIST', 'POST')
+            makeReq('/loyalty/action/DAILY_LOGIN', 'POST')
         ];
         await Promise.all(extraTasks);
-        pointsGainedTotal += 35;
+        pointsGainedTotal += 25;
         showToast("تم تنفيذ المهام الإضافية", 'success');
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // تقارير البث المتقدم (من بايثون)
-    // ═══════════════════════════════════════════════════════════
     async function executeAdvancedStreamingReports() {
         const reportTypes = ['Progress', 'Start', 'Complete'];
         const sources = ['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen', 'ArtistScreen'];
         
         const reportTasks = [];
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 8; i++) {
             const songId = randomChoice(songs);
             const payload = {
                 TrackId: parseInt(songId),
@@ -1533,7 +1455,7 @@
         }
         
         await Promise.all(reportTasks);
-        pointsGainedTotal += 50;
+        pointsGainedTotal += 40;
         showToast("تم تنفيذ تقارير البث المتقدمة", 'success');
     }
 
@@ -1670,51 +1592,51 @@
 
     async function showOTPInputDialog() {
         return new Promise((resolve) => {
-            const overlay = document.createElement('div');
-            overlay.className = 'dialog-overlay';
-            overlay.innerHTML = `
-                <div class="dialog-box">
-                    <div class="dialog-icon">🔐</div>
-                    <div class="dialog-title">تجديد التوكن</div>
-                    <div class="dialog-subtitle">تم إرسال كود جديد، أدخل كود OTP</div>
-                    <div class="input-group" style="margin: 20px 0;">
-                        <input type="number" id="otpInput" placeholder="أدخل الكود المكون من 6 أرقام" style="text-align:center;font-size:20px;letter-spacing:8px;direction:ltr;" maxlength="6" autocomplete="off"/>
-                    </div>
-                    <div class="dialog-buttons">
-                        <button class="dialog-btn-cancel" id="cancelOtpBtn">❌ إلغاء</button>
-                        <button class="dialog-btn-confirm" id="okOtpBtn">✅ تأكيد</button>
-                    </div>
-                </div>`;
-            document.body.appendChild(overlay);
+        const overlay = document.createElement('div');
+        overlay.className = 'dialog-overlay';
+        overlay.innerHTML = `
+            <div class="dialog-box">
+                <div class="dialog-icon">🔐</div>
+                <div class="dialog-title">تجديد التوكن</div>
+                <div class="dialog-subtitle">تم إرسال كود جديد، أدخل كود OTP</div>
+                <div class="input-group" style="margin: 20px 0;">
+                    <input type="number" id="otpInput" placeholder="أدخل الكود المكون من 6 أرقام" style="text-align:center;font-size:20px;letter-spacing:8px;direction:ltr;" maxlength="6" autocomplete="off"/>
+                </div>
+                <div class="dialog-buttons">
+                    <button class="dialog-btn-cancel" id="cancelOtpBtn">❌ إلغاء</button>
+                    <button class="dialog-btn-confirm" id="okOtpBtn">✅ تأكيد</button>
+                </div>
+            </div>`;
+        document.body.appendChild(overlay);
 
-            const input = overlay.querySelector('#otpInput');
-            const okBtn = overlay.querySelector('#okOtpBtn');
-            const cancelBtn = overlay.querySelector('#cancelOtpBtn');
+        const input = overlay.querySelector('#otpInput');
+        const okBtn = overlay.querySelector('#okOtpBtn');
+        const cancelBtn = overlay.querySelector('#cancelOtpBtn');
 
-            setTimeout(() => input.focus(), 300);
+        setTimeout(() => input.focus(), 300);
 
-            okBtn.onclick = () => {
-                const val = input.value.trim();
-                if (val.length >= 4) {
-                    overlay.remove();
-                    resolve(val);
-                } else {
-                    input.style.borderColor = 'var(--error)';
-                    input.style.boxShadow = '0 0 0 3px rgba(240,92,92,0.2)';
-                    setTimeout(() => {
-                        input.style.borderColor = 'var(--border)';
-                        input.style.boxShadow = 'none';
-                    }, 1500);
-                }
-            };
-            
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') okBtn.click();
-            });
-
-            cancelBtn.onclick = () => { overlay.remove(); resolve(null); };
-            overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(null); } };
+        okBtn.onclick = () => {
+            const val = input.value.trim();
+            if (val.length >= 4) {
+                overlay.remove();
+                resolve(val);
+            } else {
+                input.style.borderColor = 'var(--error)';
+                input.style.boxShadow = '0 0 0 3px rgba(240,92,92,0.2)';
+                setTimeout(() => {
+                    input.style.borderColor = 'var(--border)';
+                    input.style.boxShadow = 'none';
+                }, 1500);
+            }
+        };
+        
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') okBtn.click();
         });
+
+        cancelBtn.onclick = () => { overlay.remove(); resolve(null); };
+        overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(null); } };
+            });
     }
 
     async function logoutFlow() {
