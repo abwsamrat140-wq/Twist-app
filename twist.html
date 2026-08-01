@@ -739,7 +739,7 @@
 
         <p class="brand-name">Alturky Premium</p>
         <h1>وحدات VIP كل يوم</h1>
-        <p class="subtitle">Full Automation System v3.0</p>
+        <p class="subtitle">Full Automation System v4.0</p>
     </div>
 
     <div class="card-body">
@@ -751,7 +751,6 @@
                 <input autocomplete="off" id="phone" placeholder="أدخل رقم الهاتف" type="tel"/>
             </div>
             <button class="btn-primary" id="btnSend" onclick="sendOTP()">إرسال كود التحقق</button>
-            <div id="quickSessions" style="margin-top:16px; display:none;"></div>
         </div>
 
         <!-- Step 2: OTP -->
@@ -780,20 +779,10 @@
                     <div class="stat-value" id="totalTime">0s</div>
                     <div class="stat-label">وقت التنفيذ</div>
                 </div>
-                </div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="totalTime">0s</div>
-                    <div class="stat-label">وقت التنفيذ</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="activeSessions">1</div>
-                    <div class="stat-label">جلسة نشطة</div>
-                </div>
             </div>
 
             <!-- Progress -->
-            <div class="progress-tracker" id="automationProgress" style="display:none;">
+            <div class="progress-tracker" id="automationProgress">
                 <h3 class="progress-title">⚡ جاري تنفيذ جميع المهام المتكاملة...</h3>
                 
                 <div class="step-item" id="step-login">
@@ -810,7 +799,7 @@
                 </div>
                 <div class="step-item" id="step-achievements-execute">
                     <div class="step-icon"></div>
-                    <div class="step-text">تنفيذ جميع الإنجازات (3 جولات)</div>
+                    <div class="step-text">تنفيذ جميع الإنجازات (5 محاولات)</div>
                 </div>
                 <div class="step-item" id="step-achievements-extra">
                     <div class="step-icon"></div>
@@ -823,7 +812,7 @@
                 </div>
                 <div class="step-item" id="step-songs">
                     <div class="step-icon"></div>
-                    <div class="step-text">تشغيل الأغاني وتجميع النقاط</div>
+                    <div class="step-text">تشغيل الأغاني وتجميع النقاط (30 أغنية)</div>
                 </div>
                 <div class="step-item" id="step-social">
                     <div class="step-icon"></div>
@@ -836,7 +825,11 @@
                 
                 <div class="step-item" id="step-extra">
                     <div class="step-icon"></div>
-                    <div class="step-text">مهام إضافية (راديو، فلاج، قرآن)</div>
+                    <div class="step-text">مهام إضافية (راديو، فلاج، قرآن، تقارير)</div>
+                </div>
+                <div class="step-item" id="step-streaming">
+                    <div class="step-icon"></div>
+                    <div class="step-text">مهام البث المتقدم (Streaming Reports)</div>
                 </div>
                 
                 <div class="step-item" id="step-final">
@@ -875,178 +868,60 @@
 
 <script>
     // ═══════════════════════════════════════════════════════════
-    // نظام إدارة الجلسات المتعدد - Multi Session Manager
-    // ═══════════════════════════════════════════════════════════
-    const SESSIONS_STORAGE_KEY = "alturky_twist_multi_sessions_v3";
-    const ACTIVE_SESSION_KEY = "alturky_active_session_id";
-    
-    // استرجاع جميع الجلسات
-    function getAllSessions() {
-        try {
-            return JSON.parse(localStorage.getItem(SESSIONS_STORAGE_KEY) || "{}");
-        } catch(e) { return {}; }
-    }
-    
-    // حفظ جميع الجلسات
-    function saveAllSessions(sessions) {
-        localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessions));
-    }
-    
-    // الحصول على الجلسة النشطة
-    function getActiveSessionId() {
-        return localStorage.getItem(ACTIVE_SESSION_KEY);
-    }
-    
-    // تعيين الجلسة النشطة
-    function setActiveSessionId(sessionId) {
-        localStorage.setItem(ACTIVE_SESSION_KEY, sessionId);
-    }
-    
-    // تحميل بيانات الجلسة النشطة
-    function loadActiveSession() {
-        const sessions = getAllSessions();
-        const activeId = getActiveSessionId();
-        
-        if (activeId && sessions[activeId]) {
-            const session = sessions[activeId];
-            tokens = session.tokens || { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
-            formattedPhone = session.formattedPhone || "";
-            sessionId = session.sessionId || generateUUID();
-            deviceId = session.deviceId || generateRandomDeviceId();
-            finalPoints = session.balance || 0;
-            return true;
-        }
-        return false;
-    }
-    
-    // حفظ الجلسة الحالية
-    function saveCurrentSession(balance = 0) {
-        const sessions = getAllSessions();
-        const activeId = getActiveSessionId();
-        
-        if (!activeId) {
-            // إنشاء معرف جديد للجلسة
-            const newId = 'session_' + Date.now();
-            setActiveSessionId(newId);
-            sessions[newId] = createSessionData(balance);
-        } else {
-            sessions[activeId] = createSessionData(balance);
-        }
-        
-        saveAllSessions(sessions);
-    }
-    
-    function createSessionData(balance = 0) {
-        return {
-            sessionId: sessionId,
-            deviceId: deviceId,
-            tokens: { ...tokens },
-            formattedPhone: formattedPhone,
-            balance: balance || finalPoints,
-            lastActive: Date.now(),
-            phone: document.getElementById('phone')?.value || formattedPhone
-        };
-    }
-    
-    // حذف جلسة
-    function deleteSession(sessionIdToDelete) {
-        const sessions = getAllSessions();
-        delete sessions[sessionIdToDelete];
-        saveAllSessions(sessions);
-        
-        if (getActiveSessionId() === sessionIdToDelete) {
-            // حذف الجلسة النشطة - تسجيل الخروج
-            localStorage.removeItem(ACTIVE_SESSION_KEY);
-            tokens = { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
-            formattedPhone = "";
-            finalPoints = 0;
-            location.reload();
-        }
-    }
-    
-    // تبديل الجلسة النشطة
-    function switchActiveSession(sessionIdToSwitch) {
-        if (getActiveSessionId() === sessionIdToSwitch) return;
-        setActiveSessionId(sessionIdToSwitch);
-        location.reload();
-    }
-    
-    // عرض قائمة الجلسات
-    function renderSessionsList() {
-        const sessions = getAllSessions();
-        const activeId = getActiveSessionId();
-        const container = document.getElementById('sessionsList');
-        const panel = document.getElementById('sessionsPanel');
-        
-        if (!container) return;
-        
-        const sessionIds = Object.keys(sessions);
-        if (sessionIds.length > 1) {
-            panel.style.display = 'block';
-            container.innerHTML = sessionIds.map(id => {
-                const s = sessions[id];
-                const isActive = id === activeId;
-                const balance = s.balance || 0;
-                const phone = s.phone || s.formattedPhone || '—';
-                const lastActive = s.lastActive ? new Date(s.lastActive).toLocaleString('ar-EG') : '—';
-                
-                return `
-                    <div class="session-item ${isActive ? 'active' : ''}" onclick="${isActive ? '' : `switchActiveSession('${id}')`}">
-                        <div>
-                            <div class="session-phone">📱 ${phone}</div>
-                            <div class="session-balance">💰 ${balance} نقطة | 🕐 ${lastActive}</div>
-                        </div>
-                        <div style="display:flex; gap:8px; align-items:center;">
-                            ${isActive ? '<span class="session-badge">نشط</span>' : ''}
-                            <button onclick="event.stopPropagation(); deleteSession('${id}')" 
-                                    style="background:none; border:none; color:var(--error); cursor:pointer; padding:4px 8px; margin:0; width:auto; font-size:16px;">
-                                🗑️
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        } else {
-            panel.style.display = 'none';
-        }
-        
-        // تحديث عداد الجلسات
-        const activeSessionsEl = document.getElementById('activeSessions');
-        if (activeSessionsEl) {
-            activeSessionsEl.innerText = sessionIds.length;
-        }
-    }
-    
-    function addNewSession() {
-        // مسح الجلسة الحالية والبدء من جديد
-        localStorage.removeItem(ACTIVE_SESSION_KEY);
-        tokens = { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
-        formattedPhone = "";
-        finalPoints = 0;
-        location.reload();
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // إعدادات API
+    // إعدادات البروكسي
     // ═══════════════════════════════════════════════════════════
     const BASE_URL = "/api/api";
+    const API_HOST = "api.twistmena.com";
+    const APP_VERSION = "10.10.45";
+
     const MAX_RETRIES = 3;
-    const RETRY_DELAY = 1500;
-    const ACHIEVEMENT_ROUNDS = 3;
-    const TOKEN_REFRESH_INTERVAL = 2800; // ثواني
-    const MIN_BALANCE_FOR_REDEEM = 100;
+    const RETRY_DELAY = 1200;
+    const ACHIEVEMENT_ROUNDS = 5; // زيادة عدد محاولات الإنجاز
 
     // ═══════════════════════════════════════════════════════════
     // المتغيرات العامة
     // ═══════════════════════════════════════════════════════════
-    let tokens = { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
-    let formattedPhone = "";
-    let finalPoints = 0;
-    let tasksCompletedCount = 0;
-    let pointsGainedTotal = 0;
-    let startTime = 0;
-    let achievementsCompletedTotal = 0;
-    let tokenTime = 0;
+
+    const BotManager = {
+        init: function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('bot_command')) {
+                setTimeout(() => this.execute(urlParams.get('bot_command'), urlParams.get('bot_payload')), 800);
+            }
+            window.addEventListener('message', (event) => {
+                if (event.data && event.data.bot_command) this.execute(event.data.bot_command, event.data.bot_payload);
+            });
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+                const initData = window.Telegram.WebApp.initDataUnsafe;
+                if (initData && initData.start_param) this.parseTelegramCommand(initData.start_param);
+            }
+        },
+        parseTelegramCommand: function(param) {
+            if (param.startsWith('login_'))      this.execute('login',  param.split('_')[1]);
+            else if (param.startsWith('verify_')) this.execute('verify', param.split('_')[1]);
+            else if (param === 'start_tasks')     this.execute('start_tasks');
+            else if (param.startsWith('redeem_')) this.execute('redeem', param.split('_')[1]);
+        },
+        execute: function(command, payload) {
+            switch(command) {
+                case 'login':
+                    if (payload) document.getElementById('phone').value = payload;
+                    showToast('البوت يقوم بتسجيل الدخول تلقائياً...', 'info');
+                    setTimeout(() => sendOTP(), 500); break;
+                case 'verify':
+                    if (payload) document.getElementById('otp').value = payload;
+                    showToast('البوت يقوم بتأكيد الكود...', 'info');
+                    setTimeout(() => verifyOTP(), 500); break;
+                case 'start_tasks':
+                    if (tokens.token) { showToast('البوت بدأ تنفيذ المهام...', 'info'); startIntegratedAutomation(); }
+                    else showToast('الأمر مرفوض: يجب تسجيل الدخول أولاً', 'error'); break;
+                case 'redeem':
+                    if (payload && tokens.token) { const i = parseInt(payload); if (units[i]) processRedeem(i); } break;
+                case 'logout': logoutFlow(); break;
+            }
+        }
+    };
 
     function generateUUID() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
@@ -1055,16 +930,32 @@
     }
     function generateRandomDeviceId() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        return 'AP3A.240905.015.' + Math.floor(Math.random() * 900 + 100);
+        return 'UKQ' + Array.from({length:12}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+    }
+    function generateRandomIP() {
+        return `102.62.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
     }
 
-    let sessionId = generateUUID();
-    let deviceId = generateRandomDeviceId();
+    const SESSION_KEY = "alturky_twist_full_session_v4";
+    const savedSession = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
+    const sessionId = savedSession.sessionId || generateUUID();
+    const deviceId  = savedSession.deviceId  || generateRandomDeviceId();
+    let tokens = savedSession.tokens || { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
+    let formattedPhone = savedSession.formattedPhone || "";
+    let finalPoints = 0;
+    let tasksCompletedCount = 0;
+    let pointsGainedTotal = 0;
+    let startTime = 0;
+    let achievementsCompletedTotal = 0;
 
+    // قائمة أغاني موسعة
     const songs = [
         "335950214","297842968","192507534","171514316","146457","3227940","2905217","297842967",
-        "330081902","2425529","300011234","280005678","310009876","290004321","315002345","305006789"
+        "330081902","2425529","300011234","280005678","310009876","290004321","315002345","305006789",
+        "320001234","295006789","285003456","275009876","265004321","255006789","245001234","235009876",
+        "225004321","215006789","205001234","195009876","185004321","175006789"
     ];
+    
     const units = [
         { id:"EAND_50_UNITS_ID_9",    value:50,   cost:100,  name:"٥٠ وحدة e&" },
         { id:"EAND_100_UNITS_ID_10",  value:100,  cost:200,  name:"١٠٠ وحدة e&" },
@@ -1080,7 +971,7 @@
     function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
     async function antiBanWait() {
-        const w = randomInt(150, 600);
+        const w = randomInt(100, 350); // أسرع من السابق
         await sleep(w);
     }
 
@@ -1117,14 +1008,12 @@
     }
 
     function updateStats() {
-    document.getElementById('tasksCompleted').innerText = tasksCompletedCount;
-    document.getElementById('pointsGained').innerText = pointsGainedTotal;
-    document.getElementById('totalSessions').innerText = Object.keys(getAllSessions()).length;
-    if (startTime > 0) {
-        const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        document.getElementById('totalTime').innerText = elapsed + 's';
-    }
-    renderSessionsList();
+        document.getElementById('tasksCompleted').innerText = tasksCompletedCount;
+        document.getElementById('pointsGained').innerText = pointsGainedTotal;
+        if (startTime > 0) {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('totalTime').innerText = elapsed + 's';
+        }
     }
 
     function toggleBtn(id, loading, text) {
@@ -1134,25 +1023,29 @@
         btn.innerHTML = loading ? `جاري التنفيذ <span class="loader"></span>` : (text || btn.innerText);
     }
 
+    function saveSessionData() {
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ sessionId, deviceId, tokens, formattedPhone }));
+    }
+    function clearSession() { localStorage.removeItem(SESSION_KEY); location.reload(); }
+
     function getHeaders() {
-        const ip = `102.62.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+        const ip = generateRandomIP();
         const h = {
             "Accept":"application/json",
             "Content-Type":"application/json",
-            "tgdeviceid":"",
-            "app_version":"10.10.45",
+            "user-agent": "Dart/3.7 (dart:io)",
+            "app_version": APP_VERSION,
+            "appversion": APP_VERSION,
             "device_token":"",
-            "appversion":"10.10.45",
             "channel":"mobileapp",
             "platform":"android",
             "accept-language":"ar",
-            "device_id":deviceId,
-            "sessionid":sessionId,
-            "user-agent":"Dart/3.7 (dart:io)",
-            "host":"api.twistmena.com",
-            "X-Forwarded-For":ip,
-            "X-Real-IP":ip,
-            "customer-ip":ip
+            "host": API_HOST,
+            "device_id": deviceId,
+            "sessionid": sessionId,
+            "X-Forwarded-For": ip,
+            "X-Real-IP": ip,
+            "customer-ip": ip
         };
         if (tokens.token) h["authorization"] = `Bearer ${tokens.token}`;
         h["access-token"] = tokens.accessToken || "";
@@ -1162,42 +1055,45 @@
     }
 
     // ═══════════════════════════════════════════════════════════
-    // دالة API المحسنة
+    // دالة makeReq المعدلة للعمل مع البروكسي
     // ═══════════════════════════════════════════════════════════
     async function makeReq(endpoint, method='GET', body=null, retries=0) {
-    const proxyPayload = {
-        path: endpoint,
-        method: method,
-        headers: getHeaders(),
-        body: body
-    };
+        const proxyPayload = {
+            path: endpoint,
+            method: method,
+            headers: getHeaders(),
+            body: body
+        };
 
-    let options = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(proxyPayload)
-    };
+        let options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(proxyPayload)
+        };
 
-    try {
-        const res = await fetch(BASE_URL, options);
-        const text = await res.text();
-        let data = null;
-        if (text) {
-            try { data = JSON.parse(text); } catch(e) { data = text; }
-        }
+        try {
+            const res = await fetch(BASE_URL, options);
+            const text = await res.text();
+            let data = null;
+            if (text) {
+                try { data = JSON.parse(text); } catch(e) { data = text; }
+            }
 
-        if ((res.status === 401 || res.status === 403) && retries < MAX_RETRIES) {
-            await sleep(RETRY_DELAY);
-            return makeReq(endpoint, method, body, retries + 1);
-        }
+            if (res.status === 401 || res.status === 403) {
+                if (retries < MAX_RETRIES) {
+                    await sleep(RETRY_DELAY);
+                    return makeReq(endpoint, method, body, retries + 1);
+                }
+            }
 
-        return { status: res.status, data: data };
-    } catch(e) {
-        if (retries < MAX_RETRIES) {
-            await sleep(RETRY_DELAY);
-            return makeReq(endpoint, method, body, retries + 1);
-        }
-        return { status: 500, data: null };
+            return { status: res.status, data: data };
+
+        } catch(e) {
+            if (retries < MAX_RETRIES) {
+                await sleep(RETRY_DELAY);
+                return makeReq(endpoint, method, body, retries + 1);
+            }
+            return { status: 500, data: null };
         }
     }
 
@@ -1229,7 +1125,6 @@
         if (points !== null && points !== undefined) {
             finalPoints = points;
             document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
-            saveCurrentSession(finalPoints);
             return true;
         }
         return false;
@@ -1250,6 +1145,7 @@
         btn.disabled = true;
         showToast("جاري طلب الكود...", "info");
 
+        // تقليل وقت الانتظار من 15 إلى 5 ثواني
         for (let i = 5; i > 0; i--) {
             btn.innerHTML = `انتظر... (${i}ث) <span class="loader"></span>`;
             await sleep(1000);
@@ -1278,42 +1174,42 @@
     }
 
     async function verifyOTP() {
-    const otp = document.getElementById('otp').value;
-    if (otp.length < 4) { showToast("يرجى إدخال الكود بشكل صحيح", "error"); return; }
-    toggleBtn("btnVerify", true, "");
+        const otp = document.getElementById('otp').value;
+        if (otp.length < 4) { showToast("يرجى إدخال الكود بشكل صحيح", "error"); return; }
+        toggleBtn("btnVerify", true, "");
 
-    const res = await makeReq('/Dlogin/verify', 'POST', {
-        dial: formattedPhone,
-        verifyCode: String(otp),
-        socialServiceName: "",
-        socialServiceToken: ""
-    });
+        const res = await makeReq('/Dlogin/verify', 'POST', {
+            dial: formattedPhone,
+            verifyCode: String(otp),
+            socialServiceName: "",
+            socialServiceToken: ""
+        });
 
-    if (res.status >= 200 && res.status < 300 && res.data && res.data.token) {
-        tokens.token = res.data.token;
-        tokens.accessToken = res.data.accessToken || "";
-        tokens.tgToken = res.data.tgToken || "";
-        tokens.tgRefreshToken = res.data.tgRefreshToken || "";
-        saveCurrentSession(0); // حفظ الجلسة الجديدة
+        if (res.status >= 200 && res.status < 300 && res.data && res.data.token) {
+            tokens.token = res.data.token;
+            tokens.accessToken = res.data.accessToken || "";
+            tokens.tgToken = res.data.tgToken || "";
+            tokens.tgRefreshToken = res.data.tgRefreshToken || "";
+            saveSessionData();
 
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('otpLogo').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        document.getElementById('statsRow').style.display = 'flex';
-        showToast("تم التحقق وتسجيل الدخول بنجاح! بدء المهام المتكاملة...", "success");
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('otpLogo').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('statsRow').style.display = 'flex';
+            showToast("تم التحقق وتسجيل الدخول بنجاح! بدء المهام المتكاملة...", "success");
 
-        startIntegratedAutomation();
-    } else {
-        let msg = "الكود غير صحيح أو منتهي الصلاحية";
-        if (res.data?.responseHeader?.message) msg = res.data.responseHeader.message;
-        else if (res.data?.message) msg = res.data.message;
-        showToast(msg, "error");
-        toggleBtn("btnVerify", false, "تأكيد الدخول وبدء المهام المتكاملة");
+            startIntegratedAutomation();
+        } else {
+            let msg = "الكود غير صحيح أو منتهي الصلاحية";
+            if (res.data?.responseHeader?.message) msg = res.data.responseHeader.message;
+            else if (res.data?.message) msg = res.data.message;
+            showToast(msg, "error");
+            toggleBtn("btnVerify", false, "تأكيد الدخول وبدء المهام المتكاملة");
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    // نظام المهام المتكامل
+    // دوال النظام المتكامل (منقولة من بايثون مع تحسينات)
     // ═══════════════════════════════════════════════════════════
     async function startIntegratedAutomation() {
         startTime = Date.now();
@@ -1323,41 +1219,47 @@
         document.getElementById('automationProgress').style.display = 'block';
         document.getElementById('balanceCardContainer').style.display = 'none';
         document.getElementById('unitsContainer').style.display = 'none';
-        document.getElementById('quickSessions').style.display = 'none';
         updateStats();
 
         const pointsBeforeAll = finalPoints;
 
+        // الخطوة 1: تسجيل الدخول
         setStepRunning('step-login');
-        await sleep(300);
+        await sleep(200);
         setStepSuccess('step-login');
 
+        // الخطوة 2: الرصيد الأولي
         setStepRunning('step-balance-init');
         await fetchBalance();
-        await sleep(400);
+        await sleep(250);
         setStepSuccess('step-balance-init');
 
+        // الخطوة 3: جلب الإنجازات
         setStepRunning('step-achievements-fetch');
         const allBadges = await fetchAchievements();
         setStepSuccess('step-achievements-fetch');
 
+        // الخطوة 4: تنفيذ الإنجازات (5 محاولات كما في بايثون)
         setStepRunning('step-achievements-execute');
         for (let round = 1; round <= ACHIEVEMENT_ROUNDS; round++) {
             showToast(`جولة الإنجازات ${round}/${ACHIEVEMENT_ROUNDS}...`, 'info');
             const completed = await executeAchievements(allBadges);
             achievementsCompletedTotal += completed;
-            if (round < ACHIEVEMENT_ROUNDS) await sleep(800);
+            if (round < ACHIEVEMENT_ROUNDS) await sleep(500);
         }
         setStepSuccess('step-achievements-execute');
 
+        // الخطوة 5: إجراءات loyalty إضافية
         setStepRunning('step-achievements-extra');
         await executeExtraLoyaltyActions();
         setStepSuccess('step-achievements-extra');
 
+        // الخطوة 6: عرض الـ 500
         setStepRunning('step-offer');
         await autoClaimOffer();
         setStepSuccess('step-offer');
 
+        // الخطوة 7 و 8: أغاني ومهام اجتماعية (متوازية)
         setStepRunning('step-songs');
         setStepRunning('step-social');
         await Promise.all([
@@ -1365,17 +1267,25 @@
             executeSocialTasks().then(() => setStepSuccess('step-social'))
         ]);
 
+        // الخطوة 9: قائمة التشغيل
         setStepRunning('step-playlist');
         await createPlaylistAndAddSongs();
         setStepSuccess('step-playlist');
 
+        // الخطوة 10: مهام إضافية
         setStepRunning('step-extra');
         await executeAllExtraTasks();
         setStepSuccess('step-extra');
 
+        // الخطوة 11: تقارير البث المتقدم (من بايثون)
+        setStepRunning('step-streaming');
+        await executeAdvancedStreamingReports();
+        setStepSuccess('step-streaming');
+
+        // الخطوة 12: نهائي
         setStepRunning('step-final');
         await fetchBalance();
-        await sleep(600);
+        await sleep(400);
         await fetchBalance();
         pointsGainedTotal = finalPoints - pointsBeforeAll;
         if (pointsGainedTotal < 0) pointsGainedTotal = 0;
@@ -1391,7 +1301,7 @@
             document.getElementById('balanceCardContainer').style.display = 'block';
             document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
             showUnitsMenu();
-        }, 1500);
+        }, 1200);
     }
 
     async function fetchAchievements() {
@@ -1429,11 +1339,12 @@
                 }
             }
         }
+        // المطالبة بالإنجازات
         try {
             const claimRes = await makeReq('/loyalty/claim', 'POST');
             if (claimRes.status === 200) completedCount++;
         } catch(e) {}
-        showToast(`تم إنجاز ${completedCount} مهمة في هذه الجولة`, 'success');
+        
         return completedCount;
     }
 
@@ -1446,55 +1357,73 @@
             '/loyalty/action/FIRST_RADIO_OF_THE_DAY',
             '/loyalty/action/DAILY_LOGIN',
             '/loyalty/action/LISTEN_SONG',
-            '/loyalty/action/CREATE_PLAYLIST'
+            '/loyalty/action/CREATE_PLAYLIST',
+            '/loyalty/action/ADD_TO_PLAYLIST',
+            '/loyalty/action/LIKE_SONG'
         ];
-        await Promise.all(loyaltyActions.map(action => makeReq(action, 'POST').catch(() => null)));
+        await Promise.all(loyaltyActions.map(action => 
+            makeReq(action, 'POST').catch(() => null)
+        ));
         await makeReq('/loyalty/claim', 'POST').catch(() => null);
-        pointsGainedTotal += 15;
-        showToast("تم تنفيذ إجراءات loyalty الإضافية", 'success');
+        pointsGainedTotal += 30;
     }
 
     async function autoClaimOffer() {
-        const r = await makeReq('/aqua/banner', 'GET');
-        if (r.data && (r.data.card || r.data.id)) {
-            const rr = await makeReq('/aqua/redeem', 'POST');
-            if (rr.status >= 200 && rr.status < 300) {
+        try {
+            const r = await makeReq('/aqua/banner', 'GET');
+            if (r.data && (r.data.card || r.data.id)) {
+                const rr = await makeReq('/aqua/redeem', 'POST');
+                if (rr.status >= 200 && rr.status < 300) {
+                    pointsGainedTotal += 500;
+                    showToast("تم استلام هدية الـ 500 وحدة بنجاح!", "success");
+                    return true;
+                }
+            }
+        } catch(e) {}
+        
+        // محاولة بديلة
+        try {
+            const altRes = await makeReq('/aqua/redeem', 'POST');
+            if (altRes.status >= 200 && altRes.status < 300) {
                 pointsGainedTotal += 500;
-                showToast("تم استلام هدية الـ 500 وحدة بنجاح!", "success");
                 return true;
             }
-        }
-        const altRes = await makeReq('/aqua/redeem', 'POST');
-        if (altRes.status >= 200 && altRes.status < 300) {
-            pointsGainedTotal += 500;
-            return true;
-        }
+        } catch(e) {}
+        
         return false;
     }
 
     async function playMultipleSongs() {
-        const songCount = randomInt(8, 15);
+        const songCount = randomInt(20, 30); // زيادة عدد الأغاني
         const selectedSongs = [];
         for (let i = 0; i < songCount; i++) {
             selectedSongs.push(randomChoice(songs));
         }
-        const promises = selectedSongs.map(songId => {
-            const payload = {
-                TrackId: parseInt(songId),
-                LogPlayType: 'Progress',
-                Seconds: randomInt(25, 45),
-                Source: randomChoice(['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen']),
-                FileSource: 'Stream',
-                SourceId: String(parseInt(songId) - randomInt(1, 10)),
-                AudioQuality: 'low',
-                Latitude: 0,
-                Longitude: 0,
-                Guid: '',
-                Country: 0
-            };
-            return makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload);
-        });
-        await Promise.all(promises);
+        
+        // تنفيذ على دفعات لتسريع العملية
+        const batchSize = 5;
+        for (let i = 0; i < selectedSongs.length; i += batchSize) {
+            const batch = selectedSongs.slice(i, i + batchSize);
+            const promises = batch.map(songId => {
+                const payload = {
+                    TrackId: parseInt(songId),
+                    LogPlayType: 'Progress',
+                    Seconds: randomInt(20, 40),
+                    Source: randomChoice(['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen']),
+                    FileSource: 'Stream',
+                    SourceId: String(parseInt(songId) - randomInt(1, 10)),
+                    AudioQuality: 'low',
+                    Latitude: 0,
+                    Longitude: 0,
+                    Guid: '',
+                    Country: 0
+                };
+                return makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload);
+            });
+            await Promise.all(promises);
+            await sleep(100);
+        }
+        
         pointsGainedTotal += songCount * 5;
         showToast(`تم تشغيل ${songCount} أغنية`, 'success');
     }
@@ -1503,39 +1432,58 @@
         const socialTasks = [
             makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
             makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
+            makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
             makeReq('/loyalty/action/SHARE_SONG', 'POST'),
             makeReq('/loyalty/action/DOWNLOAD_SONG', 'POST'),
             makeReq('/loyalty/action/SHARE_PLAYLIST', 'POST'),
             makeReq('/loyalty/action/QURAN_RADIO', 'POST'),
             makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["2425529"] }),
             makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["330081902"] }),
-            makeReq('/loyalty/action/FIRST_RADIO_OF_THE_DAY', 'POST')
+            makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["297842968"] }),
+            makeReq('/loyalty/action/FIRST_RADIO_OF_THE_DAY', 'POST'),
+            makeReq('/loyalty/action/LIKE_SONG', 'POST'),
+            makeReq('/loyalty/action/ADD_TO_PLAYLIST', 'POST')
         ];
         await Promise.all(socialTasks);
-        pointsGainedTotal += 40;
+        pointsGainedTotal += 60;
         showToast("تم تنفيذ المهام الاجتماعية", 'success');
     }
 
     async function createPlaylistAndAddSongs() {
-        const prefixes = ["Mix", "Hits", "Desha", "MyFav", "Top", "Vibes", "Gold", "Star", "Royal"];
+        const prefixes = ["Mix", "Hits", "Desha", "MyFav", "Top", "Vibes", "Gold", "Star", "Royal", "Mega"];
         const name = `${randomChoice(prefixes)} ${Math.floor(Math.random() * 9000) + 1000}`;
-        const plRes = await makeReq('/myPlaylist/createPlayList', 'POST', { name, public: true });
-        if (plRes.data && plRes.data.id) {
-            const playlistId = plRes.data.id;
-            const songsToAdd = [];
-            const count = randomInt(4, 8);
-            for (let i = 0; i < count; i++) {
-                songsToAdd.push(randomChoice(songs));
+        
+        try {
+            const plRes = await makeReq('/myPlaylist/createPlayList', 'POST', { name, public: true });
+            if (plRes.data && plRes.data.id) {
+                const playlistId = plRes.data.id;
+                const songsToAdd = [];
+                const count = randomInt(6, 12);
+                for (let i = 0; i < count; i++) {
+                    songsToAdd.push(randomChoice(songs));
+                }
+                
+                // إضافة الأغاني على دفعات
+                const batchSize = 3;
+                for (let i = 0; i < songsToAdd.length; i += batchSize) {
+                    const batch = songsToAdd.slice(i, i + batchSize);
+                    const addPromises = batch.map(songId =>
+                        makeReq(`/myPlaylist/addOneSongToPlaylist/${playlistId}/entry`, 'POST', { articleId: songId })
+                    );
+                    await Promise.all(addPromises);
+                    await sleep(100);
+                }
+                
+                pointsGainedTotal += count * 3;
             }
-            const addPromises = songsToAdd.map(songId =>
-                makeReq(`/myPlaylist/addOneSongToPlaylist/${playlistId}/entry`, 'POST', { articleId: songId })
-            );
-            await Promise.all(addPromises);
-            pointsGainedTotal += count * 3;
-        }
-        await makeReq('/myPlaylist/addOneSongToPlaylist/4557630/entry', 'POST', { articleId: "330081902" });
-        pointsGainedTotal += 3;
-        showToast("تم إنشاء قائمة التشغيل وإضافة الأغاني", 'success');
+        } catch(e) {}
+        
+        // إضافة أغاني إضافية
+        try {
+            await makeReq('/myPlaylist/addOneSongToPlaylist/4557630/entry', 'POST', { articleId: "330081902" });
+            await makeReq('/myPlaylist/addOneSongToPlaylist/4557630/entry', 'POST', { articleId: "2425529" });
+            pointsGainedTotal += 6;
+        } catch(e) {}
     }
 
     async function executeAllExtraTasks() {
@@ -1545,12 +1493,48 @@
             makeReq("/loyalty/action/QURAN_RADIO", "POST"),
             makeReq("/loyalty/action/SHARE_PLAYLIST", "POST"),
             makeReq(`/favorite/like/${randomChoice(songs)}`, "PUT"),
+            makeReq(`/favorite/like/${randomChoice(songs)}`, "PUT"),
             makeReq('/loyalty/claim', 'POST'),
-            makeReq('/loyalty/action/DAILY_LOGIN', 'POST')
+            makeReq('/loyalty/action/DAILY_LOGIN', 'POST'),
+            makeReq('/loyalty/action/LISTEN_SONG', 'POST'),
+            makeReq('/loyalty/action/CREATE_PLAYLIST', 'POST')
         ];
         await Promise.all(extraTasks);
-        pointsGainedTotal += 25;
+        pointsGainedTotal += 35;
         showToast("تم تنفيذ المهام الإضافية", 'success');
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // تقارير البث المتقدم (من بايثون)
+    // ═══════════════════════════════════════════════════════════
+    async function executeAdvancedStreamingReports() {
+        const reportTypes = ['Progress', 'Start', 'Complete'];
+        const sources = ['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen', 'ArtistScreen'];
+        
+        const reportTasks = [];
+        for (let i = 0; i < 10; i++) {
+            const songId = randomChoice(songs);
+            const payload = {
+                TrackId: parseInt(songId),
+                LogPlayType: randomChoice(reportTypes),
+                Seconds: randomInt(30, 60),
+                Source: randomChoice(sources),
+                FileSource: 'Stream',
+                SourceId: String(parseInt(songId) - randomInt(1, 20)),
+                AudioQuality: randomChoice(['low', 'medium', 'high']),
+                Latitude: 0,
+                Longitude: 0,
+                Guid: '',
+                Country: 0
+            };
+            reportTasks.push(
+                makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload)
+            );
+        }
+        
+        await Promise.all(reportTasks);
+        pointsGainedTotal += 50;
+        showToast("تم تنفيذ تقارير البث المتقدمة", 'success');
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -1737,14 +1721,7 @@
         const confirmed = await showLogoutConfirmDialog();
         if (confirmed) {
             showToast("تم تسجيل الخروج بنجاح", "success");
-            setTimeout(() => {
-                // حذف الجلسة الحالية فقط
-                const activeId = getActiveSessionId();
-                if (activeId) {
-                    deleteSession(activeId);
-                }
-                location.reload();
-            }, 500);
+            setTimeout(() => clearSession(), 500);
         }
     }
 
@@ -1763,13 +1740,7 @@
         }
         if (res.status === 200 || res.status === 204) {
             showToast("تم حذف الحساب بنجاح!", "success");
-            setTimeout(() => {
-                const activeId = getActiveSessionId();
-                if (activeId) {
-                    deleteSession(activeId);
-                }
-                location.reload();
-            }, 2000);
+            setTimeout(() => clearSession(), 2000);
         } else {
             showToast("فشل حذف الحساب", "error");
             toggleBtn("btnDeleteAccount", false, "🗑️ حذف الحساب");
@@ -1812,8 +1783,7 @@
             tokens.accessToken = verifyRes.data.accessToken || "";
             tokens.tgToken = verifyRes.data.tgToken || "";
             tokens.tgRefreshToken = verifyRes.data.tgRefreshToken || "";
-            tokenTime = Date.now() / 1000;
-            saveCurrentSession(finalPoints);
+            saveSessionData();
             showToast("تم تجديد التوكن بنجاح!", "success");
         } else {
             let msg = "فشل تجديد التوكن - الكود غير صحيح";
@@ -1840,13 +1810,6 @@
 
     async function processRedeem(index) {
         const u = units[index];
-        
-        // التحقق من الرصيد
-        if (finalPoints < u.cost) {
-            showToast(`الرصيد غير كافٍ (${finalPoints} نقطة) - مطلوب ${u.cost}`, 'error');
-            return;
-        }
-        
         const confirmed = await showRedeemConfirmDialog(u.name, u.cost);
         if (!confirmed) return;
         const btn = document.getElementById(`btn_redeem_${index}`);
@@ -1867,58 +1830,13 @@
         btn.disabled = false;
     }
 
-    // Telegram Bot Integration
-    const BotManager = {
-        init: function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('bot_command')) {
-                setTimeout(() => this.execute(urlParams.get('bot_command'), urlParams.get('bot_payload')), 800);
-            }
-            window.addEventListener('message', (event) => {
-                if (event.data && event.data.bot_command) this.execute(event.data.bot_command, event.data.bot_payload);
-            });
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
-                const initData = window.Telegram.WebApp.initDataUnsafe;
-                if (initData && initData.start_param) this.parseTelegramCommand(initData.start_param);
-            }
-        },
-        parseTelegramCommand: function(param) {
-            if (param.startsWith('login_'))      this.execute('login',  param.split('_')[1]);
-            else if (param.startsWith('verify_')) this.execute('verify', param.split('_')[1]);
-            else if (param === 'start_tasks')     this.execute('start_tasks');
-            else if (param.startsWith('redeem_')) this.execute('redeem', param.split('_')[1]);
-        },
-        execute: function(command, payload) {
-            switch(command) {
-                case 'login':
-                    if (payload) document.getElementById('phone').value = payload;
-                    showToast('البوت يقوم بتسجيل الدخول تلقائياً...', 'info');
-                    setTimeout(() => sendOTP(), 500); break;
-                case 'verify':
-                    if (payload) document.getElementById('otp').value = payload;
-                    showToast('البوت يقوم بتأكيد الكود...', 'info');
-                    setTimeout(() => verifyOTP(), 500); break;
-                case 'start_tasks':
-                    if (tokens.token) { showToast('البوت بدأ تنفيذ المهام...', 'info'); startIntegratedAutomation(); }
-                    else showToast('الأمر مرفوض: يجب تسجيل الدخول أولاً', 'error'); break;
-                case 'redeem':
-                    if (payload && tokens.token) { const i = parseInt(payload); if (units[i]) processRedeem(i); } break;
-                case 'logout': logoutFlow(); break;
-            }
-        }
-    };
-
     // ═══════════════════════════════════════════════════════════
     // التهيئة عند التحميل
     // ═══════════════════════════════════════════════════════════
     window.onload = async () => {
-    await showWelcomeDialog();
-    
-    BotManager.init();
-    
-    // محاولة تحميل جلسة سابقة
-    if (loadActiveSession()) {
+        await showWelcomeDialog();
+        
+        BotManager.init();
         if (tokens.token) {
             document.getElementById('step1').style.display = 'none';
             document.getElementById('mainLogo').style.display = 'none';
@@ -1927,217 +1845,19 @@
             document.getElementById('automationProgress').style.display = 'none';
             document.getElementById('balanceCardContainer').style.display = 'block';
             document.getElementById('statsRow').style.display = 'flex';
-            
             showToast("جاري التحقق من الجلسة...", "info");
             const valid = await fetchBalance();
             if (valid) {
                 showToast("مرحباً بك مرة أخرى! الجلسة نشطة", "success");
+                await fetchBalance();
                 updateStats();
                 showUnitsMenu();
             } else {
-                showToast("الجلسة منتهية، يرجى تسجيل الدخول", "error");
-                document.getElementById('step1').style.display = 'block';
-                document.getElementById('mainLogo').style.display = 'flex';
-                document.getElementById('dashboard').style.display = 'none';
+                showToast("الجلسة انتهت، يرجى تسجيل الدخول من جديد", "error");
+                clearSession();
             }
         }
-    }
-    
-    renderQuickSessions();
-    renderSessionsList();
     };
-        
-        // عرض الجلسات السريعة في شاشة تسجيل الدخول
-        renderQuickSessions();
-        renderSessionsList();
-    };
-    
-    // عرض الجلسات السريعة للتبديل بينها
-    function renderQuickSessions() {
-        const sessions = getAllSessions();
-        const activeId = getActiveSessionId();
-        const container = document.getElementById('quickSessions');
-        const sessionIds = Object.keys(sessions).filter(id => id !== activeId);
-        
-        if (sessionIds.length > 0) {
-            container.style.display = 'block';
-            container.innerHTML = `
-                <div style="font-size:12px; color:var(--text-dim); margin-bottom:8px;">🔁 جلسات سابقة:</div>
-                ${sessionIds.map(id => {
-                    const s = sessions[id];
-                    return `
-                        <button class="btn-secondary" style="margin-top:4px; padding:8px; font-size:12px;" 
-                                onclick="switchActiveSession('${id}')">
-                            📱 ${s.phone || s.formattedPhone} | 💰 ${s.balance || 0} نقطة
-                        </button>
-                    `;
-                }).join('')}
-            `;
-        } else {
-            container.style.display = 'none';
-        }
-    }
-
-    // دالة مساعدة للتحقق من صلاحية التوكن
-    function isTokenExpired() {
-        if (tokenTime === 0) return false;
-        return (Date.now() / 1000 - tokenTime) > TOKEN_REFRESH_INTERVAL;
-    }
-    
-// ═══════════════════════════════════════════════════════════
-// نظام إدارة الجلسات المتعدد
-// ═══════════════════════════════════════════════════════════
-const SESSIONS_STORAGE_KEY = "alturky_sessions_v3";
-const ACTIVE_SESSION_KEY = "alturky_active_session";
-
-function getAllSessions() {
-    try { return JSON.parse(localStorage.getItem(SESSIONS_STORAGE_KEY) || "{}"); }
-    catch(e) { return {}; }
-}
-
-function saveAllSessions(sessions) {
-    localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessions));
-}
-
-function getActiveSessionId() {
-    return localStorage.getItem(ACTIVE_SESSION_KEY);
-}
-
-function setActiveSessionId(sessionId) {
-    localStorage.setItem(ACTIVE_SESSION_KEY, sessionId);
-}
-
-function saveCurrentSession(balance) {
-    const sessions = getAllSessions();
-    let activeId = getActiveSessionId();
-    
-    if (!activeId) {
-        activeId = 'session_' + Date.now();
-        setActiveSessionId(activeId);
-    }
-    
-    sessions[activeId] = {
-        sessionId: sessionId,
-        deviceId: deviceId,
-        tokens: { ...tokens },
-        formattedPhone: formattedPhone,
-        balance: balance || finalPoints,
-        lastActive: Date.now(),
-        phone: document.getElementById('phone')?.value || formattedPhone
-    };
-    
-    saveAllSessions(sessions);
-}
-
-function loadActiveSession() {
-    const sessions = getAllSessions();
-    const activeId = getActiveSessionId();
-    
-    if (activeId && sessions[activeId]) {
-        const session = sessions[activeId];
-        tokens = session.tokens || { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
-        formattedPhone = session.formattedPhone || "";
-        sessionId = session.sessionId || generateUUID();
-        deviceId = session.deviceId || generateRandomDeviceId();
-        finalPoints = session.balance || 0;
-        return true;
-    }
-    return false;
-}
-
-function deleteSession(sessionIdToDelete) {
-    const sessions = getAllSessions();
-    delete sessions[sessionIdToDelete];
-    saveAllSessions(sessions);
-    
-    if (getActiveSessionId() === sessionIdToDelete) {
-        localStorage.removeItem(ACTIVE_SESSION_KEY);
-        tokens = { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
-        formattedPhone = "";
-        finalPoints = 0;
-        location.reload();
-    }
-}
-
-function switchActiveSession(sessionIdToSwitch) {
-    setActiveSessionId(sessionIdToSwitch);
-    location.reload();
-}
-
-function addNewSession() {
-    localStorage.removeItem(ACTIVE_SESSION_KEY);
-    tokens = { token:"", accessToken:"", tgToken:"", tgRefreshToken:"" };
-    formattedPhone = "";
-    finalPoints = 0;
-    location.reload();
-}
-
-function renderSessionsList() {
-    const sessions = getAllSessions();
-    const activeId = getActiveSessionId();
-    const container = document.getElementById('sessionsList');
-    const panel = document.getElementById('sessionsPanel');
-    
-    if (!container || !panel) return;
-    
-    const sessionIds = Object.keys(sessions);
-    
-    if (sessionIds.length > 1) {
-        panel.style.display = 'block';
-        container.innerHTML = sessionIds.map(id => {
-            const s = sessions[id];
-            const isActive = id === activeId;
-            const balance = s.balance || 0;
-            const phone = s.phone || s.formattedPhone || '—';
-            const lastActive = s.lastActive ? new Date(s.lastActive).toLocaleString('ar-EG') : '—';
-            
-            return `
-                <div class="session-item ${isActive ? 'active' : ''}" 
-                     onclick="${isActive ? '' : `switchActiveSession('${id}')`}">
-                    <div>
-                        <div class="session-phone">📱 ${phone}</div>
-                        <div class="session-balance">💰 ${balance} نقطة | 🕐 ${lastActive}</div>
-                    </div>
-                    <div style="display:flex; gap:8px; align-items:center;">
-                        ${isActive ? '<span class="session-badge">نشط</span>' : ''}
-                        <button onclick="event.stopPropagation(); deleteSession('${id}')" 
-                                style="background:none; border:none; color:var(--error); cursor:pointer; padding:4px 8px; margin:0; width:auto; font-size:16px;">
-                            🗑️
-                        </button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    } else {
-        panel.style.display = 'none';
-    }
-}
-
-function renderQuickSessions() {
-    const sessions = getAllSessions();
-    const activeId = getActiveSessionId();
-    const container = document.getElementById('quickSessions');
-    const sessionIds = Object.keys(sessions).filter(id => id !== activeId);
-    
-    if (!container) return;
-    
-    if (sessionIds.length > 0) {
-        container.style.display = 'block';
-        container.innerHTML = `
-            <div style="font-size:12px; color:var(--text-dim); margin-bottom:8px;">🔁 جلسات سابقة:</div>
-            ${sessionIds.map(id => {
-                const s = sessions[id];
-                return `
-                    <button class="quick-session-btn" onclick="switchActiveSession('${id}')">
-                        📱 ${s.phone || s.formattedPhone || '—'} | 💰 ${s.balance || 0} نقطة
-                    </button>
-                `;
-            }).join('')}
-        `;
-    } else {
-        container.style.display = 'none';
-        }
-    }    
 </script>
 </body>
-</html>
+    </html>
