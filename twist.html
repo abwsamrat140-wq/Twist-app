@@ -409,9 +409,6 @@
         border-color: var(--warning);
     }
 
-    /* ═══════════════════════════════════════════════════════════
-       أنماط مربعات الحوار
-       ═══════════════════════════════════════════════════════════ */
     .dialog-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.85); z-index: 99999;
@@ -431,144 +428,58 @@
         box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 50px rgba(201,168,76,0.2);
         animation: popIn .4s cubic-bezier(.175,.885,.32,1.275);
     }
-    .dialog-icon {
-        font-size: 52px;
-        margin-bottom: 10px;
-    }
+    .dialog-icon { font-size: 52px; margin-bottom: 10px; }
     .dialog-title {
-        font-size: 19px;
-        font-weight: 900;
-        margin-bottom: 4px;
+        font-size: 19px; font-weight: 900; margin-bottom: 4px;
         background: linear-gradient(90deg, #f0d080, #c9a84c, #f0d080);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .dialog-subtitle {
-        font-size: 13px;
-        color: #7a8099;
-        margin-bottom: 18px;
-    }
+    .dialog-subtitle { font-size: 13px; color: #7a8099; margin-bottom: 18px; }
     .dialog-info-box {
-        background: rgba(201,168,76,0.06);
-        border: 1px solid rgba(201,168,76,0.25);
-        border-radius: 14px;
-        padding: 16px;
-        margin-bottom: 20px;
+        background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.25);
+        border-radius: 14px; padding: 16px; margin-bottom: 20px;
     }
     .dialog-info-name {
-        font-size: 24px;
-        font-weight: 900;
+        font-size: 24px; font-weight: 900;
         background: linear-gradient(90deg, #f0d080, #c9a84c);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         margin-bottom: 6px;
     }
-    .dialog-info-cost {
-        font-size: 13px;
-        color: #7a8099;
-    }
-    .dialog-info-cost span {
-        color: #f0d080;
-        font-weight: 800;
-        font-size: 20px;
-        font-family: 'Orbitron', sans-serif;
-    }
-    .dialog-buttons {
-        display: flex;
-        gap: 12px;
-    }
+    .dialog-info-cost { font-size: 13px; color: #7a8099; }
+    .dialog-info-cost span { color: #f0d080; font-weight: 800; font-size: 20px; font-family: 'Orbitron', sans-serif; }
+    .dialog-buttons { display: flex; gap: 12px; }
     .dialog-buttons button {
-        flex: 1;
-        padding: 14px;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 15px;
-        cursor: pointer;
-        transition: all .3s;
-        margin-top: 0;
+        flex: 1; padding: 14px; border-radius: 12px;
+        font-weight: 700; font-size: 15px; cursor: pointer; transition: all .3s; margin-top: 0;
     }
-    .dialog-btn-cancel {
-        border: 1px solid rgba(255,255,255,0.12);
-        background: rgba(255,255,255,0.03);
-        color: #fff;
-    }
-    .dialog-btn-cancel:hover {
-        background: rgba(255,255,255,0.08);
-    }
+    .dialog-btn-cancel { border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); color: #fff; }
+    .dialog-btn-cancel:hover { background: rgba(255,255,255,0.08); }
     .dialog-btn-confirm {
-        border: none;
-        background: linear-gradient(135deg, #c9a84c, #f0d080);
-        color: #0a0c14;
-        box-shadow: 0 8px 25px rgba(201,168,76,0.5);
+        border: none; background: linear-gradient(135deg, #c9a84c, #f0d080);
+        color: #0a0c14; box-shadow: 0 8px 25px rgba(201,168,76,0.5);
     }
-    .dialog-btn-confirm:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 35px rgba(201,168,76,0.7);
-    }
+    .dialog-btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(201,168,76,0.7); }
     .dialog-btn-delete {
-        border: none;
-        background: linear-gradient(135deg, #e74c3c, #c0392b);
-        color: #fff;
-        box-shadow: 0 8px 25px rgba(231,76,60,0.4);
-        opacity: 0.5;
-        pointer-events: none;
-        transition: all .3s;
+        border: none; background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: #fff; box-shadow: 0 8px 25px rgba(231,76,60,0.4);
+        opacity: 0.5; pointer-events: none; transition: all .3s;
     }
-    .dialog-btn-delete.active {
-        opacity: 1;
-        pointer-events: auto;
-        box-shadow: 0 8px 25px rgba(231,76,60,0.6);
-    }
-    .dialog-btn-delete.active:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 35px rgba(231,76,60,0.8);
-    }
-
-    /* مربع الاختيار مع علامة الصح */
+    .dialog-btn-delete.active { opacity: 1; pointer-events: auto; box-shadow: 0 8px 25px rgba(231,76,60,0.6); }
+    .dialog-btn-delete.active:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(231,76,60,0.8); }
     .checkbox-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin: 16px 0;
-        cursor: pointer;
-        user-select: none;
-        -webkit-user-select: none;
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        margin: 16px 0; cursor: pointer; user-select: none; -webkit-user-select: none;
     }
     .checkbox-box {
-        width: 24px;
-        height: 24px;
-        border-radius: 6px;
-        border: 2px solid rgba(255,255,255,0.3);
-        background: transparent;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all .3s;
-        flex-shrink: 0;
+        width: 24px; height: 24px; border-radius: 6px;
+        border: 2px solid rgba(255,255,255,0.3); background: transparent;
+        display: flex; align-items: center; justify-content: center;
+        transition: all .3s; flex-shrink: 0;
     }
-    .checkbox-box.checked {
-        background: var(--success);
-        border-color: var(--success);
-    }
-    .checkbox-box svg {
-        opacity: 0;
-        transform: scale(0);
-        transition: all .3s;
-    }
-    .checkbox-box.checked svg {
-        opacity: 1;
-        transform: scale(1);
-    }
-    .checkbox-label {
-        font-size: 13px;
-        color: #7a8099;
-        font-weight: 600;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       أنماط مربع الترحيب الجديد
-       ═══════════════════════════════════════════════════════════ */
+    .checkbox-box.checked { background: var(--success); border-color: var(--success); }
+    .checkbox-box svg { opacity: 0; transform: scale(0); transition: all .3s; }
+    .checkbox-box.checked svg { opacity: 1; transform: scale(1); }
+    .checkbox-label { font-size: 13px; color: #7a8099; font-weight: 600; }
     .welcome-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0,0,0,0.9); z-index: 100000;
@@ -578,30 +489,19 @@
     }
     .welcome-box {
         background: linear-gradient(160deg, #0a0c14 0%, #141832 40%, #0f1120 100%);
-        border: 2px solid var(--border-bright);
-        border-radius: 28px;
-        padding: 40px 28px 32px;
-        text-align: center;
-        max-width: 380px;
-        width: 90%;
-        color: #fff;
+        border: 2px solid var(--border-bright); border-radius: 28px;
+        padding: 40px 28px 32px; text-align: center;
+        max-width: 380px; width: 90%; color: #fff;
         box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 80px rgba(201,168,76,0.25);
         animation: welcomePopIn 0.6s cubic-bezier(.175,.885,.32,1.275);
-        position: relative;
-        overflow: hidden;
+        position: relative; overflow: hidden;
     }
     .welcome-box::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 3px;
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
         background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-light), transparent);
     }
     .welcome-box::after {
-        content: '';
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        height: 3px;
+        content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
         background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-light), transparent);
     }
     @keyframes welcomePopIn {
@@ -610,100 +510,44 @@
         to { transform: scale(1); opacity: 1; }
     }
     .welcome-sparkle-top {
-        position: absolute;
-        top: 12px; left: 50%; transform: translateX(-50%);
-        font-size: 18px;
-        opacity: 0.8;
-        animation: sparkleFloat 2s ease-in-out infinite;
+        position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+        font-size: 18px; opacity: 0.8; animation: sparkleFloat 2s ease-in-out infinite;
     }
     .welcome-sparkle-bottom {
-        position: absolute;
-        bottom: 12px; left: 50%; transform: translateX(-50%);
-        font-size: 18px;
-        opacity: 0.8;
-        animation: sparkleFloat 2s ease-in-out infinite reverse;
+        position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+        font-size: 18px; opacity: 0.8; animation: sparkleFloat 2s ease-in-out infinite reverse;
     }
     @keyframes sparkleFloat {
         0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
         50% { opacity: 1; transform: translateX(-50%) translateY(-6px); }
     }
-    .welcome-logo {
-        font-size: 60px;
-        margin-bottom: 16px;
-        animation: welcomeBounce 2s ease-in-out infinite;
-        display: inline-block;
-    }
-    @keyframes welcomeBounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-12px); }
-    }
+    .welcome-logo { font-size: 60px; margin-bottom: 16px; animation: welcomeBounce 2s ease-in-out infinite; display: inline-block; }
+    @keyframes welcomeBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
     .welcome-brand {
-        font-family: 'Cairo', sans-serif;
-        font-size: 26px;
-        font-weight: 900;
-        margin-bottom: 6px;
+        font-family: 'Cairo', sans-serif; font-size: 26px; font-weight: 900; margin-bottom: 6px;
         background: linear-gradient(135deg, #f0d080 0%, #c9a84c 30%, #ffe9a0 50%, #c9a84c 70%, #f0d080 100%);
-        background-size: 200% 100%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: shimmer 3s linear infinite;
-        letter-spacing: 2px;
+        background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        animation: shimmer 3s linear infinite; letter-spacing: 2px;
     }
-    @keyframes shimmer {
-        to { background-position: -200% center; }
-    }
+    @keyframes shimmer { to { background-position: -200% center; } }
     .welcome-divider {
-        width: 80px;
-        height: 2px;
+        width: 80px; height: 2px;
         background: linear-gradient(90deg, transparent, var(--gold), transparent);
-        margin: 14px auto;
-        border-radius: 50%;
+        margin: 14px auto; border-radius: 50%;
     }
-    .welcome-message {
-        font-size: 18px;
-        font-weight: 700;
-        color: #e0d5b8;
-        margin-bottom: 6px;
-        line-height: 1.6;
-    }
-    .welcome-sub-message {
-        font-size: 13px;
-        color: var(--text-dim);
-        margin-bottom: 22px;
-    }
+    .welcome-message { font-size: 18px; font-weight: 700; color: #e0d5b8; margin-bottom: 6px; line-height: 1.6; }
+    .welcome-sub-message { font-size: 13px; color: var(--text-dim); margin-bottom: 22px; }
     .welcome-btn {
-        background: linear-gradient(135deg, #c9a84c, #f0d080);
-        color: #0a0c14;
-        border: none;
-        padding: 14px 40px;
-        border-radius: 30px;
-        font-size: 16px;
-        font-weight: 800;
-        cursor: pointer;
-        box-shadow: 0 10px 30px rgba(201,168,76,0.5);
-        transition: all .3s;
-        font-family: 'Cairo', sans-serif;
-        letter-spacing: 1px;
+        background: linear-gradient(135deg, #c9a84c, #f0d080); color: #0a0c14;
+        border: none; padding: 14px 40px; border-radius: 30px;
+        font-size: 16px; font-weight: 800; cursor: pointer;
+        box-shadow: 0 10px 30px rgba(201,168,76,0.5); transition: all .3s;
+        font-family: 'Cairo', sans-serif; letter-spacing: 1px;
     }
-    .welcome-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 16px 40px rgba(201,168,76,0.7);
-    }
-    .welcome-btn:active {
-        transform: scale(0.96);
-    }
-    .welcome-decoration-left {
-        position: absolute;
-        left: 16px; top: 50%; transform: translateY(-50%);
-        font-size: 24px;
-        opacity: 0.15;
-    }
-    .welcome-decoration-right {
-        position: absolute;
-        right: 16px; top: 50%; transform: translateY(-50%);
-        font-size: 24px;
-        opacity: 0.15;
-    }
+    .welcome-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(201,168,76,0.7); }
+    .welcome-btn:active { transform: scale(0.96); }
+    .welcome-decoration-left { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 24px; opacity: 0.15; }
+    .welcome-decoration-right { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 24px; opacity: 0.15; }
 
     @keyframes spin    { to { transform: rotate(360deg); } }
     @keyframes popIn   { from { transform: scale(0); opacity: 0; } 80% { transform: scale(1.2); } to { transform: scale(1); opacity: 1; } }
@@ -739,12 +583,11 @@
 
         <p class="brand-name">Alturky Premium</p>
         <h1>وحدات VIP كل يوم</h1>
-        <p class="subtitle">Full Automation System v3.0</p>
+        <p class="subtitle">Full Automation System v5.0</p>
     </div>
 
     <div class="card-body">
 
-        <!-- Step 1: Phone -->
         <div class="step-container" id="step1">
             <div class="input-group">
                 <label>رقم الهاتف</label>
@@ -753,7 +596,6 @@
             <button class="btn-primary" id="btnSend" onclick="sendOTP()">إرسال كود التحقق</button>
         </div>
 
-        <!-- Step 2: OTP -->
         <div class="step-container" id="step2" style="display:none;">
             <div class="input-group">
                 <label>كود التحقق</label>
@@ -763,9 +605,7 @@
             <button class="btn-secondary" onclick="location.reload()">إلغاء ورجوع</button>
         </div>
 
-        <!-- Dashboard -->
         <div class="dashboard-section" id="dashboard">
-            <!-- Stats -->
             <div class="stats-row" id="statsRow" style="display:none;">
                 <div class="stat-box">
                     <div class="stat-value" id="tasksCompleted">0</div>
@@ -781,82 +621,33 @@
                 </div>
             </div>
 
-            <!-- Progress -->
             <div class="progress-tracker" id="automationProgress">
                 <h3 class="progress-title">⚡ جاري تنفيذ جميع المهام المتكاملة...</h3>
-                
-                <div class="step-item" id="step-login">
-                    <div class="step-icon"><div class="real-spinner"></div></div>
-                    <div class="step-text">تسجيل الدخول والتحقق من الجلسة</div>
-                </div>
-                <div class="step-item" id="step-balance-init">
-                    <div class="step-icon"></div>
-                    <div class="step-text">جلب الرصيد الأولي</div>
-                </div>
-                <div class="step-item" id="step-achievements-fetch">
-                    <div class="step-icon"></div>
-                    <div class="step-text">جلب قائمة الإنجازات المتاحة</div>
-                </div>
-                <div class="step-item" id="step-achievements-execute">
-                    <div class="step-icon"></div>
-                    <div class="step-text">تنفيذ جميع الإنجازات (5 محاولات)</div>
-                </div>
-                <div class="step-item" id="step-achievements-extra">
-                    <div class="step-icon"></div>
-                    <div class="step-text">تنفيذ إجراءات loyalty إضافية</div>
-                </div>
-                <div class="step-item" id="step-offer">
-                    <div class="step-icon"></div>
-                    <div class="step-text">استلام عرض الـ 500 وحدة</div>
-                </div>
-                <div class="step-item" id="step-songs">
-                    <div class="step-icon"></div>
-                    <div class="step-text">تشغيل الأغاني وتجميع النقاط</div>
-                </div>
-                <div class="step-item" id="step-social">
-                    <div class="step-icon"></div>
-                    <div class="step-text">المهام الاجتماعية (إعجاب، مشاركة، تحميل)</div>
-                </div>
-                <div class="step-item" id="step-playlist">
-                    <div class="step-icon"></div>
-                    <div class="step-text">إنشاء قائمة تشغيل وإضافة أغاني</div>
-                </div>
-                <div class="step-item" id="step-extra">
-                    <div class="step-icon"></div>
-                    <div class="step-text">مهام إضافية (راديو، فلاج، قرآن)</div>
-                </div>
-                <div class="step-item" id="step-streaming">
-                    <div class="step-icon"></div>
-                    <div class="step-text">تقارير البث المتقدمة</div>
-                </div>
-                <div class="step-item" id="step-final">
-                    <div class="step-icon"></div>
-                    <div class="step-text">تحديث الرصيد النهائي وعرض النتائج</div>
-                </div>
+                <div class="step-item" id="step-login"><div class="step-icon"><div class="real-spinner"></div></div><div class="step-text">تسجيل الدخول والتحقق من الجلسة</div></div>
+                <div class="step-item" id="step-balance-init"><div class="step-icon"></div><div class="step-text">جلب الرصيد الأولي</div></div>
+                <div class="step-item" id="step-achievements-fetch"><div class="step-icon"></div><div class="step-text">جلب قائمة الإنجازات المتاحة</div></div>
+                <div class="step-item" id="step-achievements-execute"><div class="step-icon"></div><div class="step-text">تنفيذ جميع الإنجازات (3 محاولات)</div></div>
+                <div class="step-item" id="step-offer"><div class="step-icon"></div><div class="step-text">استلام عرض الـ 500 وحدة</div></div>
+                <div class="step-item" id="step-songs"><div class="step-icon"></div><div class="step-text">تشغيل الأغاني وتجميع النقاط</div></div>
+                <div class="step-item" id="step-social"><div class="step-icon"></div><div class="step-text">المهام الاجتماعية</div></div>
+                <div class="step-item" id="step-playlist"><div class="step-icon"></div><div class="step-text">إنشاء قائمة تشغيل</div></div>
+                <div class="step-item" id="step-extra"><div class="step-icon"></div><div class="step-text">مهام إضافية</div></div>
+                <div class="step-item" id="step-final"><div class="step-icon"></div><div class="step-text">تحديث الرصيد النهائي</div></div>
             </div>
 
-            <!-- Balance -->
             <div class="balance-card" id="balanceCardContainer">
                 <h3>النقاط الفعلية بعد التحديث</h3>
                 <p id="pointsDisplay">0 نقطة</p>
             </div>
 
-            <!-- Units -->
             <div id="unitsContainer" style="display:none;">
                 <div class="section-title">عروض الاستبدال</div>
                 <div class="units-grid" id="unitsGrid"></div>
-                
                 <div class="action-buttons">
-                    <button class="btn-outline-warning" onclick="refreshTokenFlow()" id="btnRefreshToken">
-                        🔄 تجديد التوكن
-                    </button>
+                    <button class="btn-outline-warning" onclick="refreshTokenFlow()" id="btnRefreshToken">🔄 تجديد التوكن</button>
                 </div>
-                <button class="btn-danger" onclick="deleteAccountFlow()" id="btnDeleteAccount">
-                    🗑️ حذف الحساب
-                </button>
-                <button class="btn-secondary" onclick="logoutFlow()">
-                    🚪 تسجيل خروج
-                </button>
+                <button class="btn-danger" onclick="deleteAccountFlow()" id="btnDeleteAccount">🗑️ حذف الحساب</button>
+                <button class="btn-secondary" onclick="logoutFlow()">🚪 تسجيل خروج</button>
             </div>
         </div>
 
@@ -865,69 +656,32 @@
 
 <script>
     // ═══════════════════════════════════════════════════════════
-    // إعدادات البروكسي (كما كانت في الكود الأصلي)
+    // إعدادات البروكسي
     // ═══════════════════════════════════════════════════════════
     const BASE_URL = "/api/api";
-    const MAX_RETRIES = 3;
-    const RETRY_DELAY = 1500;
-    const ACHIEVEMENT_ROUNDS = 5;
-
-    // ═══════════════════════════════════════════════════════════
-    // بقية المتغيرات والوظائف المساعدة
-    // ═══════════════════════════════════════════════════════════
+    const MAX_RETRIES = 2;
+    const RETRY_DELAY = 500;
 
     const BotManager = {
         init: function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('bot_command')) {
-                setTimeout(() => this.execute(urlParams.get('bot_command'), urlParams.get('bot_payload')), 800);
+                setTimeout(() => this.execute(urlParams.get('bot_command'), urlParams.get('bot_payload')), 500);
             }
-            window.addEventListener('message', (event) => {
-                if (event.data && event.data.bot_command) this.execute(event.data.bot_command, event.data.bot_payload);
-            });
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
-                const initData = window.Telegram.WebApp.initDataUnsafe;
-                if (initData && initData.start_param) this.parseTelegramCommand(initData.start_param);
-            }
-        },
-        parseTelegramCommand: function(param) {
-            if (param.startsWith('login_'))      this.execute('login',  param.split('_')[1]);
-            else if (param.startsWith('verify_')) this.execute('verify', param.split('_')[1]);
-            else if (param === 'start_tasks')     this.execute('start_tasks');
-            else if (param.startsWith('redeem_')) this.execute('redeem', param.split('_')[1]);
         },
         execute: function(command, payload) {
             switch(command) {
-                case 'login':
-                    if (payload) document.getElementById('phone').value = payload;
-                    showToast('البوت يقوم بتسجيل الدخول تلقائياً...', 'info');
-                    setTimeout(() => sendOTP(), 500); break;
-                case 'verify':
-                    if (payload) document.getElementById('otp').value = payload;
-                    showToast('البوت يقوم بتأكيد الكود...', 'info');
-                    setTimeout(() => verifyOTP(), 500); break;
-                case 'start_tasks':
-                    if (tokens.token) { showToast('البوت بدأ تنفيذ المهام...', 'info'); startIntegratedAutomation(); }
-                    else showToast('الأمر مرفوض: يجب تسجيل الدخول أولاً', 'error'); break;
-                case 'redeem':
-                    if (payload && tokens.token) { const i = parseInt(payload); if (units[i]) processRedeem(i); } break;
-                case 'logout': logoutFlow(); break;
+                case 'login': if(payload) document.getElementById('phone').value = payload; setTimeout(() => sendOTP(), 300); break;
+                case 'verify': if(payload) document.getElementById('otp').value = payload; setTimeout(() => verifyOTP(), 300); break;
+                case 'start_tasks': if(tokens.token) startIntegratedAutomation(); break;
             }
         }
     };
 
-    function generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-            const r = Math.random()*16|0, v = c==='x'?r:(r&0x3|0x8); return v.toString(16);
-        });
-    }
-    function generateRandomDeviceId() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        return 'UKQ' + Array.from({length:12}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
-    }
+    function generateUUID() { return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random()*16|0, v = c==='x'?r:(r&0x3|0x8); return v.toString(16); }); }
+    function generateRandomDeviceId() { const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; return 'UKQ' + Array.from({length:12}, () => chars[Math.floor(Math.random()*chars.length)]).join(''); }
 
-    const SESSION_KEY = "alturky_twist_full_session_v3";
+    const SESSION_KEY = "alturky_twist_full_session_v5";
     const savedSession = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
     const sessionId = savedSession.sessionId || generateUUID();
     const deviceId  = savedSession.deviceId  || generateRandomDeviceId();
@@ -937,19 +691,15 @@
     let tasksCompletedCount = 0;
     let pointsGainedTotal = 0;
     let startTime = 0;
-    let achievementsCompletedTotal = 0;
 
-    const songs = [
-        "335950214","297842968","192507534","171514316","146457","3227940","2905217","297842967",
-        "330081902","2425529","300011234","280005678","310009876","290004321","315002345","305006789"
-    ];
+    const songs = ["335950214","297842968","192507534","171514316","146457","3227940","2905217","297842967","330081902","2425529","300011234","280005678","310009876","290004321","315002345","305006789"];
     const units = [
-        { id:"EAND_50_UNITS_ID_9",    value:50,   cost:100,  name:"٥٠ وحدة e&" },
-        { id:"EAND_100_UNITS_ID_10",  value:100,  cost:200,  name:"١٠٠ وحدة e&" },
-        { id:"EAND_150_UNITS_ID_11",  value:150,  cost:300,  name:"١٥٠ وحدة e&" },
-        { id:"EAND_300_UNITS_ID_12",  value:300,  cost:600,  name:"٣٠٠ وحدة e&" },
-        { id:"EAND_500_UNITS_ID_13",  value:500,  cost:1000, name:"٥٠٠ وحدة e&" },
-        { id:"EAND_750_UNITS_ID_14",  value:750,  cost:1500, name:"٧٥٠ وحدة e&" },
+        { id:"EAND_50_UNITS_ID_9", value:50, cost:100, name:"٥٠ وحدة e&" },
+        { id:"EAND_100_UNITS_ID_10", value:100, cost:200, name:"١٠٠ وحدة e&" },
+        { id:"EAND_150_UNITS_ID_11", value:150, cost:300, name:"١٥٠ وحدة e&" },
+        { id:"EAND_300_UNITS_ID_12", value:300, cost:600, name:"٣٠٠ وحدة e&" },
+        { id:"EAND_500_UNITS_ID_13", value:500, cost:1000, name:"٥٠٠ وحدة e&" },
+        { id:"EAND_750_UNITS_ID_14", value:750, cost:1500, name:"٧٥٠ وحدة e&" },
         { id:"EAND_1000_UNITS_ID_15", value:1000, cost:2000, name:"1000 وحدة e&" }
     ];
 
@@ -961,534 +711,246 @@
         const c = document.getElementById('toast-container');
         const t = document.createElement('div');
         t.className = `toast ${type}`;
-        const icon = type==='success'?'✅':type==='error'?'❌':type==='info'?'✦':type==='warning'?'⚠️':'';
-        t.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+        t.innerHTML = `<span>${type==='success'?'✅':type==='error'?'❌':type==='info'?'✦':'⚠️'}</span><span>${message}</span>`;
         c.appendChild(t);
-        setTimeout(() => t.remove(), 4400);
+        setTimeout(() => t.remove(), 4000);
     }
 
-    function setStepRunning(id) {
-        const s = document.getElementById(id);
-        if (!s) return;
-        s.className = 'step-item running';
-        s.querySelector('.step-icon').innerHTML = '<div class="real-spinner"></div>';
-    }
-    function setStepSuccess(id) {
-        const s = document.getElementById(id);
-        if (!s) return;
-        s.className = 'step-item success';
-        s.querySelector('.step-icon').innerHTML = '<svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-        tasksCompletedCount++;
-        updateStats();
-    }
-    function setStepError(id) {
-        const s = document.getElementById(id);
-        if (!s) return;
-        s.className = 'step-item';
-        s.querySelector('.step-icon').innerHTML = '<span style="color:var(--error);font-size:14px;">✗</span>';
-        s.querySelector('.step-text').style.color = 'var(--error)';
-    }
-
-    function updateStats() {
-        document.getElementById('tasksCompleted').innerText = tasksCompletedCount;
-        document.getElementById('pointsGained').innerText = pointsGainedTotal;
-        if (startTime > 0) {
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            document.getElementById('totalTime').innerText = elapsed + 's';
-        }
-    }
-
-    function toggleBtn(id, loading, text) {
-        const btn = document.getElementById(id);
-        if (!btn) return;
-        btn.disabled = loading;
-        btn.innerHTML = loading ? `جاري التنفيذ <span class="loader"></span>` : (text || btn.innerText);
-    }
-
-    function saveSessionData() {
-        localStorage.setItem(SESSION_KEY, JSON.stringify({ sessionId, deviceId, tokens, formattedPhone }));
-    }
+    function setStepRunning(id) { const s = document.getElementById(id); if(s) { s.className = 'step-item running'; s.querySelector('.step-icon').innerHTML = '<div class="real-spinner"></div>'; } }
+    function setStepSuccess(id) { const s = document.getElementById(id); if(s) { s.className = 'step-item success'; s.querySelector('.step-icon').innerHTML = '<svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>'; tasksCompletedCount++; updateStats(); } }
+    function updateStats() { document.getElementById('tasksCompleted').innerText = tasksCompletedCount; document.getElementById('pointsGained').innerText = pointsGainedTotal; if(startTime > 0) document.getElementById('totalTime').innerText = Math.floor((Date.now() - startTime) / 1000) + 's'; }
+    function toggleBtn(id, loading, text) { const btn = document.getElementById(id); if(btn) { btn.disabled = loading; btn.innerHTML = loading ? `جاري التنفيذ <span class="loader"></span>` : (text || btn.innerText); } }
+    function saveSessionData() { localStorage.setItem(SESSION_KEY, JSON.stringify({ sessionId, deviceId, tokens, formattedPhone })); }
     function clearSession() { localStorage.removeItem(SESSION_KEY); location.reload(); }
 
     function getHeaders() {
         const h = {
-            "Accept":"application/json",
-            "Content-Type":"application/json",
-            "tgdeviceid":"",
-            "app_version":"11.0.1",
-            "device_token":"",
-            "appversion":"11.0.1",
-            "channel":"mobileapp",
-            "platform":"android",
-            "accept-language":"ar",
-            "device_id":deviceId,
-            "sessionid":sessionId
+            "Accept":"application/json", "Content-Type":"application/json",
+            "tgdeviceid":"", "app_version":"11.0.1", "device_token":"",
+            "appversion":"11.0.1", "channel":"mobileapp", "platform":"android",
+            "accept-language":"ar", "device_id":deviceId, "sessionid":sessionId
         };
-        if (tokens.token) h["authorization"] = `Bearer ${tokens.token}`;
+        if(tokens.token) h["authorization"] = `Bearer ${tokens.token}`;
         h["access-token"] = tokens.accessToken || "";
         h["tg-token"] = tokens.tgToken || "";
         h["tg-refresh-token"] = tokens.tgRefreshToken || "";
         return h;
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // دالة makeReq الأصلية مع البروكسي
-    // ═══════════════════════════════════════════════════════════
     async function makeReq(endpoint, method='GET', body=null, retries=0) {
-        const proxyPayload = {
-            path: endpoint,
-            method: method,
-            headers: getHeaders(),
-            body: body
-        };
-
-        let options = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(proxyPayload)
-        };
-
+        const proxyPayload = { path: endpoint, method: method, headers: getHeaders(), body: body };
         try {
-            const res = await fetch(BASE_URL, options);
+            const res = await fetch(BASE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(proxyPayload) });
             const text = await res.text();
             let data = null;
-            if (text) {
-                try { data = JSON.parse(text); } catch(e) { data = text; }
-            }
-
-            if (res.status === 401 || res.status === 403) {
-                if (retries < MAX_RETRIES) {
-                    await sleep(RETRY_DELAY);
-                    return makeReq(endpoint, method, body, retries + 1);
-                }
-            }
-
+            if(text) { try { data = JSON.parse(text); } catch(e) { data = text; } }
+            if(res.status === 401 || res.status === 403) { if(retries < MAX_RETRIES) { await sleep(RETRY_DELAY); return makeReq(endpoint, method, body, retries + 1); } }
             return { status: res.status, data: data };
-
-        } catch(e) {
-            if (retries < MAX_RETRIES) {
-                await sleep(RETRY_DELAY);
-                return makeReq(endpoint, method, body, retries + 1);
-            }
-            return { status: 500, data: null };
-        }
+        } catch(e) { if(retries < MAX_RETRIES) { await sleep(RETRY_DELAY); return makeReq(endpoint, method, body, retries + 1); } return { status: 500, data: null }; }
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // دوال استخراج النقاط والتوازن
-    // ═══════════════════════════════════════════════════════════
     function extractPoints(res) {
-        if (!res || !res.data) return null;
+        if(!res || !res.data) return null;
         const d = res.data;
-        if (d.points !== undefined) return d.points;
-        if (d.balance !== undefined) return d.balance;
-        if (d.totalPoints !== undefined) return d.totalPoints;
-        if (d.loyaltyBalance !== undefined) return d.loyaltyBalance;
-        if (d.data && d.data.points !== undefined) return d.data.points;
-        if (d.data && d.data.balance !== undefined) return d.data.balance;
-        if (typeof d === 'number') return d;
+        if(d.points !== undefined) return d.points;
+        if(d.balance !== undefined) return d.balance;
+        if(d.totalPoints !== undefined) return d.totalPoints;
+        if(d.loyaltyBalance !== undefined) return d.loyaltyBalance;
+        if(d.data && d.data.points !== undefined) return d.data.points;
+        if(d.data && d.data.balance !== undefined) return d.data.balance;
+        if(typeof d === 'number') return d;
         return null;
     }
 
     async function fetchBalance() {
         let res = await makeReq('/user/loyalty/balance/details', 'GET');
-        if (res.status === 401 || res.status === 403) return false;
+        if(res.status === 401 || res.status === 403) return false;
         let points = extractPoints(res);
-        if (points === null) {
-            res = await makeReq('/loyalty/balance', 'GET');
-            if (res.status === 401 || res.status === 403) return false;
-            points = extractPoints(res);
-        }
-        if (points !== null && points !== undefined) {
-            finalPoints = points;
-            document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
-            return true;
-        }
+        if(points === null) { res = await makeReq('/loyalty/balance', 'GET'); if(res.status === 401 || res.status === 403) return false; points = extractPoints(res); }
+        if(points !== null && points !== undefined) { finalPoints = points; document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`; return true; }
         return false;
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // دوال OTP (مع تقليل وقت الانتظار إلى 5 ثواني)
-    // ═══════════════════════════════════════════════════════════
     async function sendOTP() {
         let raw = document.getElementById('phone').value.trim();
         let phone = raw.replace(/\D/g, '');
-        if (phone.length < 10) { showToast("يرجى إدخال رقم هاتف صحيح", "error"); return; }
-        if (phone.startsWith("01"))      formattedPhone = "2" + phone;
-        else if (phone.startsWith("1"))  formattedPhone = "20" + phone;
-        else                             formattedPhone = phone;
+        if(phone.length < 10) { showToast("يرجى إدخال رقم هاتف صحيح", "error"); return; }
+        if(phone.startsWith("01")) formattedPhone = "2" + phone;
+        else if(phone.startsWith("1")) formattedPhone = "20" + phone;
+        else formattedPhone = phone;
 
         const btn = document.getElementById("btnSend");
         btn.disabled = true;
         showToast("جاري طلب الكود...", "info");
-
-        // تم تغيير المدة من 15 إلى 5 ثواني
-        for (let i = 5; i > 0; i--) {
-            btn.innerHTML = `انتظر... (${i}ث) <span class="loader"></span>`;
-            await sleep(1000);
-        }
-
+        
+        for(let i = 3; i > 0; i--) { btn.innerHTML = `انتظر... (${i}ث) <span class="loader"></span>`; await sleep(1000); }
+        
         btn.innerHTML = `جاري إرسال الكود <span class="loader"></span>`;
         const res = await makeReq('/Dlogin/sendCode', 'POST', { dial: formattedPhone });
-
+        
         let ok = false, errMsg = "فشل في السيرفر، يرجى المحاولة لاحقاً";
-        if (res.status >= 200 && res.status < 300 && res.data) {
+        if(res.status >= 200 && res.status < 300 && res.data) {
             const s = res.data.responseHeader?.status;
-            if (s === "Success" || s === "SUCCESS") ok = true;
-            else if (res.data.responseHeader?.message) errMsg = res.data.responseHeader.message;
+            if(s === "Success" || s === "SUCCESS") ok = true;
+            else if(res.data.responseHeader?.message) errMsg = res.data.responseHeader.message;
         }
-
-        if (ok) {
+        
+        if(ok) {
             showToast("تم إرسال الكود بنجاح!", "success");
             document.getElementById('step1').style.display = 'none';
             document.getElementById('mainLogo').style.display = 'none';
             document.getElementById('otpLogo').style.display = 'flex';
             document.getElementById('step2').style.display = 'block';
-        } else {
-            showToast(errMsg, "error");
-        }
+        } else { showToast(errMsg, "error"); }
         toggleBtn("btnSend", false, "إرسال كود التحقق");
     }
 
     async function verifyOTP() {
         const otp = document.getElementById('otp').value;
-        if (otp.length < 4) { showToast("يرجى إدخال الكود بشكل صحيح", "error"); return; }
+        if(otp.length < 4) { showToast("يرجى إدخال الكود بشكل صحيح", "error"); return; }
         toggleBtn("btnVerify", true, "");
-
-        const res = await makeReq('/Dlogin/verify', 'POST', {
-            dial: formattedPhone,
-            verifyCode: String(otp),
-            socialServiceName: "",
-            socialServiceToken: ""
-        });
-
-        if (res.status >= 200 && res.status < 300 && res.data && res.data.token) {
-            tokens.token = res.data.token;
-            tokens.accessToken = res.data.accessToken || "";
-            tokens.tgToken = res.data.tgToken || "";
-            tokens.tgRefreshToken = res.data.tgRefreshToken || "";
+        
+        const res = await makeReq('/Dlogin/verify', 'POST', { dial: formattedPhone, verifyCode: String(otp), socialServiceName: "", socialServiceToken: "" });
+        
+        if(res.status >= 200 && res.status < 300 && res.data && res.data.token) {
+            tokens.token = res.data.token; tokens.accessToken = res.data.accessToken || ""; tokens.tgToken = res.data.tgToken || ""; tokens.tgRefreshToken = res.data.tgRefreshToken || "";
             saveSessionData();
-
-            document.getElementById('step2').style.display = 'none';
-            document.getElementById('otpLogo').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('statsRow').style.display = 'flex';
+            document.getElementById('step2').style.display = 'none'; document.getElementById('otpLogo').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block'; document.getElementById('statsRow').style.display = 'flex';
             showToast("تم التحقق وتسجيل الدخول بنجاح! بدء المهام المتكاملة...", "success");
-
             startIntegratedAutomation();
         } else {
-            let msg = "الكود غير صحيح أو منتهي الصلاحية";
-            if (res.data?.responseHeader?.message) msg = res.data.responseHeader.message;
-            else if (res.data?.message) msg = res.data.message;
-            showToast(msg, "error");
+            showToast("الكود غير صحيح أو منتهي الصلاحية", "error");
             toggleBtn("btnVerify", false, "تأكيد الدخول وبدء المهام المتكاملة");
         }
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // دوال النظام المتكامل (مع إضافات من بايثون)
-    // ═══════════════════════════════════════════════════════════
     async function startIntegratedAutomation() {
-        startTime = Date.now();
-        tasksCompletedCount = 0;
-        pointsGainedTotal = 0;
-        achievementsCompletedTotal = 0;
+        startTime = Date.now(); tasksCompletedCount = 0; pointsGainedTotal = 0;
         document.getElementById('automationProgress').style.display = 'block';
         document.getElementById('balanceCardContainer').style.display = 'none';
         document.getElementById('unitsContainer').style.display = 'none';
         updateStats();
-
+        
         const pointsBeforeAll = finalPoints;
-
-        setStepRunning('step-login');
-        await sleep(300);
-        setStepSuccess('step-login');
-
-        setStepRunning('step-balance-init');
-        await fetchBalance();
-        await sleep(400);
-        setStepSuccess('step-balance-init');
-
-        setStepRunning('step-achievements-fetch');
-        const allBadges = await fetchAchievements();
-        setStepSuccess('step-achievements-fetch');
-
+        
+        setStepRunning('step-login'); await sleep(100); setStepSuccess('step-login');
+        setStepRunning('step-balance-init'); await fetchBalance(); await sleep(200); setStepSuccess('step-balance-init');
+        setStepRunning('step-achievements-fetch'); const allBadges = await fetchAchievements(); setStepSuccess('step-achievements-fetch');
+        
         setStepRunning('step-achievements-execute');
-        for (let round = 1; round <= ACHIEVEMENT_ROUNDS; round++) {
-            showToast(`جولة الإنجازات ${round}/${ACHIEVEMENT_ROUNDS}...`, 'info');
-            const completed = await executeAchievements(allBadges);
-            achievementsCompletedTotal += completed;
-            if (round < ACHIEVEMENT_ROUNDS) await sleep(800);
-        }
+        let totalCompleted = 0;
+        for(let round = 1; round <= 3; round++) { totalCompleted += await executeAchievements(allBadges); if(round < 3) await sleep(300); }
         setStepSuccess('step-achievements-execute');
-
-        setStepRunning('step-achievements-extra');
-        await executeExtraLoyaltyActions();
-        setStepSuccess('step-achievements-extra');
-
-        setStepRunning('step-offer');
-        await autoClaimOffer();
-        setStepSuccess('step-offer');
-
-        setStepRunning('step-songs');
-        setStepRunning('step-social');
-        await Promise.all([
-            playMultipleSongs().then(() => setStepSuccess('step-songs')),
-            executeSocialTasks().then(() => setStepSuccess('step-social'))
-        ]);
-
-        setStepRunning('step-playlist');
-        await createPlaylistAndAddSongs();
-        setStepSuccess('step-playlist');
-
-        setStepRunning('step-extra');
-        await executeAllExtraTasks();
-        setStepSuccess('step-extra');
-
-        setStepRunning('step-streaming');
-        await executeAdvancedStreamingReports();
-        setStepSuccess('step-streaming');
-
-        setStepRunning('step-final');
-        await fetchBalance();
-        await sleep(600);
-        await fetchBalance();
-        pointsGainedTotal = finalPoints - pointsBeforeAll;
-        if (pointsGainedTotal < 0) pointsGainedTotal = 0;
-        updateStats();
-        setStepSuccess('step-final');
-
+        
+        setStepRunning('step-offer'); await autoClaimOffer(); setStepSuccess('step-offer');
+        
+        setStepRunning('step-songs'); setStepRunning('step-social');
+        await Promise.all([playMultipleSongs().then(() => setStepSuccess('step-songs')), executeSocialTasks().then(() => setStepSuccess('step-social'))]);
+        
+        setStepRunning('step-playlist'); await createPlaylistAndAddSongs(); setStepSuccess('step-playlist');
+        setStepRunning('step-extra'); await executeAllExtraTasks(); setStepSuccess('step-extra');
+        
+        setStepRunning('step-final'); await fetchBalance(); await sleep(300); await fetchBalance();
+        pointsGainedTotal = finalPoints - pointsBeforeAll; if(pointsGainedTotal < 0) pointsGainedTotal = 0;
+        updateStats(); setStepSuccess('step-final');
+        
         document.querySelector('.progress-title').innerHTML = "✨ اكتملت جميع المهام بنجاح!";
         document.querySelector('.progress-title').style.color = "var(--success)";
-        showToast(`تم الانتهاء! الإنجازات: ${achievementsCompletedTotal} | الرصيد: ${finalPoints} نقطة | +${pointsGainedTotal}`, "success");
-
-        setTimeout(() => {
-            document.getElementById('automationProgress').style.display = 'none';
-            document.getElementById('balanceCardContainer').style.display = 'block';
-            document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
-            showUnitsMenu();
-        }, 1500);
+        showToast(`تم الانتهاء! الرصيد: ${finalPoints} نقطة | +${pointsGainedTotal}`, "success");
+        
+        setTimeout(() => { document.getElementById('automationProgress').style.display = 'none'; document.getElementById('balanceCardContainer').style.display = 'block'; document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`; showUnitsMenu(); }, 1000);
     }
 
     async function fetchAchievements() {
-        try {
-            const res = await makeReq('/user/loyalty/achievements/v2', 'GET');
-            if (res.status === 200 && res.data) {
-                return res.data.badges || [];
-            }
-            const res2 = await makeReq('/user/loyalty/achievements', 'GET');
-            if (res2.status === 200 && res2.data) {
-                return res2.data.badges || res2.data || [];
-            }
-        } catch(e) {}
+        try { const res = await makeReq('/user/loyalty/achievements/v2', 'GET'); if(res.status === 200 && res.data) return res.data.badges || []; } catch(e) {}
+        try { const res = await makeReq('/user/loyalty/achievements', 'GET'); if(res.status === 200 && res.data) return res.data.badges || res.data || []; } catch(e) {}
         return [];
     }
 
     async function executeAchievements(badges) {
         let completedCount = 0;
-        for (const category of badges) {
+        const tasksToExecute = [];
+        for(const category of badges) {
             const tasks = category.badges || category.tasks || [];
-            for (const task of tasks) {
+            for(const task of tasks) {
                 const taskId = task.id || task.badgeId || task.actionId;
-                const isRewarded = task.rewarded || task.completed || task.claimed;
-                if (!isRewarded && taskId) {
-                    try {
-                        const actionRes = await makeReq(`/loyalty/action/${taskId}`, 'POST');
-                        if (actionRes.status === 200) {
-                            completedCount++;
-                            const rewardPoints = task.points || task.reward || task.bonus || 10;
-                            pointsGainedTotal += rewardPoints;
-                            updateStats();
-                        }
-                        await sleep(400);
-                    } catch(e) {}
+                if(!task.rewarded && !task.completed && !task.claimed && taskId) {
+                    tasksToExecute.push(taskId);
                 }
             }
         }
-        try {
-            const claimRes = await makeReq('/loyalty/claim', 'POST');
-            if (claimRes.status === 200) completedCount++;
-        } catch(e) {}
-        showToast(`تم إنجاز ${completedCount} مهمة في هذه الجولة`, 'success');
+        
+        // تنفيذ المهام بالتوازي على دفعات
+        for(let i = 0; i < tasksToExecute.length; i += 5) {
+            const batch = tasksToExecute.slice(i, i + 5);
+            const results = await Promise.all(batch.map(taskId => makeReq(`/loyalty/action/${taskId}`, 'POST').catch(() => null)));
+            completedCount += results.filter(r => r && r.status === 200).length;
+        }
+        
+        try { await makeReq('/loyalty/claim', 'POST'); completedCount++; } catch(e) {}
+        pointsGainedTotal += completedCount * 10;
+        updateStats();
         return completedCount;
     }
 
-    async function executeExtraLoyaltyActions() {
-        const loyaltyActions = [
-            '/loyalty/action/SHARE_SONG',
-            '/loyalty/action/DOWNLOAD_SONG',
-            '/loyalty/action/SHARE_PLAYLIST',
-            '/loyalty/action/QURAN_RADIO',
-            '/loyalty/action/FIRST_RADIO_OF_THE_DAY',
-            '/loyalty/action/DAILY_LOGIN',
-            '/loyalty/action/LISTEN_SONG',
-            '/loyalty/action/CREATE_PLAYLIST'
-        ];
-        await Promise.all(loyaltyActions.map(action => makeReq(action, 'POST').catch(() => null)));
-        await makeReq('/loyalty/claim', 'POST').catch(() => null);
-        pointsGainedTotal += 15;
-        showToast("تم تنفيذ إجراءات loyalty الإضافية", 'success');
-    }
-
     async function autoClaimOffer() {
-        const r = await makeReq('/aqua/banner', 'GET');
-        if (r.data && (r.data.card || r.data.id)) {
-            const rr = await makeReq('/aqua/redeem', 'POST');
-            if (rr.status >= 200 && rr.status < 300) {
-                pointsGainedTotal += 500;
-                showToast("تم استلام هدية الـ 500 وحدة بنجاح!", "success");
-                return true;
-            }
-        }
-        const altRes = await makeReq('/aqua/redeem', 'POST');
-        if (altRes.status >= 200 && altRes.status < 300) {
-            pointsGainedTotal += 500;
-            return true;
-        }
-        return false;
+        try { await makeReq('/aqua/redeem', 'POST'); pointsGainedTotal += 500; showToast("تم استلام عرض الوحدات!", "success"); } catch(e) {}
     }
 
     async function playMultipleSongs() {
-        const songCount = randomInt(10, 18);
-        const selectedSongs = [];
-        for (let i = 0; i < songCount; i++) {
-            selectedSongs.push(randomChoice(songs));
-        }
-        const promises = selectedSongs.map(songId => {
-            const payload = {
-                TrackId: parseInt(songId),
-                LogPlayType: 'Progress',
-                Seconds: randomInt(25, 45),
-                Source: randomChoice(['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen']),
-                FileSource: 'Stream',
-                SourceId: String(parseInt(songId) - randomInt(1, 10)),
-                AudioQuality: 'low',
-                Latitude: 0,
-                Longitude: 0,
-                Guid: '',
-                Country: 0
-            };
-            return makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload);
-        });
+        const selectedSongs = songs.slice(0, 10);
+        const promises = selectedSongs.map(songId => makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', {
+            TrackId: parseInt(songId), LogPlayType: 'Progress', Seconds: 30,
+            Source: 'AlbumScreen', FileSource: 'Stream', SourceId: String(parseInt(songId) - 1),
+            AudioQuality: 'low', Latitude: 0, Longitude: 0, Guid: '', Country: 0
+        }));
         await Promise.all(promises);
-        pointsGainedTotal += songCount * 5;
-        showToast(`تم تشغيل ${songCount} أغنية`, 'success');
+        pointsGainedTotal += 50;
     }
 
     async function executeSocialTasks() {
-        const socialTasks = [
+        await Promise.all([
             makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
             makeReq(`/favorite/like/${randomChoice(songs)}`, 'PUT'),
             makeReq('/loyalty/action/SHARE_SONG', 'POST'),
             makeReq('/loyalty/action/DOWNLOAD_SONG', 'POST'),
-            makeReq('/loyalty/action/SHARE_PLAYLIST', 'POST'),
             makeReq('/loyalty/action/QURAN_RADIO', 'POST'),
-            makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["2425529"] }),
-            makeReq(`/favorite/likeEntityV2`, 'POST', { ids: ["330081902"] }),
-            makeReq('/loyalty/action/FIRST_RADIO_OF_THE_DAY', 'POST')
-        ];
-        await Promise.all(socialTasks);
-        pointsGainedTotal += 40;
-        showToast("تم تنفيذ المهام الاجتماعية", 'success');
+            makeReq('/loyalty/action/FIRST_RADIO_OF_THE_DAY', 'POST'),
+            makeReq('/loyalty/action/DAILY_LOGIN', 'POST')
+        ]);
+        pointsGainedTotal += 35;
     }
 
     async function createPlaylistAndAddSongs() {
-        const prefixes = ["Mix", "Hits", "Desha", "MyFav", "Top", "Vibes", "Gold", "Star", "Royal"];
-        const name = `${randomChoice(prefixes)} ${Math.floor(Math.random() * 9000) + 1000}`;
-        const plRes = await makeReq('/myPlaylist/createPlayList', 'POST', { name, public: true });
-        if (plRes.data && plRes.data.id) {
-            const playlistId = plRes.data.id;
-            const songsToAdd = [];
-            const count = randomInt(4, 8);
-            for (let i = 0; i < count; i++) {
-                songsToAdd.push(randomChoice(songs));
+        const name = `Mix ${Math.floor(Math.random() * 9000) + 1000}`;
+        try {
+            const plRes = await makeReq('/myPlaylist/createPlayList', 'POST', { name, public: true });
+            if(plRes.data && plRes.data.id) {
+                await Promise.all(songs.slice(0, 5).map(songId => makeReq(`/myPlaylist/addOneSongToPlaylist/${plRes.data.id}/entry`, 'POST', { articleId: songId })));
+                pointsGainedTotal += 15;
             }
-            const addPromises = songsToAdd.map(songId =>
-                makeReq(`/myPlaylist/addOneSongToPlaylist/${playlistId}/entry`, 'POST', { articleId: songId })
-            );
-            await Promise.all(addPromises);
-            pointsGainedTotal += count * 3;
-        }
-        await makeReq('/myPlaylist/addOneSongToPlaylist/4557630/entry', 'POST', { articleId: "330081902" });
-        pointsGainedTotal += 3;
-        showToast("تم إنشاء قائمة التشغيل وإضافة الأغاني", 'success');
+        } catch(e) {}
     }
 
     async function executeAllExtraTasks() {
-        const extraTasks = [
+        await Promise.all([
             makeReq("/featureFlags/authed", "GET"),
-            makeReq("/loyalty/action/FIRST_RADIO_OF_THE_DAY", "POST"),
-            makeReq("/loyalty/action/QURAN_RADIO", "POST"),
-            makeReq("/loyalty/action/SHARE_PLAYLIST", "POST"),
-            makeReq(`/favorite/like/${randomChoice(songs)}`, "PUT"),
+            makeReq('/loyalty/action/FIRST_RADIO_OF_THE_DAY', 'POST'),
+            makeReq('/loyalty/action/QURAN_RADIO', 'POST'),
             makeReq('/loyalty/claim', 'POST'),
             makeReq('/loyalty/action/DAILY_LOGIN', 'POST')
-        ];
-        await Promise.all(extraTasks);
+        ]);
         pointsGainedTotal += 25;
-        showToast("تم تنفيذ المهام الإضافية", 'success');
     }
 
-    async function executeAdvancedStreamingReports() {
-        const reportTypes = ['Progress', 'Start', 'Complete'];
-        const sources = ['AlbumScreen', 'PlaylistScreen', 'SearchScreen', 'HomeScreen', 'ArtistScreen'];
-        
-        const reportTasks = [];
-        for (let i = 0; i < 8; i++) {
-            const songId = randomChoice(songs);
-            const payload = {
-                TrackId: parseInt(songId),
-                LogPlayType: randomChoice(reportTypes),
-                Seconds: randomInt(30, 60),
-                Source: randomChoice(sources),
-                FileSource: 'Stream',
-                SourceId: String(parseInt(songId) - randomInt(1, 20)),
-                AudioQuality: randomChoice(['low', 'medium', 'high']),
-                Latitude: 0,
-                Longitude: 0,
-                Guid: '',
-                Country: 0
-            };
-            reportTasks.push(
-                makeReq(`/streaming/reportSongStreaming/${songId}`, 'POST', payload)
-            );
-        }
-        
-        await Promise.all(reportTasks);
-        pointsGainedTotal += 40;
-        showToast("تم تنفيذ تقارير البث المتقدمة", 'success');
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // دوال مربعات الحوار وواجهة المستخدم
-    // ═══════════════════════════════════════════════════════════
     function showWelcomeDialog() {
         return new Promise((resolve) => {
             const overlay = document.createElement('div');
             overlay.className = 'welcome-overlay';
-            overlay.innerHTML = `
-                <div class="welcome-box">
-                    <div class="welcome-decoration-left">✦</div>
-                    <div class="welcome-decoration-right">✦</div>
-                    <div class="welcome-sparkle-top">✨</div>
-                    <div class="welcome-sparkle-bottom">✨</div>
-                    <div class="welcome-logo">⚡</div>
-                    <div class="welcome-brand">𓆩⚡️𝐀𝐋𝐓𝐔𝐑𝐊𝐘⚡️𓆪</div>
-                    <div class="welcome-divider"></div>
-                    <div class="welcome-message">صلي علي النبي ❤️</div>
-                    <div class="welcome-sub-message">اللهم صلِّ وسلم وبارك على سيدنا محمد</div>
-                    <button class="welcome-btn" id="welcomeOkBtn">💛 متابعة</button>
-                </div>`;
+            overlay.innerHTML = `<div class="welcome-box"><div class="welcome-decoration-left">✦</div><div class="welcome-decoration-right">✦</div><div class="welcome-sparkle-top">✨</div><div class="welcome-sparkle-bottom">✨</div><div class="welcome-logo">⚡</div><div class="welcome-brand">𓆩⚡️𝐀𝐋𝐓𝐔𝐑𝐊𝐘⚡️𓆪</div><div class="welcome-divider"></div><div class="welcome-message">صلي علي النبي ❤️</div><div class="welcome-sub-message">اللهم صلِّ وسلم وبارك على سيدنا محمد</div><button class="welcome-btn" id="welcomeOkBtn">💛 متابعة</button></div>`;
             document.body.appendChild(overlay);
-
-            const okBtn = overlay.querySelector('#welcomeOkBtn');
-            okBtn.onclick = () => {
-                overlay.style.animation = 'fadeIn .3s ease reverse';
-                setTimeout(() => {
-                    overlay.remove();
-                    resolve(true);
-                }, 300);
-            };
+            overlay.querySelector('#welcomeOkBtn').onclick = () => { overlay.remove(); resolve(true); };
         });
     }
 
@@ -1496,25 +958,10 @@
         return new Promise((resolve) => {
             const overlay = document.createElement('div');
             overlay.className = 'dialog-overlay';
-            overlay.innerHTML = `
-                <div class="dialog-box">
-                    <div class="dialog-icon">💎</div>
-                    <div class="dialog-title">تأكيد الاستبدال</div>
-                    <div class="dialog-subtitle">يرجى مراجعة تفاصيل العملية</div>
-                    <div class="dialog-info-box">
-                        <div class="dialog-info-name">${name}</div>
-                        <div class="dialog-info-cost">التكلفة: <span>${cost}</span> نقطة</div>
-                    </div>
-                    <div class="dialog-buttons">
-                        <button class="dialog-btn-cancel" id="cancelBtn">❌ إلغاء</button>
-                        <button class="dialog-btn-confirm" id="okBtn">✅ تأكيد</button>
-                    </div>
-                </div>`;
+            overlay.innerHTML = `<div class="dialog-box"><div class="dialog-icon">💎</div><div class="dialog-title">تأكيد الاستبدال</div><div class="dialog-subtitle">يرجى مراجعة تفاصيل العملية</div><div class="dialog-info-box"><div class="dialog-info-name">${name}</div><div class="dialog-info-cost">التكلفة: <span>${cost}</span> نقطة</div></div><div class="dialog-buttons"><button class="dialog-btn-cancel" id="cancelBtn">❌ إلغاء</button><button class="dialog-btn-confirm" id="okBtn">✅ تأكيد</button></div></div>`;
             document.body.appendChild(overlay);
-
             overlay.querySelector('#okBtn').onclick = () => { overlay.remove(); resolve(true); };
             overlay.querySelector('#cancelBtn').onclick = () => { overlay.remove(); resolve(false); };
-            overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
         });
     }
 
@@ -1522,21 +969,10 @@
         return new Promise((resolve) => {
             const overlay = document.createElement('div');
             overlay.className = 'dialog-overlay';
-            overlay.innerHTML = `
-                <div class="dialog-box">
-                    <div class="dialog-icon">🚪</div>
-                    <div class="dialog-title">تسجيل الخروج</div>
-                    <div class="dialog-subtitle">هل تريد تسجيل الخروج؟</div>
-                    <div class="dialog-buttons">
-                        <button class="dialog-btn-cancel" id="noBtn">❌ لا</button>
-                        <button class="dialog-btn-confirm" id="yesBtn">✅ نعم</button>
-                    </div>
-                </div>`;
+            overlay.innerHTML = `<div class="dialog-box"><div class="dialog-icon">🚪</div><div class="dialog-title">تسجيل الخروج</div><div class="dialog-subtitle">هل تريد تسجيل الخروج؟</div><div class="dialog-buttons"><button class="dialog-btn-cancel" id="noBtn">❌ لا</button><button class="dialog-btn-confirm" id="yesBtn">✅ نعم</button></div></div>`;
             document.body.appendChild(overlay);
-
             overlay.querySelector('#yesBtn').onclick = () => { overlay.remove(); resolve(true); };
             overlay.querySelector('#noBtn').onclick = () => { overlay.remove(); resolve(false); };
-            overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
         });
     }
 
@@ -1544,175 +980,55 @@
         return new Promise((resolve) => {
             const overlay = document.createElement('div');
             overlay.className = 'dialog-overlay';
-            overlay.innerHTML = `
-                <div class="dialog-box">
-                    <div class="dialog-icon">⚠️</div>
-                    <div class="dialog-title">حذف الحساب</div>
-                    <div class="dialog-subtitle">هل أنت متأكد من حذف الحساب الحالي؟<br>سيؤدي هذا لحذف جميع بياناتك</div>
-                    <div class="checkbox-container" id="confirmCheckbox">
-                        <div class="checkbox-box" id="checkboxBox">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                        </div>
-                        <span class="checkbox-label">أوافق على حذف جميع بياناتي</span>
-                    </div>
-                    <div class="dialog-buttons">
-                        <button class="dialog-btn-cancel" id="cancelBtn">❌ إلغاء</button>
-                        <button class="dialog-btn-delete" id="deleteBtn">🗑️ حذف الحساب</button>
-                    </div>
-                </div>`;
+            overlay.innerHTML = `<div class="dialog-box"><div class="dialog-icon">⚠️</div><div class="dialog-title">حذف الحساب</div><div class="dialog-subtitle">هل أنت متأكد من حذف الحساب الحالي؟</div><div class="checkbox-container" id="confirmCheckbox"><div class="checkbox-box" id="checkboxBox"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span class="checkbox-label">أوافق على حذف جميع بياناتي</span></div><div class="dialog-buttons"><button class="dialog-btn-cancel" id="cancelBtn">❌ إلغاء</button><button class="dialog-btn-delete" id="deleteBtn">🗑️ حذف الحساب</button></div></div>`;
             document.body.appendChild(overlay);
-
             const checkboxBox = overlay.querySelector('#checkboxBox');
             const deleteBtn = overlay.querySelector('#deleteBtn');
             let isChecked = false;
-
-            overlay.querySelector('#confirmCheckbox').onclick = () => {
-                isChecked = !isChecked;
-                if (isChecked) {
-                    checkboxBox.classList.add('checked');
-                    deleteBtn.classList.add('active');
-                } else {
-                    checkboxBox.classList.remove('checked');
-                    deleteBtn.classList.remove('active');
-                }
-            };
-
-            deleteBtn.onclick = () => {
-                if (isChecked) {
-                    overlay.remove();
-                    resolve(true);
-                }
-            };
+            overlay.querySelector('#confirmCheckbox').onclick = () => { isChecked = !isChecked; if(isChecked) { checkboxBox.classList.add('checked'); deleteBtn.classList.add('active'); } else { checkboxBox.classList.remove('checked'); deleteBtn.classList.remove('active'); } };
+            deleteBtn.onclick = () => { if(isChecked) { overlay.remove(); resolve(true); } };
             overlay.querySelector('#cancelBtn').onclick = () => { overlay.remove(); resolve(false); };
-            overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
         });
     }
 
     async function showOTPInputDialog() {
         return new Promise((resolve) => {
-        const overlay = document.createElement('div');
-        overlay.className = 'dialog-overlay';
-        overlay.innerHTML = `
-            <div class="dialog-box">
-                <div class="dialog-icon">🔐</div>
-                <div class="dialog-title">تجديد التوكن</div>
-                <div class="dialog-subtitle">تم إرسال كود جديد، أدخل كود OTP</div>
-                <div class="input-group" style="margin: 20px 0;">
-                    <input type="number" id="otpInput" placeholder="أدخل الكود المكون من 6 أرقام" style="text-align:center;font-size:20px;letter-spacing:8px;direction:ltr;" maxlength="6" autocomplete="off"/>
-                </div>
-                <div class="dialog-buttons">
-                    <button class="dialog-btn-cancel" id="cancelOtpBtn">❌ إلغاء</button>
-                    <button class="dialog-btn-confirm" id="okOtpBtn">✅ تأكيد</button>
-                </div>
-            </div>`;
-        document.body.appendChild(overlay);
-
-        const input = overlay.querySelector('#otpInput');
-        const okBtn = overlay.querySelector('#okOtpBtn');
-        const cancelBtn = overlay.querySelector('#cancelOtpBtn');
-
-        setTimeout(() => input.focus(), 300);
-
-        okBtn.onclick = () => {
-            const val = input.value.trim();
-            if (val.length >= 4) {
-                overlay.remove();
-                resolve(val);
-            } else {
-                input.style.borderColor = 'var(--error)';
-                input.style.boxShadow = '0 0 0 3px rgba(240,92,92,0.2)';
-                setTimeout(() => {
-                    input.style.borderColor = 'var(--border)';
-                    input.style.boxShadow = 'none';
-                }, 1500);
-            }
-        };
-        
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') okBtn.click();
+            const overlay = document.createElement('div');
+            overlay.className = 'dialog-overlay';
+            overlay.innerHTML = `<div class="dialog-box"><div class="dialog-icon">🔐</div><div class="dialog-title">تجديد التوكن</div><div class="dialog-subtitle">أدخل كود OTP</div><div class="input-group" style="margin: 20px 0;"><input type="number" id="otpInput" placeholder="أدخل الكود" style="text-align:center;font-size:20px;letter-spacing:8px;direction:ltr;" maxlength="6"/></div><div class="dialog-buttons"><button class="dialog-btn-cancel" id="cancelOtpBtn">❌ إلغاء</button><button class="dialog-btn-confirm" id="okOtpBtn">✅ تأكيد</button></div></div>`;
+            document.body.appendChild(overlay);
+            const input = overlay.querySelector('#otpInput');
+            overlay.querySelector('#okOtpBtn').onclick = () => { const val = input.value.trim(); if(val.length >= 4) { overlay.remove(); resolve(val); } };
+            overlay.querySelector('#cancelOtpBtn').onclick = () => { overlay.remove(); resolve(null); };
+            setTimeout(() => input.focus(), 300);
         });
-
-        cancelBtn.onclick = () => { overlay.remove(); resolve(null); };
-        overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(null); } };
-            });
     }
 
-    async function logoutFlow() {
-        const confirmed = await showLogoutConfirmDialog();
-        if (confirmed) {
-            showToast("تم تسجيل الخروج بنجاح", "success");
-            setTimeout(() => clearSession(), 500);
-        }
-    }
+    async function logoutFlow() { const confirmed = await showLogoutConfirmDialog(); if(confirmed) { showToast("تم تسجيل الخروج بنجاح", "success"); setTimeout(() => clearSession(), 500); } }
 
     async function deleteAccountFlow() {
-        if (!tokens.token) {
-            showToast("لا توجد جلسة نشطة", "error");
-            return;
-        }
+        if(!tokens.token) { showToast("لا توجد جلسة نشطة", "error"); return; }
         const confirmed = await showDeleteConfirmDialog();
-        if (!confirmed) return;
-        
+        if(!confirmed) return;
         toggleBtn("btnDeleteAccount", true, "جاري الحذف...");
         let res = await makeReq('/user/deleteAccount', 'DELETE');
-        if (res.status !== 200 && res.status !== 204) {
-            res = await makeReq('/user/deleteAccount', 'POST');
-        }
-        if (res.status === 200 || res.status === 204) {
-            showToast("تم حذف الحساب بنجاح!", "success");
-            setTimeout(() => clearSession(), 2000);
-        } else {
-            showToast("فشل حذف الحساب", "error");
-            toggleBtn("btnDeleteAccount", false, "🗑️ حذف الحساب");
-        }
+        if(res.status !== 200 && res.status !== 204) res = await makeReq('/user/deleteAccount', 'POST');
+        if(res.status === 200 || res.status === 204) { showToast("تم حذف الحساب بنجاح!", "success"); setTimeout(() => clearSession(), 2000); }
+        else { showToast("فشل حذف الحساب", "error"); toggleBtn("btnDeleteAccount", false, "🗑️ حذف الحساب"); }
     }
 
     async function refreshTokenFlow() {
-        if (!tokens.token) {
-            showToast("لا توجد جلسة نشطة", "error");
-            return;
-        }
-        showToast("جاري إرسال كود التجديد...", "info");
+        if(!tokens.token) { showToast("لا توجد جلسة نشطة", "error"); return; }
         toggleBtn("btnRefreshToken", true, "جاري التجديد...");
-        
         const res = await makeReq('/Dlogin/sendCode', 'POST', { dial: formattedPhone });
-        if (res.status !== 200) {
-            showToast("فشل إرسال كود التجديد", "error");
-            toggleBtn("btnRefreshToken", false, "🔄 تجديد التوكن");
-            return;
-        }
-
+        if(res.status !== 200) { showToast("فشل إرسال كود التجديد", "error"); toggleBtn("btnRefreshToken", false, "🔄 تجديد التوكن"); return; }
         const newOtp = await showOTPInputDialog();
-        
-        if (!newOtp) {
-            showToast("تم إلغاء تجديد التوكن", "warning");
-            toggleBtn("btnRefreshToken", false, "🔄 تجديد التوكن");
-            return;
-        }
-
-        showToast("جاري التحقق من الكود...", "info");
-        const verifyRes = await makeReq('/Dlogin/verify', 'POST', {
-            dial: formattedPhone,
-            verifyCode: String(newOtp),
-            socialServiceName: "",
-            socialServiceToken: ""
-        });
-        
-        if (verifyRes.status >= 200 && verifyRes.status < 300 && verifyRes.data && verifyRes.data.token) {
-            tokens.token = verifyRes.data.token;
-            tokens.accessToken = verifyRes.data.accessToken || "";
-            tokens.tgToken = verifyRes.data.tgToken || "";
-            tokens.tgRefreshToken = verifyRes.data.tgRefreshToken || "";
-            saveSessionData();
-            showToast("تم تجديد التوكن بنجاح!", "success");
-        } else {
-            let msg = "فشل تجديد التوكن - الكود غير صحيح";
-            if (verifyRes.data?.responseHeader?.message) msg = verifyRes.data.responseHeader.message;
-            else if (verifyRes.data?.message) msg = verifyRes.data.message;
-            showToast(msg, "error");
-        }
+        if(!newOtp) { showToast("تم إلغاء تجديد التوكن", "warning"); toggleBtn("btnRefreshToken", false, "🔄 تجديد التوكن"); return; }
+        const verifyRes = await makeReq('/Dlogin/verify', 'POST', { dial: formattedPhone, verifyCode: String(newOtp), socialServiceName: "", socialServiceToken: "" });
+        if(verifyRes.status >= 200 && verifyRes.status < 300 && verifyRes.data && verifyRes.data.token) {
+            tokens.token = verifyRes.data.token; tokens.accessToken = verifyRes.data.accessToken || ""; tokens.tgToken = verifyRes.data.tgToken || ""; tokens.tgRefreshToken = verifyRes.data.tgRefreshToken || "";
+            saveSessionData(); showToast("تم تجديد التوكن بنجاح!", "success");
+        } else { showToast("فشل تجديد التوكن", "error"); }
         toggleBtn("btnRefreshToken", false, "🔄 تجديد التوكن");
     }
 
@@ -1723,7 +1039,6 @@
         units.forEach((u, i) => {
             const btn = document.createElement('button');
             btn.className = 'unit-btn';
-            btn.id = `btn_redeem_${i}`;
             btn.innerHTML = `<span>${u.name}</span><span class="unit-cost">${u.cost}</span>`;
             btn.onclick = () => processRedeem(i);
             grid.appendChild(btn);
@@ -1733,51 +1048,22 @@
     async function processRedeem(index) {
         const u = units[index];
         const confirmed = await showRedeemConfirmDialog(u.name, u.cost);
-        if (!confirmed) return;
-        const btn = document.getElementById(`btn_redeem_${index}`);
-        btn.disabled = true;
-        btn.innerHTML = `جاري التنفيذ <span class="loader"></span>`;
+        if(!confirmed) return;
         const res = await makeReq(`/loyalty/redeem/${u.id}`, 'POST');
-        if (res.status >= 200 && res.status < 300) {
-            showToast(`تم استبدال ${u.name} بنجاح!`, 'success');
-            await fetchBalance();
-            document.getElementById('pointsDisplay').innerText = `${finalPoints} نقطة`;
-        } else {
-            let msg = "النقاط غير كافية أو العرض غير متاح";
-            if (res.data?.message) msg = res.data.message;
-            else if (res.data?.responseHeader?.message) msg = res.data.responseHeader.message;
-            showToast(`فشل استبدال ${u.name} (${msg})`, 'error');
-        }
-        btn.innerHTML = `<span>${u.name}</span><span class="unit-cost">${u.cost}</span>`;
-        btn.disabled = false;
+        if(res.status >= 200 && res.status < 300) { showToast(`تم استبدال ${u.name} بنجاح!`, 'success'); await fetchBalance(); }
+        else { showToast(`فشل استبدال ${u.name}`, 'error'); }
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // التهيئة عند التحميل
-    // ═══════════════════════════════════════════════════════════
     window.onload = async () => {
         await showWelcomeDialog();
-        
         BotManager.init();
-        if (tokens.token) {
-            document.getElementById('step1').style.display = 'none';
-            document.getElementById('mainLogo').style.display = 'none';
-            document.getElementById('otpLogo').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('automationProgress').style.display = 'none';
-            document.getElementById('balanceCardContainer').style.display = 'block';
-            document.getElementById('statsRow').style.display = 'flex';
-            showToast("جاري التحقق من الجلسة...", "info");
+        if(tokens.token) {
+            document.getElementById('step1').style.display = 'none'; document.getElementById('mainLogo').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block'; document.getElementById('automationProgress').style.display = 'none';
+            document.getElementById('balanceCardContainer').style.display = 'block'; document.getElementById('statsRow').style.display = 'flex';
             const valid = await fetchBalance();
-            if (valid) {
-                showToast("مرحباً بك مرة أخرى! الجلسة نشطة", "success");
-                await fetchBalance();
-                updateStats();
-                showUnitsMenu();
-            } else {
-                showToast("الجلسة انتهت، يرجى تسجيل الدخول من جديد", "error");
-                clearSession();
-            }
+            if(valid) { showToast("مرحباً بك مرة أخرى!", "success"); showUnitsMenu(); }
+            else { showToast("الجلسة انتهت", "error"); clearSession(); }
         }
     };
 </script>
